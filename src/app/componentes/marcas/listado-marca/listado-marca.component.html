@@ -1,0 +1,48 @@
+<table class="table table-sm text-small table-striped table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th></th>
+      <th>Marca</th>
+      <th></th>
+      <th>Cuentas</th>
+      <th>Centros</th>
+      <th>Estado</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let i of marcas">
+      <td>
+        <img [src]="i.logo.url" class="logo-marca" alt="">
+      </td>
+      <td class="text-capitalize">
+        <strong>{{i.marca}}</strong>
+      </td>
+      <td>
+        <small *ngFor="let j of listadoPaises">
+          <span *ngIf="i.pais.codigo == j.phone_code">{{j.nombre}}</span>
+        </small>
+      </td>
+      <td>
+        <strong>
+          {{i.cuentas.length}}
+        </strong>
+      </td>
+      <td>
+        <strong>
+          {{i.centros.length}}
+        </strong>
+      </td>
+      <td>
+        <span *ngIf="i.activo" class="badge badge-success">ACTIVO</span>
+        <span *ngIf="!i.activo" class="badge badge-secondary">ACTIVO</span>
+      </td>
+      <td>
+        <button [routerLink]="'../detalles/'+i._id" class="btn-outline-primary btn btn-sm">
+          Detalles
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+

@@ -1,0 +1,120 @@
+<div *ngIf="usuario" class="card no-border mt-2">
+  <div class="card-body">
+    <div class="d-flex justify-content-start">
+
+      <div class="card text-center d-flex flex-column justify-content-center">
+        <div class="card-body">
+          <img *ngIf="vistaPrevia" [src]="vistaPrevia" class="img-perfil img-fluid" alt="Imagen de perfil">
+          <img *ngIf="!vistaPrevia" [src]="usuario.imagenPerfil.url" class="img-perfil img-fluid" alt="Imagen de perfil">
+          <div class="btn-group mb-auto d-flex w-100">
+            <span class="btn btn-sm btn-outline-primary btn-file">
+              <i class="fas fa-camera"></i> 
+              <input 
+                ng2FileSelect 
+                [uploader]="uploader" 
+                (change)="cambiarImagen($event)" type="file">
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-row pl-2">
+        <div class="col-mg-12 col-lg-6">
+          <label for=""><small>Nombre</small></label>
+          <input 
+            [(ngModel)]="usuario.name" 
+            type="text" 
+            class="form-control text-capitalize" 
+            placeholder="Requerido">
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <label for=""><small>Apellido</small></label>
+          <input 
+            [(ngModel)]="usuario.last_name" 
+            type="text" 
+            class="form-control text-capitalize" 
+            placeholder="Requerido">
+        </div>
+        <div class="col-md-12 col-lg-12">
+          <label for=""><small>Email</small></label>
+          <input 
+            [(ngModel)]="usuario.email" 
+            [disabled]="user.role !== 'manager'" 
+            placeholder="Requerido"
+            type="text" class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for=""><small>Tipo documento</small></label>
+        <select [(ngModel)]="usuario.identificacion.tipo" name="" id="" class="custom-select">
+          <option value="">Selecciona</option>
+          <option *ngFor="let i of tiposIdentificacion" [value]="i.valor">{{i.nombre}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-8">
+        <label for=""><small>Numero</small></label>
+        <input [(ngModel)]="usuario.identificacion.numero" type="text" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for=""><small>Contrasena</small></label>
+        <input [(ngModel)]="usuario.password" type="password" class="form-control">
+      </div>
+      <div class="form-group col-md-6">
+        <label for=""><small>Confirmar contrasena</small></label>
+        <input [(ngModel)]="confirmarContrasena" type="password" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for=""><small>Rol</small></label>
+        <select [(ngModel)]="usuario.role" name="" id="" class="custom-select">
+          <option *ngFor="let i of tipoRoles" [value]="i.valor">{{i.nombre}}</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="card-text mt-5" *ngIf="usuario.role == 'workshop_customer'">
+      <strong>Activar el rol de conductor</strong>
+    </p>
+    <div class="custom-control custom-switch" *ngIf="usuario.role == 'workshop_customer'">
+      <input [(ngModel)]="usuario.perfilConductor.estatus" type="checkbox" class="custom-control-input" id="customSwitch1">
+      <label class="custom-control-label" for="customSwitch1">Activar Sub Rol de conductor</label>
+    </div>
+
+    <div class="form-row" *ngIf="usuario.perfilConductor.estatus && usuario.role == 'workshop_customer'">
+      <div class="form-group col-md-4">
+        <label for=""><small>Numero</small></label>
+        <input [(ngModel)]="usuario.perfilConductor.licencia.numero" name="numero" type="text" class="form-control">
+      </div>
+      <div class="form-group col-md-4">
+        <label for=""><small>Categoria</small></label>
+        <select [(ngModel)]="usuario.perfilConductor.licencia.tipo"  name="" id="" class="form-control">
+          <option *ngFor="let i of tipoCategoriaLicencia" [value]="i.valor">{{i.nombre}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-4">
+        <label for=""><small>Fecha expedicion</small></label>
+        <input [(ngModel)]="usuario.perfilConductor.licencia.fechaExpedicion" type="date" class="form-control">
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button (click)="cerrar()" class="btn bt-primary btn-sm">Cancelar</button>
+      <button (click)="actualizarUsuario()" class="btn-primary btn-sm btn" *ngIf="usuario._id">Actualizar</button>
+      <button (click)="crearUsuario()" class="btn-primary btn-sm btn" *ngIf="!usuario._id"> Guardar</button>
+    </div>
+
+</div>
+<div *ngIf="!usuario" class="card sticky-top mt-2 shadow">
+  <div class="card-body">
+    <p class="card-text">
+      Seleccione un usuario para ver los detalles
+    </p>
+  </div>
+</div>

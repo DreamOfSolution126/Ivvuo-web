@@ -1,0 +1,211 @@
+<div class="row">
+  <div class="col">
+    <button class="btn btn-sm btn-outline-secondary" (click)="openNewMemberModal(newMemberTeamModal)">Registrar Miembro</button>
+  </div>
+</div>
+<br>
+<div class="row">
+    <div class="col">
+        <table class="table table-sm table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th></th>
+              <th>Nit o CC</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Rol</th>
+              <th>Centro</th>
+              <th>Estatus</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of members">
+              <td>
+                <img class="profile-img rounded-circle" [src]="i.profile_picture.url" [alt]="i.profile_picture.name">
+              </td>
+              <td>
+                {{i.nit}}
+              </td>
+              <td>
+                {{i.name}}
+              </td>
+              <td>
+                {{i.last_name}}
+              </td>
+              <td>
+                {{i.role}}
+              </td>
+              <td>
+                {{i.center_code}}
+              </td>
+              <td>
+                <div class="btn-group">
+                  <button [ngClass]="{'btn-outline-secondary btn btn-sm':true, 'active':!i.active}" (click)="i.active=false; saveMemberTeam(i)">Inactivo</button>
+                  <button [ngClass]="{'btn-outline-primary btn btn-sm':true, 'active':i.active}" (click)="i.active=true; saveMemberTeam(i)">Activo</button>
+                </div>
+              </td>
+              <td>
+                <button class="btn-sm btn btn-primary" *ngIf="!i.edit" (click)="openEditMemberModal(editMemberTeamModal, i)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-success" *ngIf="i.edit" (click)="saveMemberTeam(i)">
+                  <i class="fas fa-save"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" *ngIf="i.edit" (click)="i.delet=true; saveMemberTeam(i)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+</div>
+
+  <ng-template #newMemberTeamModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">
+        <i class="fas fa-user-tie"></i> Miembros del Equipo
+      </h4>
+      <button class="close" type="button" aria-label="close" (click)="c('Cross click')">
+        <span aria-hidden="true"> &times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body">
+              <img [src]="imgPreview" alt="" class="img-preview">
+              <div class="row">
+                <div class="col">
+                  <span class="btn-block btn btn-sm btn-outline-secondary btn-file">
+                    <i class="fas fa-camera"></i> <input ng2FileSelect [uploader]="uploader" (change)="onFileSelect($event)"  type="file">
+                    Elegir Imagen de perfil
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="">Nit o Cédula</label>
+                <input type="number" [(ngModel)]="newMemberTeam.nit" class="form-control-sm form-control" placeholder="NIT o Cédula">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="">Nombre</label>
+                <input type="text" [(ngModel)]="newMemberTeam.name" class="form-control-sm form-control" placeholder="Nombre">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="">Aepllido</label>
+                <input type="text" [(ngModel)]="newMemberTeam.last_name" class="form-control-sm form-control" placeholder="Apellido">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="">Rol o Cargo</label>
+                <select name="" [(ngModel)]="newMemberTeam.role" id="" class="form-control-sm form-control">
+                  <option value="Operario de lavado">Operario de lavado</option>
+                  <option value="Supervisor">Supervisor</option>
+                  <option value="Caja">Caja</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline-secondary btn-sm btn" (click)="c('Close click')" > Cancelar</button>
+      <button (click)="uploadFiles()" class="btn btn-sm btn-primary"> Agregar Miembro</button>
+    </div>
+    <ngb-progressbar type="sucess" height="7px" [value]="progress"></ngb-progressbar>
+  </ng-template>
+
+  <ng-template #editMemberTeamModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">
+        <i class="fas fa-user-tie"></i> Editar Miembros del Equipo
+      </h4>
+      <button class="close" type="button" aria-label="close" (click)="c('Cross click')">
+        <span aria-hidden="true"> &times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="card">
+              <div class="card-body">
+                  <img *ngIf="imgPreview == 'http://localhost:3001/profiles/default.png'" [src]="memberSelect.profile_picture.url" [alt]="memberSelect.profile_picture.name" class="img-preview">
+                  <img *ngIf="imgPreview != 'http://localhost:3001/profiles/default.png'" [src]="imgPreview" [alt]="memberSelect.profile_picture.name" class="img-preview">
+                <div class="row">
+                  <div class="col">
+                    <span class="btn-block btn btn-sm btn-outline-secondary btn-file">
+                      <i class="fas fa-camera"></i> <input ng2FileSelect [uploader]="uploader" (change)="editOnFileSelect($event)"  type="file">
+                      Elegir Imagen de perfil
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="">Nit o Cédula</label>
+                  <input type="number" [(ngModel)]="memberSelect.nit" class="form-control-sm form-control" placeholder="NIT o Cédula">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="">Nombre</label>
+                  <input type="text" [(ngModel)]="memberSelect.name" class="form-control-sm form-control" placeholder="Nombre">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="">Aepllido</label>
+                  <input type="text" [(ngModel)]="memberSelect.last_name" class="form-control-sm form-control" placeholder="Apellido">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="">Rol o Cargo</label>
+                  <select name="" [(ngModel)]="memberSelect.role" id="" class="form-control-sm form-control">
+                    <option value="Operario de lavado">Operario de lavado</option>
+                    <option value="Supervisor">Supervisor</option>
+                    <option value="Caja">Caja</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sm btn-outline-secondary btn" (click)="c('Cross click')">Cancelar</button>
+      <button class="btn-sm btn-primary btn" (click)="saveMemberTeam(memberSelect)">Guardar Cambios</button>
+    </div>
+    <ngb-progressbar type="sucess" height="7px" [value]="progress"></ngb-progressbar>
+  </ng-template>

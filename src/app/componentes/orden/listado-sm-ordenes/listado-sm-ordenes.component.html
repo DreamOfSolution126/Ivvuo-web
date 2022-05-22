@@ -1,0 +1,36 @@
+<a [routerLink]="ruta+i._id" *ngFor="let i of ordenes" class="card my-2 border-rounded no-border list-group-item-action flex-column align-items-start list-group-item">
+  <div class="d-flex w-100 justify-content-between">
+    <h5 class="mg-1 text-uppercase">
+       <strong class="text-primary">
+         <span>OT #</span> 
+         {{i.id}}
+      </strong> 
+      {{i.vehiculo.marca}} 
+      <span>{{i.vehiculo.linea}}</span>
+      <span> {{i.vehiculo.ano_modelo}} </span>
+    </h5>
+    <small>{{i.fechaCreacion|date:'dd-MM-yyyy'}}</small>
+  </div>
+  <p class="mg-1 text-uppercase d-flex justify-content-between">
+    <span>
+      <span *ngIf="i.estatus?.abierto?.estatus">
+        <i class="fas fa-lock-open"></i>
+      </span>
+      <span *ngIf="!i.estatus?.abierto?.estatus">
+        <i class="fas fa-lock"></i>
+      </span>
+      {{i.vehiculo.placa}} <strong>·</strong>
+      {{i.vehiculo.vin}}
+    </span>
+
+    <span class="badge text-success">
+      <i class="fab fa-whatsapp fa-2x"></i>
+      <span *ngIf="i.whatsapp.mensajesNuevos !== 0" class="badge badge-danger text-notify">{{i.whatsapp.mensajesNuevos}}</span>
+    </span>
+  </p>
+  <div class="btn-group btn-block">
+    <button ngbTooltip="{{j.name}}" [ngClass]="{'btn btn-sm btn-outline-primary':true, 'active':j.advanceValue===1}" *ngFor="let j of i.procesos.detalles">
+      <span [innerHTML]="j.icon"></span>
+    </button>
+  </div>
+</a>

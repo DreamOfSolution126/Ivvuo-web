@@ -1,0 +1,10 @@
+.navbar-dark .navbar-brand {
+    color: #fff;
+}
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.initial-margin{
+    margin-top: 3rem !important;
+}

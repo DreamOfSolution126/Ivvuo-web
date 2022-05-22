@@ -1,0 +1,13 @@
+.heigth {
+    height: 100vh;
+}
+
+.img-logo {
+    margin: auto;
+    width: 200px;
+    height: auto;
+}
+
+.border-rounded {
+    border-radius: 1.75em
+}

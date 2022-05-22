@@ -1,0 +1,113 @@
+<table class="table text-small table-bordered table-striped table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th>OT#</th>
+      <th>Placa</th>
+      <th>Vehículo</th>
+      <th>Procesos</th>
+      <th>Enviado</th>
+      <th>Aprobación</th>
+      <th></th>
+      <th></th>
+      <th>Fecha</th>
+      <th>Hora</th>
+      <th>Estatus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let i of ordenes" >
+      <td class="text-info"> 
+        <strong>{{i.id}}</strong>
+      </td>
+      <td class="text-uppercase"> {{i.vehiculo.placa}} </td>
+      <td class="text-uppercase">
+        {{i.vehiculo.marca}} <br>
+        <span>{{i.vehiculo.linea}}</span> 
+        <span> {{i.vehiculo.ano_modelo}} </span>
+      </td>
+      <td class="">
+        <div class="btn-group btn-block">
+          <button 
+            popoverTitle="{{j.nombre}}"
+            ngbPopover="{{j.asinado}}"
+            popoverClass="text-uppercase"
+            container="body"
+            openDelay="300" 
+            closeDelay="500" 
+            triggers="mouseenter:mouseleave"
+            [ngClass]="{'btn btn-sm btn-outline-primary text-capitalize':true, 'active':j.advanceValue === 1}" 
+            *ngFor="let j of i.procesos.detalles">
+            <span [innerHTML]="j.icon"></span>
+          </button>
+        </div>
+      </td>
+      <td>
+        <span class="badge text-primary" ngbTooltip="{{i.vistasCliente.unica.fecha | date:'dd-MM-yyyy hh:mm a'}}" *ngIf="i.vistasCliente?.unica?.estatus">
+          <i class="fas fa-eye fa-2x"></i>
+          <span *ngIf="i.vistasCliente?.unica?.estatus" class="badge badge-danger text-notify">
+            {{i.vistasCliente.vistasTotales}}
+          </span>
+        </span>
+        <span class="badge text-light" ngbTooltip="No se ha visto por el cliente" *ngIf="!i.vistasCliente?.unica?.estatus">
+          <i class="fas fa-eye fa-2x"></i>
+        </span>
+        <span class="badge text-light" ngbTooltip="No se ha enviado aún" *ngIf="!i.emailEnviado.estatus">
+          <i class="fas fa-envelope fa-2x"></i>
+        </span>
+        <span class="badge text-primary" ngbTooltip="{{i.emailEnviado.fecha|date:'dd-MM-yyyy h:mm a'}}" *ngIf="i.emailEnviado.estatus">
+          <i class="fas fa-envelope fa-2x"></i>
+        </span>
+        <span [ngClass]="{'badge': true, 'text-success':i.whatsapp.mensajesNuevos!==0, 'text-light':i.whatsapp.mensajesNuevos===0}">
+          <i class="fab fa-whatsapp fa-2x"></i>
+          <span *ngIf="i.whatsapp.mensajesNuevos !== 0" class="badge badge-danger text-notify">{{i.whatsapp.mensajesNuevos}}</span>
+        </span>
+      </td>
+      <td>
+        <span class="badge text-primary" ngbTooltip="Cotizado {{i.totales.cotizado|currency:'':2}}" *ngIf="i.totales.cotizado>0">
+          <i class="fas fa-file-invoice-dollar fa-2x"></i>
+        </span>
+        <span class="badge text-light" ngbTooltip="Cotizado {{i.totales.cotizado|currency:'':2}}" *ngIf="!(i.totales.cotizado>0)">
+          <i class="fas fa-file-invoice-dollar fa-2x"></i>
+        </span>
+
+        <span class="badge text-danger" ngbTooltip="Rechazado {{i.totales.rechazado|currency:'':2}}" *ngIf="i.totales.rechazado>0">
+          <i class="fas fa-times-circle fa-2x"></i>
+        </span>
+        <span class="badge text-light" ngbTooltip="Rechazado {{i.totales.rechazado|currency:'':2}}" *ngIf="!(i.totales.rechazado>0)">
+          <i class="fas fa-times-circle fa-2x"></i>
+        </span>
+        <span class="badge text-success" ngbTooltip="Aprobado {{i.totales.aprobado|currency:'':2}}" *ngIf="i.totales.aprobado>0">
+          <i class="fas fa-check-circle fa-2x"></i>
+        </span>
+        <span class="badge text-light" ngbTooltip="Aprobado {{i.totales.aprobado|currency:'':2}}" *ngIf="!(i.totales.aprobado>0)">
+          <i class="fas fa-check-circle fa-2x"></i>
+        </span>
+      </td>
+      <td>
+        <div class="btn-group btn-block">
+          <button class="btn btn-outline-success btn-sm">{{i.nivelPrioridad.normal}}</button>
+          <button class="btn btn-outline-warning btn-sm">{{i.nivelPrioridad.pronto}}</button>
+          <button class="btn btn-outline-danger btn-sm">{{i.nivelPrioridad.urgente}}</button>
+        </div>
+      </td>
+      <td> 
+        <a role="button" class="btn btn-sm btn-outline-primary" [routerLink]="ruta+i._id" >Detalles</a>
+      </td>
+      <td>{{i.fechaCreacion|date:'dd-MM-yyyy'}}</td>
+      <td>{{i.fechaCreacion|date:' h:mm a '}}</td>
+      <td>
+        <div class="btn-group" *ngIf="i.estatus && i.estatus.abierto">
+          <button
+            [ngClass]="{'btn-outline-primary btn btn-sm':true, 'active':i.estatus.abierto.estatus}">
+            <i class="fas fa-lock-open"></i>
+          </button>
+          <button
+            [ngClass]="{'btn-outline-primary btn btn-sm':true, 'active':i.estatus.cerrado.estatus}">
+            <i class="fas fa-lock"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+    
+  </tbody>
+</table>

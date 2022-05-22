@@ -1,0 +1,136 @@
+<div class="initial-margin">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card no-border border-rounded">
+        <div class="card-body text-small">
+          <h5 class="card-title">
+            Resumen por Cliente
+          </h5>
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label for=""><small>Desde</small></label>
+                <input [(ngModel)]="filtro.fechaDesde" type="date" class="form-control">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label for=""><small>Hasta</small></label>
+                <input [(ngModel)]="filtro.fechaHasta" type="date" class="form-control">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label for=""><small>Nit</small></label>
+                <input [(ngModel)]="filtro.nit" type="text" class="form-control" placeholder="Identificacion cliente">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label for=""><small>Buscar</small></label>
+                <button (click)="cargarOrdenes()" class="btn-primary btn btn-block">Buscar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-12 table-responsive" *ngIf="clientes && clientes.length > 0">
+        <table class="table table-hover text-small table-bordered table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>Nit</th>
+              <th>Nombre</th>
+              <th width="150"></th>
+              <th>Cotizado</th>
+              <th>Aprobado</th>
+              <th>Rechazado</th>
+              <th>Ordenes</th>
+              
+              <th width="100"></th>
+              <th width="200"> Placas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of clientes">
+              <td class="text-info">
+                <strong>
+                  {{i._id.nit}}
+                </strong>
+              </td>
+              <td class="text-capitalize text-wrap">
+                  {{i.nombres[0]}}
+              </td>
+              <td>
+                <ngb-progressbar type="primary" textType="dark" [value]="i.actividadesTerminadas" [max]="i.totalActividades">
+                  {{ i.actividadesTerminadas / i.totalActividades * 100 | currency:' ':'symbol':'0.0' }} %
+                </ngb-progressbar>
+              </td>
+              <td>{{i.total_cotizado | currency:' ':'symbol':'0.0'}}</td>
+              <td>{{i.total_aprobado | currency:' ':'symbol':'0.0'}}</td>
+              <td>{{i.total_rechazado | currency:' ':'symbol':'0.0'}}</td>
+              <td>{{i.ordenes}}</td>
+              
+              <td>
+                <a role="button" class="btn btn-sm btn-outline-primary" [routerLink]="'../../'+idCentro+'/ClienteDetalles/'+i._id.nit" >Detalles</a>
+              </td>
+              <td>
+                <div *ngFor="let j of i.idOrdenes" class="badge badge-warning border mr-1">
+                  {{j.placa}}
+                </div>
+              </td>
+              
+            </tr>
+          </tbody>
+        </table>
+    </div>
+
+    <div class="col-lg-12" *ngIf="!clientes || clientes.length < 1">
+      <div class="jumbotron border-rounded text-center">
+        <h1 class="display-4">
+          <i class="fa fa-list-ol" aria-hidden="true"></i>
+        </h1>
+        <p class="lead">
+          No se encontraron ordenes.
+        </p>
+        <p>
+          Intente con otro criterio de busqueda o cree ordenes.
+        </p>
+        <!-- <button class="btn btn-sm btn-outline-primary" (click)="openModal(newOrderModal)">
+          Nueva Orden
+        </button> -->
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+      <ngb-pagination 
+        size="sm"
+        [collectionSize]="totalClientes" 
+        [maxSize]="8"
+        [pageSize]="filtro.limite"
+        [(page)]="pagina"
+        (pageChange)="cambioPagina()"
+        aria-label="Default pagination"></ngb-pagination>
+    </div>
+    <div class="col-lg-6 col-sm-12 text-right">
+      <div class="btn-group btn-sm">
+        <button 
+        (click)="filtro.limite=10; obtenerOrdenes()" 
+        [ngClass]="{'btn btn-outline-secondary btn-sm':true, 'active':10===filtro.limite}">10</button>
+        <button 
+        (click)="filtro.limite=20; obtenerOrdenes()" 
+        [ngClass]="{'btn btn-outline-secondary btn-sm':true, 'active':20===filtro.limite}">20</button>
+        <button 
+        (click)="filtro.limite=50; obtenerOrdenes()" 
+        [ngClass]="{'btn btn-outline-secondary btn-sm':true, 'active':50===filtro.limite}">50</button>
+        <button 
+        (click)="filtro.limite=100; obtenerOrdenes()" 
+        [ngClass]="{'btn btn-outline-secondary btn-sm':true, 'active':100===filtro.limite}">100</button>
+      </div>
+    </div>
+  </div>
+</div>

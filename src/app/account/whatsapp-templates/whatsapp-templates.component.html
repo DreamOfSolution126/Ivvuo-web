@@ -1,0 +1,122 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="card no-border bg-light">
+        <div class="card-body">
+          <h5 class="card-title">
+            <i class="fab fa-whatsapp"></i> Whatsapp
+  
+            <span class="float-right">
+              <button class="btn btn-outline-primary btn-sm" (click)="openModal(newWhatsAppModal)">
+                <i class="fas fa-plus"></i> Nueva Plantilla
+              </button>
+            </span>
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br><br>
+
+
+  <div class="table-responsive" *ngIf="plantillas.length>0">
+    <table class="table">
+    <caption class="text-muted" > {{plantillas.length}} Plantillas de Whatsapp Creadas</caption>
+      <thead>
+        <tr class="text-secondary">
+          <td>Plantilla</td>
+          <td>Cuerpo</td>
+          <td>Predeterminado</td>
+          <td> </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let i of plantillas">
+         <td>{{i.nombre}}</td>
+         <td>{{i.encabezado}}</td>
+         <td>{{i.cuerpo}}</td>
+         <td>
+           <div class="btn-group">
+            <button (click)="i.default=true; cambiarPredefinido(i);" [ngClass]="{'btn btn-sm btn-outline-primary':true, 'active':i.default}">On</button>
+            <button (click)="i.default=false; editarPlantilla(i);" [ngClass]="{'btn btn-sm btn-outline-primary':true, 'active':!i.default}">Off</button>
+           </div>
+         </td>
+         <td>
+           <button (click)="eliminarPlantilla(i)" class="btn btn-sm btn-outline-danger">
+             <i class="fas fa-trash"></i>
+           </button>
+         </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="plantillas.length === 0 || !plantillas">
+    <div class="jumbotron">
+      <h1 class="display-4">
+        <i class="fas fa-file"></i> Plantilla Whatsapp
+      </h1>
+      <p class="lead">
+        Aún no se han creado plantillas
+      </p>
+      <hr class="my-4">
+      <p>Puede crear plantillas haciendo clic en el siguiente botón</p>
+      <a (click)="openModal(newWhatsAppModal)" class="text-primary btn btn-outline-primary btn-lg" role="button">Crear Plantilla</a>
+    </div>
+  </div>
+</div>
+
+<p></p>
+
+<ng-template #newWhatsAppModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> {{plantilla.nombre || 'Nueva Plantilla'}}
+    </h4>
+    <button class="close" type="button" aria-label="close" (click)="c('Cross click')">
+      <span aria-hidden="true"> &times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group">
+          <label for="">Nombre Plantilla</label>
+          <input [(ngModel)]="plantilla.nombre" type="text" class="form-control" placeholder="Nombre plantilla">
+        </div>
+      </div>
+      <div class="col-lg-3 col-mg-3 col-sm-6">
+        <div class="form-group">
+          <label for="">Encabezado</label>
+          <select [(ngModel)]="encabezadoSeleccionado" (change)="seleccionarEncabezado()" class="form-control" name="" id="">
+            <option value="">Seleccione un encabezado</option>
+            <option value="solo_centro">Nombre centro de servicio</option>
+            <option value="cuenta_centro">Cuenta y centro</option>
+            <option value="solo_cuenta">Nombre de la cuenta</option>
+            <option value="ninguno">Ninguno</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-3 col-mg-3 col-sm-6">
+        <div class="form-group">
+          <label for="">&nbsp;</label>
+          <button (click)="insertarLink()" class="btn btn-block btn-sm btn-outline-primary">
+            Insertar Link
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-12 col-mg-12 col-sm-12">
+        <textarea 
+          [(ngModel)]="plantilla.cuerpo"
+          cols="30" 
+          rows="5"
+          placeholder="Cuerpo del mensaje"
+          class="form-control"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn-secondary btn" (click)="c('Cross click')">Cerrar</button>
+    <button (click)="crearPlantilla(); c('Cross click')" class="btn-primary btn">Guardar Plantilla</button>
+  </div>
+  <ngb-progressbar type="sucess" height="7px" [value]="progress"></ngb-progressbar>
+</ng-template>

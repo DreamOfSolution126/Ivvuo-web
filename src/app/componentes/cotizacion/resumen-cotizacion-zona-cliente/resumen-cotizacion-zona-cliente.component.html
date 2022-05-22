@@ -1,0 +1,101 @@
+<div class="card border-rounded w-100" *ngIf="valoresOrdenes && valoresOrdenes.length>0">
+  <div class="card-body" *ngFor="let i of valoresOrdenes">
+    <h5 class="card-title">Resumen cotizaciones</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Del total de las ordenes</h6>
+    
+      <div class="d-flex justify-content-between">
+        <span>
+          <i class="text-primary fas fa-file-contract"></i> 
+          Cotizado
+        </span>
+        <span>{{i.totalCotizado | currency:' ':'symbol':'0.0'}}</span>
+      </div>
+      <div class="d-flex justify-content-between">
+        <span>
+          <i class="text-success fas fa-check-circle"></i>
+          Aprobado
+        </span>
+        <span>{{i.totalAprobado | currency:' ':'symbol':'0.0'}}</span>
+      </div>
+      <div class="d-flex justify-content-between">
+        <span>
+          <i class="text-danger fas fa-times-circle"></i>
+          Rechazado
+        </span>
+        <span>{{i.totalRechazado | currency:' ':'symbol':'0.0'}}</span>
+
+    </div>
+    <br>
+    <br>
+    <button (click)="abrirModal(detalles)" class="btn-outline-primary btn-sm btn btn-block">Detalles</button>
+  </div>
+</div>
+
+<ng-template #detalles let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Detalles cotizacion</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row px-2 rounded" *ngFor="let i of valoresOrdenes">
+      <div class="col-lg-4 text-center py-5">
+        <h4>{{i.totalCotizado | currency:'$ ':'symbol':'0.0'}}</h4>
+        <small>
+          <i class="fas text-primary fa-file-contract"></i>
+          Cotizado
+        </small>
+      </div>
+      <div class="col-lg-4 text-center py-5">
+        <h4>{{i.totalAprobado | currency:'$ ':'symbol':'0.0'}}</h4>
+        <small>
+          <i class="fas text-success fa-check-circle"></i>
+          Aprobado
+        </small>
+      </div>
+      <div class="col-lg-4 text-center py-5">
+        <h4>{{i.totalRechazado | currency:'$ ':'symbol':'0.0'}}</h4>
+        <small>
+          <i class="fas text-danger fa-times-circle"></i>
+          Rechazado
+        </small>
+      </div>
+    </div>
+
+    <div class="table-responsive" *ngFor="let i of valoresOrdenes">
+      <table class="table table-bordered text-small table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th></th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Cotizado</th>
+            <th>Aprobado</th>
+            <th>Rechazado</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let j of i.detalle">
+            <td>{{j.placa}}</td>
+            <td>{{j.creado | date:'dd-MM-yyyy'}}</td>
+            <td>{{j.creado | date:'h:mm a'}}</td>
+            <td>{{j.totalCotizado | currency:'$ ':'symbol':'0.0'}}</td>
+            <td>{{j.totalAprobado | currency:'$ ':'symbol':'0.0'}}</td>
+            <td>{{j.totalRechazado | currency:'$ ':'symbol':'0.0'}}</td>
+            <td>
+              <a (click)="c('Close click')" [href]="j.url" target="_blank"  class="btn-link btn-sm btn" role="button">
+                <i class="fas fa-link"></i>
+                {{j.url}}
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="c('Close click')">Cerrar</button>
+  </div>
+</ng-template>

@@ -1,0 +1,41 @@
+<span [ngClass]="{
+  'text-success':item.answer.answer=='Ok' || item.answer.answer=='Cumple',
+  'text-warning':item.answer.answer=='Regular',
+  'text-danger':item.answer.answer=='Urgente' || item.answer.answer=='No cumple',
+  'text-secondary':item.answer.answer=='N/A'
+}">
+  <i class="fas fa-check-circle" *ngIf="item.answer.answer=='Ok'"></i>
+  <i class="fas fa-exclamation-circle" *ngIf="item.answer.answer=='Regular'"></i>
+  <i class="fas fa-times-circle" *ngIf="item.answer.answer=='Urgente'"></i>
+  <i class="fas fa-ban" *ngIf="item.answer.answer=='N/A'"></i>
+  <i class="fas fa-check" *ngIf="item.answer.answer=='Cumple'"></i>
+  <i class="fas fa-times" *ngIf="item.answer.answer=='No cumple'"></i>
+</span>
+<span [ngClass]="{
+  'text-danger':item.answer.value<7,
+  'text-warning':item.answer.value>6 && item.answer.value<9,
+  'text-success':item.answer.value>8
+}" *ngIf="item.type=='survey'">
+  <i class="far fa-angry" *ngIf="item.answer.value<7"></i>
+  <i class="far fa-meh-blank" *ngIf="item.answer.value>6 && item.answer.value<9"></i>
+  <i class="far fa-smile-beam" *ngIf="item.answer.value>8"></i>
+  {{item.answer.answer}}
+</span>
+<span [ngClass]="{
+  'text-danger':item.answer.value==0,
+  'text-warning':item.answer.value==1,
+  'text-success':item.answer.value==2
+}" *ngIf="item.type=='revision'">
+  <i class="fas fa-times-circle" *ngIf="item.answer.value==0"></i>
+  <i class="fas fa-exclamation-circle" *ngIf="item.answer.value==1"></i>
+  <i class="fas fa-check-circle" *ngIf="item.answer.value==2"></i>
+</span>
+<span [ngClass]="{
+  'text-danger':item.answer.value==0,
+  'text-warning':item.answer.value==1,
+  'text-success':item.answer.value==2
+}" *ngIf="item.type=='custom'">
+  <i class="fas fa-times-circle" *ngIf="item.answer.value==0"></i>
+  <i class="fas fa-exclamation-circle" *ngIf="item.answer.value==1"></i>
+  <i class="fas fa-check-circle" *ngIf="item.answer.value==2"></i>
+</span>

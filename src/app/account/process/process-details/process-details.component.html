@@ -1,0 +1,542 @@
+<div class="row" *ngIf="list">
+  <div class="col-lg-12">
+    <div class="card no-border">
+      <div class="card-body">
+        <h4 class="card-title text-primary">
+          <i class="fas fa-project-diagram"></i> 
+          {{list.list}}
+          <span class="float-right">
+            <button class="btn-outline-primary btn btn-sm" (click)="openModal(editListModal)">
+              <i class="fas fa-edit"></i> Editar
+            </button>
+            <button class="btn btn-outline-primary btn-sm" (click)="openModal(newProcessModal)">
+              <i class="fas fa-plus"></i> Crear proceso
+            </button>
+          </span>
+        </h4>
+        <p class="lead">
+          <small>
+            <span class="text-info">Detalles: </span> {{list.description}}
+          </small>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="process && process.length>0">
+  <div class="col-lg-12" *ngFor="let i of process; let h=index;">
+    <div class="card">
+      <div class="card-header">
+        <p class="card-title text-capitalize">
+          <span class="text-uppercase"> <span [innerHTML]="i.icon"></span> {{i.process}}</span> <span class="badge badge-info" *ngIf="i.weight">{{i.weight}}%</span> 
+          
+          <span class="float-right">
+            
+            <div class="btn-group">
+              <button *ngIf="h>0" class="btn btn-sm btn-outline-primary" (click)="setIndexProcess('up', h)"> <i class="fas fa-chevron-up"></i> </button>
+              <button *ngIf="h+1 != process.length" class="btn btn-sm btn-outline-primary" (click)="setIndexProcess('down', h)"> <i class="fas fa-chevron-down"></i> </button>
+            </div>
+
+            <button class="btn btn-sm btn-outline-primary" ngbTooltip="Eliminar el proceso borrara todas las actividades relacionadas a este proceso" (click)="deletProcess(i)">
+              <i class="fas fa-trash"></i>
+            </button>
+            <div class="btn-group">
+              <button class="btn btn-outline-primary btn-sm" (click)="processSelect=i; openModal(editProcessModal);">
+                <i class="fas fa-edit"></i> Editar
+              </button>
+              <button class="btn-outline-primary btn btn-sm" (click)="openModal(newActivityModal); processSelect=h">
+                <i class="fas fa-plus"></i> Agregar Actividad
+              </button>
+            </div>
+          </span>
+        </p>
+      </div>
+      <div class="card-body">
+        <div *ngFor="let j of activitys; let k=index;">
+          <div class="table-responsive" *ngIf="i._id == j.processId">
+            <table class="table table-sm table-hover">
+              <tbody>
+                <tr *ngFor="let o of j.activities; let p=index">
+                  <td width="200" class="text-secondary text-small"><strong>{{o.name}}</strong> </td>
+                  <td width="250" class="text-secondary">
+                    <small>{{o.details}}</small>
+                  </td>
+                  
+                  <td width="100">
+                    <span class="badge text-info">
+                      <span class="badge text-uppercase">{{o.type}}</span>
+                    </span>
+                  </td>
+                  <td width="50">
+                    <span class="badge text-info" ngbTooltip="Disponible en la visualización del cliente">
+                        <i class="fas fa-eye fa-2x" *ngIf="o.seeCustomer"></i>
+                        <i class="fas fa-eye-slash fa-2x" *ngIf="!o.seeCustomer"></i>
+                    </span>
+                  </td>
+                  <td width="350" class="text-left">
+                    <div class="btn-group btn-block">
+                      <button class="btn btn-sm btn-outline-primary" *ngFor="let k of o.asnwer_options">{{k.answer}}</button>
+                    </div>
+                  </td>
+                  <td width="80">
+                    <a *ngIf="p != 0" class="text-muted m-1 cursor-pointer" (click)="setIndexActivity('up', j, o)">
+                      <i class="fas fa-chevron-up"></i>
+                    </a>
+                    <a *ngIf="p < j.activities.length -1" class="text-muted m-1 cursor-pointer" (click)="setIndexActivity('down', j, o)">
+                      <i class="fas fa-chevron-down"></i>
+                    </a>
+                  </td>
+                  <td width="150">
+                    <a class="text-danger m-1 cursor-pointer" (click)="deletActivity(o)">
+                      <i class="fas fa-trash"></i>
+                    </a>
+                    <a class="text-primary m-1 cursor-pointer" (click)="activitySelect=o; openModal(agregarCotizacionModal)">
+                      <i class="far fa-money-bill-alt"></i>
+                    </a>
+                    <a class="text-primary m-1 cursor-pointer" (click)="activitySelect=o; openModal(editActivityModal)">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+</div>
+
+<div class="jumbotron text-center" *ngIf="process && process.length==0">
+  <h1>
+    <i class="fas fa-project-diagram fa-3x"></i> <br>
+    No se encontraron procesos
+  </h1>
+  <p class="lead">
+    No se encontraron procesos, puede crearlas en el siguiente botón
+  </p>
+  <button class="btn btn-outline-primary btn-sm" (click)="openModal(newProcessModal)">
+    <i class="fas fa-plus"></i> Crear proceso
+  </button>
+</div>
+
+<ng-template #newProcessModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> {{newProcess.process || 'Nueva Proceso'}}
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+        <div class="form-group">
+          <label for="p-process">Proceso</label>
+          <input [(ngModel)]="newProcess.process" id="p-process" type="text" class="form-control" placeholder="Nombre del proceso" autofocus>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label for="p-icon">Icono del Proceso</label> <br>
+          <span class="justify-content-between d-flex">
+            <h3 class="text-center" [innerHTML]="iconSelect"></h3>
+            <span class="float-right">
+                <button class="btn btn-outline-primary" (click)="openModal(iconListModal)">
+                  Elegir icono
+                </button>
+              </span>
+          </span>
+        </div>
+      </div>
+      <div class="col-lg-12 col-sm-12">
+        <div class="form-group">
+         <label for="p-description">Descripción</label>
+          <textarea [(ngModel)]="newProcess.description" placeholder="Escribe aquí una breve descripción de este proceso" name="" id="p-description" cols="30" rows="5" class="form-control"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="c('Close click')">Cerrar</button>
+    <button class="btn btn-primary" (click)="createProcess(); c('Close click')">Guardar Proceso</button>
+  </div>
+</ng-template>
+
+<ng-template #editProcessModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">
+        <i class="fas fa-plus"></i> {{processSelect.process || 'Nueva Proceso'}}
+      </h4>
+      <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-lg-6 col-sm-12">
+          <div class="form-group">
+            <label for="p-process">Proceso</label>
+            <input [(ngModel)]="processSelect.process" id="p-process" type="text" class="form-control" placeholder="Nombre del proceso" autofocus>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label for="p-icon">Icono del Proceso</label> <br>
+            <span class="justify-content-between d-flex">
+              <h3 class="text-center" [innerHTML]="processSelect.icon"></h3>
+              <span class="float-right">
+                  <button class="btn btn-outline-primary" (click)="openModal(iconEditListModal)">
+                    Elegir icono
+                  </button>
+                </span>
+            </span>
+          </div>
+        </div>
+        <div class="col-lg-12 col-sm-12">
+          <div class="form-group">
+           <label for="p-description">Descripción</label>
+            <textarea [(ngModel)]="processSelect.description" placeholder="Escribe aquí una breve descripción de este proceso" name="" id="p-description" cols="30" rows="5" class="form-control"></textarea>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <!-- <div class="form-group">
+            <label for="p-weight">Peso: {{processSelect.weight+'%'}}</label>
+            <input [(ngModel)]="processSelect.weight" type="range" class="custom-range">
+          </div> -->
+        </div>
+        <div class="col-lg-6">
+          <div class="fomr-group">
+            <label for="p-notifyCustomer" >
+              <span class="text-primary" ngbTooltip="Cuando se termine este proceso, se enviará una notificación automática al cliente a través de SMS"><i class="fas fa-info-circle"></i></span> Notificaciones SMS automáticas
+            </label>
+            <div class="btn-group btn-block">
+              <button [ngClass]="{'btn btn-outline-primary':true, 'active':processSelect.notifyCustomer}" (click)="processSelect.notifyCustomer=true">Activado</button>
+              <button [ngClass]="{'btn btn-outline-primary':true, 'active':!processSelect.notifyCustomer}" (click)="processSelect.notifyCustomer=false">Desactivado</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="c('Close click')">Cerrar</button>
+      <button class="btn btn-primary" (click)="editProcess(processSelect); c('Close click')">Guardar Cambios</button>
+    </div>
+  </ng-template>
+
+<ng-template #newActivityModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> {{newActivity.name || 'Nueva Actividad'}}
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+        <div class="form-group">
+          <label for="a-name">Nombre de actividad</label>
+          <input [(ngModel)]="newActivity.name" placeholder="Nombre de la actividad" id="a-name" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <div class="form-group">
+          <label for="a-details">Detalles de actividad</label>
+          <input [(ngModel)]="newActivity.details" placeholder="Detalles" id="a-details" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <!-- <div class="form-group">
+          <label for="p-weight">Peso: {{newActivity.weight+'%'}}</label>
+          <input [(ngModel)]="newActivity.weight" type="range" class="custom-range">
+        </div> -->
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <div class="form-group">
+          <label for="a-type">Tipo de actividad</label>
+          <select [(ngModel)]="newActivity.type" name="" id="a-type" class="form-control" (change)="setAnswerOptions()">
+            <option value="">Elegir Tipo</option>
+            <option value="check">Chequeo</option>
+            <option value="inspection">Inspección</option>
+            <option value="survey">Encuesta</option>
+            <option value="custom">Personalizada</option>
+            <option value="revision">Revisión</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label for="">Vista previa</label> <br>
+          <div class="btn-group">
+            <button class="btn btn-outline-primary" *ngFor="let i of newActivity.asnwer_options">{{i.answer}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label for="">Ver por el cliente</label> <br>
+          <div class="btn-group">
+            <button [ngClass]="{'btn-outline-primary btn btn-sm':true, 'active':newActivity.seeCustomer}" (click)="newActivity.seeCustomer=true"> Ver </button>
+            <button [ngClass]="{'btn-outline-primary btn btn-sm':true, 'active':!newActivity.seeCustomer}" (click)="newActivity.seeCustomer=false"> Ocultar </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6" *ngIf="newActivity.type=='custom'">
+        <div class="form-group">
+          <label for="n-name">Visual del cliente</label>
+          <div class="input-group">
+            <input [(ngModel)]="optionAnswerCustom" type="text" placeholder="Visual cliente" class="form-control">
+          </div>
+        </div>
+        <div class="btn-group btn-block">
+          <button [ngClass]="{'btn btn-outline-success':true, 'active':optionStyleCustom=='text-success'}" (click)="optionStyleCustom='text-success'; optionAnswerValue = 2">
+            <i class="fas fa-check"></i>
+          </button>
+          <button [ngClass]="{'btn btn-outline-warning':true, 'active':optionStyleCustom=='text-warning'}" (click)="optionStyleCustom='text-warning'; optionAnswerValue = 1">
+            <i class="fas fa-exclamation"></i>
+          </button>
+          <button [ngClass]="{'btn btn-outline-danger':true, 'active':optionStyleCustom=='text-danger'}" (click)="optionStyleCustom='text-danger'; optionAnswerValue = 0">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <button class="btn btn-block btn-primary" (click)="addCustomAnswer()">
+          <i class="fas fa-plus"></i> Añadir respuesta
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="c('Close click')">Cancelar</button>
+    <button class="btn btn-primary" (click)="getActivityCountByProcess()">Guardar Actividad</button>
+  </div>
+</ng-template>
+
+<ng-template #editActivityModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-info">
+      <i class="fas fa-edit"></i> {{activitySelect.name || 'Nueva Actividad'}}
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+        <div class="form-group">
+          <label for="a-name">Nombre de actividad</label>
+          <input [(ngModel)]="activitySelect.name" placeholder="Nombre de la actividad" id="a-name" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <div class="form-group">
+          <label for="a-details">Detalles de actividad</label>
+          <input [(ngModel)]="activitySelect.details" placeholder="Detalles" id="a-details" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <!-- <div class="form-group">
+          <label for="p-weight">Peso: {{activitySelect.weight+'%'}}</label>
+          <input [(ngModel)]="activitySelect.weight" type="range" class="custom-range">
+        </div> -->
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <div class="form-group">
+          <label for="a-type">Tipo de actividad</label>
+          <select [(ngModel)]="activitySelect.type" name="" id="a-type" class="form-control" (change)="setAnswerOptions()">
+            <option value="">Elegir Tipo</option>
+            <option value="check">Chequeo</option>
+            <option value="inspection">Inspección</option>
+            <option value="survey">Encuesta</option>
+            <option value="custom">Personalizada</option>
+            <option value="revision">Revisión</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label for="">Vista previa</label> <br>
+          <div class="btn-group">
+            <button class="btn btn-outline-primary" *ngFor="let i of activitySelect.asnwer_options">{{i.answer}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="form-group">
+          <label for="">Ver por el cliente</label> <br>
+          <div class="btn-group">
+            <button [ngClass]="{'btn-outline-primary btn btn-sm':true, 'active':activitySelect.seeCustomer}" (click)="activitySelect.seeCustomer=true"> Ver </button>
+            <button [ngClass]="{'btn-outline-primary btn btn-sm':true, 'active':!activitySelect.seeCustomer}" (click)="activitySelect.seeCustomer=false"> Ocultar </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="form-group">
+          <label for="">Posición</label>
+          <input [(ngModel)]="activitySelect.index" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="col-lg-6" *ngIf="activitySelect.type=='custom'">
+        <div class="form-group">
+          <label for="n-name">Visual del cliente</label>
+          <div class="input-group">
+            <input [(ngModel)]="optionAnswerCustom" type="text" placeholder="Visual cliente" class="form-control">
+          </div>
+        </div>
+        <div class="btn-group btn-block">
+          <button [ngClass]="{'btn btn-outline-success':true, 'active':optionStyleCustom=='text-success'}" (click)="optionStyleCustom='text-success'; optionAnswerValue = 2">
+            <i class="fas fa-check"></i>
+          </button>
+          <button [ngClass]="{'btn btn-outline-warning':true, 'active':optionStyleCustom=='text-warning'}" (click)="optionStyleCustom='text-warning'; optionAnswerValue = 1">
+            <i class="fas fa-exclamation"></i>
+          </button>
+          <button [ngClass]="{'btn btn-outline-danger':true, 'active':optionStyleCustom=='text-danger'}" (click)="optionStyleCustom='text-danger'; optionAnswerValue = 0">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <button class="btn btn-block btn-primary" (click)="addCustomAnswer()">
+          <i class="fas fa-plus"></i> Añadir respuesta
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="c('Close click')">Cancelar</button>
+    <button class="btn btn-primary" (click)="editActivity(); c('Close click')">Guardar Cambios</button>
+  </div>
+</ng-template>
+
+<ng-template #editListModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title text-info">
+        <i class="fas fa-edit"></i> {{list.list || 'Nueva Actividad'}}
+      </h4>
+      <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12 col-sm-12">
+            <div class="form-group">
+              <label for="p-name">Lista</label>
+              <input [(ngModel)]="list.list" placeholder="Nombre de la lista" id="p-name" type="text" class="form-control" autofocus>
+            </div>
+          </div>
+          <div class="col-lg-12 col-sm-12">
+            <div class="form-group">
+              <label for="p-description">Descripción del proceso</label>
+              <textarea [(ngModel)]="list.description" placeholder="Escriba aquí una breve descripción acerca del proceso" name="" id="p-description" cols="30" rows="5" class="form-control"></textarea>
+              <small class="form-text text-muted"> {{list.description.length}} caracteres</small>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-12">
+            <label for="">Mostrar avance</label> <br>
+            <div class="btn-group">
+              <button [ngClass]="{'btn btn-outline-primary':true, 'active':list.advanceVisible}" (click)="list.advanceVisible = true">Visible</button>
+              <button [ngClass]="{'btn btn-outline-primary':true, 'active':!list.advanceVisible}" (click)="list.advanceVisible = false">Oculto</button>
+            </div>
+          </div>
+          <div class="col-lg-8 col-sm-12">
+            <label for="">Descripción:</label>
+            <p>Recuerde que una lista puede contener varios procesos.</p>
+          </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="c('Close click')">Cancelar</button>
+      <button class="btn btn-primary" (click)="c('Close click'); editList()">Guardar Cambios</button>
+    </div>
+</ng-template>
+
+<ng-template #iconListModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-info">
+      <i class="fas fa-list"></i> Iconos
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row overflow-auto">
+      <div class="col-lg-6 offset-3">
+        <h3 class="text-center text-primary">Buscar iconos</h3>
+        <input type="text" id="p-icon" [(ngModel)]="iconSearch.name" class="form-control">
+      </div>
+      <div class="col-lg-12">
+        Resultados:
+      </div>
+
+      <div class="col-sm-3 mb-4" *ngFor="let i of icons | iconFilter:iconSearch">
+        <div class="card cursor-pointer hover" (click)="iconSelect = i.icon;iconNameSelect = i.name; c('Close click')">
+          <div class="card-body text-center">
+            <h3 [innerHTML]="i.icon"></h3>
+            <p class="card-text text-truncate">{{i.name}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="c('Close click')">Cerrar</button>
+  </div>
+</ng-template>
+
+<ng-template #iconEditListModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-info">
+      <i class="fas fa-list"></i> Iconos
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row overflow-auto">
+      <div class="col-lg-6 offset-3">
+        <h3 class="text-center text-primary">Buscar iconos</h3>
+        <input type="text" id="p-icon" [(ngModel)]="iconSearch.name" class="form-control">
+      </div>
+      <div class="col-lg-12">
+        Resultados:
+      </div>
+
+      <div class="col-sm-3 mb-4" *ngFor="let i of icons | iconFilter:iconSearch">
+        <div class="card cursor-pointer hover" (click)="processSelect.icon = i.icon; c('Close click')">
+          <div class="card-body text-center">
+            <h3 [innerHTML]="i.icon"></h3>
+            <p class="card-text text-truncate">{{i.name}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="c('Close click')">Cerrar</button>
+  </div>
+</ng-template>
+
+<ng-template #agregarCotizacionModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-info">
+      <i class="fas fa-list"></i> Agregar cotizacion
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-formulario-cotizacion-actividad
+      [itemSeleccionado]="activitySelect"
+      (agregarItem)="agregarCotizacion( $event )"
+    ></app-formulario-cotizacion-actividad>
+  </div>
+  <div class="modal-footer"></div>
+</ng-template>

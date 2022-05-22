@@ -1,0 +1,62 @@
+<div class="row">
+  <div class="col">
+    <div class="card no-border">
+      <div class="card-body">
+        <h5 class="card-title">
+          <i class="fas fa-warehouse"></i> CENTROS DE SERVICIO
+        </h5>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="text-secondary">
+          <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Zona</th>
+            <th>Ciudad</th>
+            <th>Dirección</th>
+            <th>Creado</th>
+            <th>Activo</th>
+            <th>Info</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of centers">
+            <td>{{i.code}}</td>
+            <td> {{i.name}} </td>
+            <td> {{i.zone}} </td>
+            <td> {{i.direccion.ciudad ? i.direccion.ciudad: ''}} </td>
+            <td> {{i.direccion.direccion ? i.direccion.direccion: '' }} </td>
+            <td> {{i.created | date:'dd-MM-yyyy'}} </td>
+            <td>
+              <i [ngClass]="{'fas':true, 'fa-power-off':true, 'text-success':i.active, 'text-danger':!i.active}"></i>
+              <span *ngIf="i.active"> Activo</span>
+              <span *ngIf="!i.active"> Cerrado</span>
+            </td>
+
+            <td>
+              <button class="btn btn-outline-primary btn-sm" (click)="info(i)">
+                <i class="fas fa-info-circle"></i> Info
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ngb-pagination 
+  [collectionSize]="count?.total" 
+  [maxSize]="6" 
+  [(page)]="page" 
+  [pageSize]="limitSelect" 
+  [maxSize]="10" 
+  (pageChange)="getDataPage()" 
+  aria-label="Default pagination">
+</ngb-pagination>

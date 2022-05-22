@@ -1,0 +1,108 @@
+ <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+   <div class="container">
+      <a class="navbar-brand">
+        <img [src]="logo_url" width="auto" height="30" alt="Logo" style="margin: 2px;">
+      </a>
+      <button class="navbar-toggler" type="button" (click)="isCollapsed=!isCollapsed" >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed" >
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" routerLink="controlCenter" (click)="isCollapsed=true">
+              <i class="fas fa-home"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="" routerLinkActive="active" routerLink="orders" class="nav-link" (click)="isCollapsed=true">
+              <i class="fas fa-file"></i> Ordenes
+            </a>
+          </li>
+          <li ngbDropdown class="d-inline-block nav-item dropdown">
+            <a class="nav-link dropdown-toggle cursor-pointer" id="dropdownBasic1" ngbDropdownToggle>
+              <i class="fas fa-cog"></i>
+              Configuraciones
+            </a>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button class="dropdown-item" routerLink="center" ><i class="fas fa-building"></i> Centros</button>
+              <button class="dropdown-item" routerLink="process" ><i class="fas fa-project-diagram"></i> Listas</button>
+              <button class="dropdown-item" routerLink="sms"><i class="fas fa-sms"></i> SMS</button>
+              <button class="dropdown-item" routerLink="whatsapp-template"><i class="fab fa-whatsapp"></i> Whatsapp</button>
+              <button class="dropdown-item" routerLink="personalizacion"><i class="fas fa-paint-brush"></i> Personalizar</button>
+              <button class="dropdown-item" routerLink="reportes"><i class="fas fa-file-excel"></i> Reportes</button>
+              <button *ngIf="account.servicioRecogida?.estatus" class="dropdown-item" routerLink="usuarios"><i class="fas fa-user"></i> Usuarios</button>
+            </div>
+          </li>
+        </ul>
+    
+        <ul class="navbar-nav mr-right">
+          <li class="nav-item" >
+            <div ngbDropdown class="d-inline-block" display="dynamic" placement="bottom-right">
+              <button class="btn btn-outline-secondary btn-sm" id="dropdownBasic1" ngbDropdownToggle>
+                <i class="fas fa-cog"></i>
+                {{account.name? account.name:' '}}
+              </button>
+              <div class="dropdown-menu dropdown-menu-left" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <div class="card dropdown-item text-center no-border">
+                  <div class="card-body">
+                    
+                    <h5 class="card-title">
+                      <i class="far fa-user fa-2x"></i> <br>
+                      <span class="text-capitalize">{{ user.name + ' ' + user.last_name}}</span> <br>
+                      <small>{{user.email}}</small>
+                    </h5>
+                  </div>
+                </div>
+                <button class="dropdown-item" ngbDropdownItem (click)="changePassworOn()">
+                  <i class="fas fa-key"></i> 
+                  Cambiar contraseña
+                </button>
+                <button class="dropdown-item" ngbDropdownItem (click)="signOut()">
+                  <i class="fas fa-power-off"></i>
+                  Cerrar sesión
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+   </div>
+  
+</nav> <br> <br><br>
+  <div class="container-fluid">
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+  </div>
+  
+  
+  <!-- Template para Modal de cambio de Contraseña -->
+  <ng-template #chagePassTemplate let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">
+        Cambiar Contraseña
+      </h4>
+      <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="">Contraseña nueva</label>
+        <input type="password" class="form-control" [(ngModel)]="pass.newPassword" >
+      </div>
+      <div class="form-group">
+        <label for="">confirmar contraseña</label>
+        <input type="password" class="form-control" [(ngModel)]="pass.confirmPassword" >
+      </div>
+      <div *ngIf="alert.msg">
+          <ngb-alert [type]="alert.type" (close)="closeAlert()" >
+            {{alert.msg}}
+          </ngb-alert>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+      <button class="btn btn-primary" (click)="change()">Guardar cambios</button>
+    </div>
+  </ng-template>

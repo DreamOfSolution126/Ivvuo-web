@@ -1,0 +1,167 @@
+<div class="container" style="min-height: 75vh;">
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="form-group">
+        <label for="">Fecha Inicial</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd"
+                  name="dp" [(ngModel)]="dateInit" ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+              <i class="fas fa-calendar"></i>
+            </button>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="form-group">
+          <label for="">Fecha Final</label>
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd"
+                    name="dp" [(ngModel)]="dateEnd" ngbDatepicker #df="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" (click)="df.toggle()" type="button">
+                <i class="fas fa-calendar"></i>
+              </button>
+            </div>
+          </div>
+          </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="form-group">
+          <label for="">Centros de Servicio</label>
+          <select name="" id="" class="form-control" [(ngModel)]="centerSelect">
+            <option value="all">Todos</option>
+            <option [value]="i.code" *ngFor="let i of centers">{{i.code}} {{i.name}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="form-group">
+          <label for="">&nbsp;</label> <br>
+          <button (click)="setFilter()" class="btn btn-primary">Consultar</button>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="cargando" class="row">
+      <div class="col-lg-12">
+        <div  class="d-flex justify-content-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div *ngIf="orders && orders.length > 0" class="row">
+      <div class="col-lg-12 table-responsive">
+        <table class="table table-bordered table-striped text-small">
+          <thead>
+            <tr>
+              <th width="400px">Creado</th>
+              <th>Hora</th>
+              <th>ID</th>
+              <th>OR</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>KM</th>
+              <th>NIT/CC</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Placa</th>
+              <th>VIN</th>
+              <th>Modelo</th>
+              <th>Marca</th>
+              <th>Año</th>
+              
+              <th>Cuenta</th>
+              <th>Nombre Centro</th>
+              
+              <th>Respuesta del cliente</th>
+              <th>
+                Enviado
+              </th>
+              <th>Link</th>
+
+              <th>M.O. Cotizado</th>
+              <th>Partes Cotizado</th>
+              <th>Total Cotizado</th>
+
+              <th>M.O. Rechazado</th>
+              <th>Partes Rechazado</th>
+              <th>Total Rechazado</th>
+              <th>M.O. Aprobado</th>
+              <th>Partes Aprobado</th>
+              <th>Total Aprobado</th>
+              
+              <th>Procesos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of orders">
+              <td width="300">{{i.create|date:'dd-MM-yyyy'}}</td>
+              <td width="300">{{i.create|date:'hh:mm a'}}</td>
+              <td width="300">{{i.id}}</td>
+              <td>{{i.or}}</td>
+              <td>{{i.name}}</td>
+              <td>{{i.last_name}}</td>
+              <td>{{i.kiolometers}}</td>
+              <td>{{i.nit}}</td>
+              <td>{{i.email}}</td>
+              <td>{{i.telephone}}</td>
+              <td>{{i.plate}}</td>
+              <td>{{i.vin}}</td>
+              <td>{{i.model}}</td>
+              <td>{{i.brand}}</td>
+              <td>{{i.year}}</td>
+              
+              <td>{{i.account}}</td>
+              <td>{{i.center}}</td>
+              
+              <td>
+                {{i.customer_response? 'Respondida':'Pendiente'}}
+              </td>
+              <td>
+                {{i.send_to_customer? 'Enviado':'No enviado'}}
+              </td>
+              <td>
+                <a target="_blank" href="{{'https://'+i.shortUrl}}">{{i.shortUrl}}</a>
+              </td>
+
+              <td>{{i.mo|currency:' ':'symbol':'0.0'}}</td>
+              <td>{{i.parts|currency:' ':'symbol':'0.0'}}</td>
+              <td>{{i.total|currency:' ':'symbol':'0.0'}}</td>
+
+              <td>{{i.mo_ban|currency:' ':'symbol':'0.0'}}</td>
+              <td>{{i.parts_ban|currency:' ':'symbol':'0.0'}}</td>
+              <td>{{i.total_ban|currency:' ':'symbol':'0.0'}}</td>
+              
+              <td>{{i.mo_approve|currency:' ':'symbol':'0.0'}}</td>
+              <td>{{i.parts_approve|currency:' ':'symbol':'0.0'}}</td>
+              <td>{{i.total_approve|currency:' ':'symbol':'0.0'}}</td>
+              
+              <td>
+                {{i.process.length}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="!orders || orders.length === 0" class="row">
+      <div class="col-lg-12">
+        <div class="jumbotron">
+          <h1 class="display-4">No se encontraron ordenes</h1>
+          <p class="lead">
+            No se encontraron ordenes con estos parametros de busqueda
+          </p>
+          <hr class="my-4">
+        </div>
+      </div>
+    </div>
+</div>

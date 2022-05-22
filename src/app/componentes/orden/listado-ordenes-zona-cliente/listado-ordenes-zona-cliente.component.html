@@ -1,0 +1,59 @@
+<table class="table text-small table-bordered table-striped table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th>Placa</th>
+      <th>Vehículo</th>
+      <th>Procesos</th>
+      <th>Revisado</th>
+      <th>Cotizado</th>
+      <th>Aprobado</th>
+      <th>Rechazado</th>
+      <th></th>
+      <th></th>
+      <th>Fecha</th>
+      <th>Hora</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let i of ordenes" >
+      <td class="text-uppercase"> {{i.vehiculo.placa}} </td>
+      <td class="text-uppercase">
+        {{i.vehiculo.marca}} <br>
+        <span>{{i.vehiculo.linea}}</span> 
+        <span> {{i.vehiculo.ano_modelo}} </span>
+      </td>
+      <td class="">
+        <div class="btn-group btn-block">
+          <button 
+            ngbPopover="{{j.nombre}}"
+            triggers="mouseenter:mouseleave"
+            [ngClass]="{'btn btn-sm btn-outline-primary text-capitalize':true, 'active':j.advanceValue === 1}" 
+            *ngFor="let j of i.procesos.detalles">
+            <span [innerHTML]="j.icon"></span>
+          </button>
+        </div>
+      </td>
+      <td>
+      </td>
+      <td>{{i.totales.cotizado|currency:'':'symbol':'0.0'}}</td>
+      <td>{{i.totales.aprobado|currency:'':'symbol':'0.0'}}</td>
+      <td>{{i.totales.rechazado|currency:'':'symbol':'0.0'}}</td>
+      <td>
+        <div class="btn-group btn-block">
+          <button ngbTooltip="Buen estado" class="btn btn-outline-success btn-sm">{{i.nivelPrioridad.normal}}</button>
+          <button ngbTooltip="Cambio pronto" class="btn btn-outline-warning btn-sm">{{i.nivelPrioridad.pronto}}</button>
+          <button ngbTooltip="Cambio urgente" class="btn btn-outline-danger btn-sm">{{i.nivelPrioridad.urgente}}</button>
+        </div>
+      </td>
+      <td> 
+        <a role="button" class="btn btn-sm btn-outline-primary" [href]="'https://'+i.url" target="_blank" >Detalles</a>
+      </td>
+      <td>{{i.fechaCreacion|date:'dd-MM-yyyy'}}</td>
+      <td>{{i.fechaCreacion|date:' h:mm a '}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- <pre>
+  {{ ordenes | json }}
+</pre> -->

@@ -1,0 +1,300 @@
+<div class="initial-margin"> 
+  <div class="row ">
+    <div class="col">
+      <div class="card border-rounded no-border">
+        <div class="card-body text-small">
+          <h5 class="card-title">
+            <span class="navbar-text text-truncate text-wrap">
+              Centro de servicio
+            </span>
+            <span class="float-right">
+              <button (click)="resetFilters()" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-filter"></i> Reestablecer
+              </button>
+              <button class="btn btn-sm btn-outline-primary" (click)="openModal(newOrderModal)">
+                Nueva Orden
+              </button>
+            </span>
+          </h5>
+
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="form-group">
+                <small># Orden</small>
+                <input type="text" placeholder="# Orden" [(ngModel)]="filter.or" class="form-control">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <small>Placa</small>
+                <input type="text" placeholder="Placa" [(ngModel)]="filter.plate" class="form-control">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <small>VIN</small>
+                <input type="text" placeholder="VIN" [(ngModel)]="filter.vin" class="form-control">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <small>Usuario</small>
+                <select [(ngModel)]="usuarioSelect" class="custom-select text-capitalize">
+                  <option value="Todos">Todos</option>
+                  <option *ngFor="let i of usuarios" [value]="i._id">
+                    <span class="text-uppercase">{{i.name +' '+i.last_name}}</span>
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <small>Fecha inicio</small>
+                <input type="date" [(ngModel)]="filter.dateInit" class="form-control">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <small>Fecha final</small>
+                <input type="date" [(ngModel)]="filter.dateEnd" class="form-control">
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <small>Buscar</small> <br>
+              <button class="btn btn-sm btn-block btn-primary btn" (click)="actualizarParametros()">
+                <i class="fas fa-search"></i> Buscar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row mb-5">
+    <div class="col text-small hidden-md-up" *ngIf="orders.length">
+      
+        <a [routerLink]="'../Orderdetails/'+i._id" *ngFor="let i of orders" class="card my-2 border-rounded no-border list-group-item-action flex-column align-items-start list-group-item">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mg-1 text-uppercase">
+               <strong class="text-primary">
+                 <span>OT #</span> 
+                 {{i.id}}
+              </strong> 
+              {{i.vehiculo.marca}} 
+              <span>{{i.vehiculo.linea}}</span>
+              <span> {{i.vehiculo.ano_modelo}} </span>
+            </h5>
+            <small>{{i.fechaCreacion|date:'dd-MM-yyyy'}}</small>
+          </div>
+          <p class="mg-1 text-uppercase d-flex justify-content-between">
+            <span>
+              <span *ngIf="i.estatus?.abierto?.estatus">
+                <i class="fas fa-lock-open"></i>
+              </span>
+              <span *ngIf="!i.estatus?.abierto?.estatus">
+                <i class="fas fa-lock"></i>
+              </span>
+              {{i.vehiculo.placa}} <strong>·</strong>
+              {{i.vehiculo.vin}}
+            </span>
+
+            <span class="badge text-success">
+              <i class="fab fa-whatsapp fa-2x"></i>
+              <span *ngIf="i.whatsapp.mensajesNuevos !== 0" class="badge badge-danger text-notify">{{i.whatsapp.mensajesNuevos}}</span>
+            </span>
+          </p>
+          <div class="btn-group btn-block">
+            <button ngbTooltip="{{j.name}}" [ngClass]="{'btn btn-sm btn-outline-primary':true, 'active':j.advanceValue===1}" *ngFor="let j of i.procesos.detalles">
+              <span [innerHTML]="j.icon"></span>
+            </button>
+          </div>
+        </a>
+      <br>
+      <div class="row">
+        <div class="col">
+          <div class="btn-group">
+            <button *ngIf="currentPage > 1" (click)="updateData(-1)" class="btn btn-sm btn-outline-primary">
+              <i class="fas fa-chevron-left"></i> Atrás
+            </button>
+            <button *ngIf="count.count - filter.limit * currentPage  > 0" (click)="updateData(1)" class="btn btn-sm btn-outline-primary">
+              Siguiente: <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+          <span>Página {{currentPage}} Mostrando {{orders.length}} de {{count?.count}}</span>
+        </div>
+        <div class="col">
+          <div class="btn-group float-right">
+            <button [ngClass]="{'btn btn-sm btn-outline-secondary':true, 'active':filter.limit==10}" (click)="filter.limit=10; actualizarParametros()">10</button>
+            <button [ngClass]="{'btn btn-sm btn-outline-secondary':true, 'active':filter.limit==20}" (click)="filter.limit=20; actualizarParametros()">20</button>
+            <button [ngClass]="{'btn btn-sm btn-outline-secondary':true, 'active':filter.limit==50}" (click)="filter.limit=50; actualizarParametros()">50</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col table-responsive  hidden-sm-down" *ngIf="orders.length">
+      <app-listado-ordenes
+      [ordenes]="orders"
+      ></app-listado-ordenes>
+      <div class="row">
+        <div class="col">
+          <div class="btn-group">
+            <button *ngIf="currentPage > 1" (click)="updateData(-1)" class="btn btn-sm btn-outline-primary">
+              <i class="fas fa-chevron-left"></i> Atrás
+            </button>
+            <button *ngIf="count.count - filter.limit * currentPage  > 0" (click)="updateData(1)" class="btn btn-sm btn-outline-primary">
+              Siguiente <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+          <span>Página {{currentPage}} Mostrando {{orders.length}} de {{count?.count}}</span>
+        </div>
+        <div class="col">
+          <div class="btn-group float-right">
+            <button [ngClass]="{'btn btn-sm btn-outline-secondary':true, 'active':filter.limit==10}" (click)="filter.limit=10; actualizarParametros()">10</button>
+            <button [ngClass]="{'btn btn-sm btn-outline-secondary':true, 'active':filter.limit==20}" (click)="filter.limit=20; actualizarParametros()">20</button>
+            <button [ngClass]="{'btn btn-sm btn-outline-secondary':true, 'active':filter.limit==50}" (click)="filter.limit=50; actualizarParametros()">50</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col" *ngIf="!orders.length">
+      <div class="jumbotron border-rounded text-center">
+        <h1 class="display-4">
+          <i class="fa fa-list-ol" aria-hidden="true"></i>
+        </h1>
+        <p class="lead">
+          Aún no hay ordenes creadas
+        </p>
+        <p>
+          Puede crear una haciendo clic sobre Nueva Orden
+        </p>
+        <button class="btn btn-sm btn-outline-primary" (click)="openModal(newOrderModal)">
+          Nueva Orden
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #newOrderModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-primary">
+      <i class="fas fa-file"></i> Nueva Orden de servicio
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row" *ngIf="!centerData.generateOrAuto">
+      <div class="col">
+        <div class="form-group">
+          <small>OT #</small>
+          <input type="text" placeholder="OT #" [(ngModel)]="order.id"  class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-xs-12 col-sm-6">
+        <div class="form-group">
+          <small>Nombre</small>
+          <input type="text" placeholder="Nombre" [(ngModel)]="order.name"  class="text-uppercase form-control">
+        </div>
+      </div>
+      <div class="col-lg-6 col-xs-12 col-sm-6">
+        <div class="form-group">
+          <small>Apellido</small>
+          <input type="text" placeholder="Apellido" [(ngModel)]="order.last_name"  class="text-uppercase form-control">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-xs-12 ">
+        <div class="row">
+          <div class="col-lg-6 col-xs-12 col-sm-6">
+            <div class="form-group">
+              <small>CC / NIT</small>
+              <input type="text" placeholder="CC / NIT" [(ngModel)]="order.nit"  class="text-uppercase form-control">
+            </div>
+          </div>
+          <div class="col-lg-6 col-xs-12 col-sm-6">
+            <div class="form-group">
+              <small>Teléfono</small>
+              <input type="text" placeholder="Teléfono" [(ngModel)]="order.telephone"  class="text-uppercase form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-xs-12">
+        <div class="form-group">
+          <small>Email</small>
+          <input type="text" placeholder="Email" [(ngModel)]="order.email"  class="text-lowercase form-control">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+          <hr class="text-primary">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-xs-6 col-sm-6">
+        <div class="form-group">
+          <small>Placa</small>
+          <input type="text" placeholder="Placa" [(ngModel)]="order.plate"  class="text-uppercase form-control">
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6 col-sm-6">
+        <div class="form-group">
+          <small>Kilometraje</small>
+          <input type="number" placeholder="Kilometraje" [(ngModel)]="order.kiolometers"  class="text-uppercase form-control">
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6 col-sm-6">
+        <div class="form-group">
+          <small>Marca</small>
+          <input type="text" placeholder="Marca" [(ngModel)]="order.brand"  class="text-uppercase form-control">
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6 col-sm-6">
+        <div class="form-group">
+          <small>Modelo Versión</small>
+          <input type="text" placeholder="Modelo versión" [(ngModel)]="order.model"  class="text-uppercase form-control">
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6 col-sm-6">
+        <div class="form-group">
+          <small>Año</small>
+          <input type="number" placeholder="Año" [(ngModel)]="order.year"  class="text-uppercase form-control">
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6 col-sm-6">
+        <div class="form-group">
+          <small>VIN {{order.vin ? order.vin.length : 0 }} caracteres </small>
+          <input type="text" placeholder="VIN" [(ngModel)]="order.vin" class="text-uppercase form-control">
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="form-group">
+          <small>Elegir Actividad a realizar</small>
+          <select [(ngModel)]="listSelect" name="" id="" class="form-control" (change)="setListSelect()">
+            <option [value]="i._id" *ngFor="let i of list">{{i.list}}</option>
+          </select>
+          <small class="form-text text-justify" *ngIf="listDetails">
+            <strong class="text-info">
+              Detalles: 
+            </strong>
+            {{listDetails.description}}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+    <button class="btn btn-primary" (click)="newOrder(); c('Close click')">Guardar cambios</button>
+  </div>
+</ng-template>
+
+
+<ngx-snackbar [position]="'bottom-right'" [max]="3"></ngx-snackbar>

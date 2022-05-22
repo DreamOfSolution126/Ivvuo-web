@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container">
+
+      <a class="navbar-brand" href="#">
+        <img src="../../assets/img/logo/logo_mapp.png" width="30" height="30" alt="">
+        <strong class="">IVVUO</strong>
+      </a>
+      <button 
+        (click)="navbarCollapse = !navbarCollapse"
+        type="button"
+        aria-controls="navbarMenu"
+        class="navbar-toggler"
+        >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarMenu" [ngbCollapse]="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active cursor-pointer" routerLink="inicio" routerLinkActive="active" (click)="navbarCollapse = !navbarCollapse">
+            <a class="nav-link">Home</a>
+          </li>
+          <li class="nav-item cursor-pointer" routerLink="login" routerLinkActive="active" (click)="navbarCollapse = !navbarCollapse">
+            <a class="nav-link">Acceder</a>
+          </li>
+          <li class="nav-item cursor-pointer"  routerLink="privacy-policy" routerLinkActive="active" (click)="navbarCollapse = !navbarCollapse">
+            <a class="nav-link"> Política de Privacidad </a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <button routerLink="login" class="btn btn-outline-success my-2 my-sm-0" type="submit">Acceder</button>
+        </form>
+      </div>
+  </div>  
+</nav>
+
+<router-outlet></router-outlet>
+
+

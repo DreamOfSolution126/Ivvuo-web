@@ -1,0 +1,255 @@
+<div *ngIf="marca" class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <img class="logo-marca" [src]="marca.logo.url" alt="Logo marca">
+    </div>
+    <div class="col-md-8 d-flex flex-column justify-content-center">
+      <h5 class="text-capitalize">
+        {{marca.marca}} <br>
+        <small *ngFor="let i of listadoPaises">
+          <span *ngIf="marca.pais.codigo == i.phone_code">{{i.nombre}}</span>
+        </small>
+      </h5>
+      <div>
+        <button *ngIf="marca.activo" (click)="marca.activo = false; actualizar()" class="btn-secondary btn-sm btn">Desactivar</button>
+        <button *ngIf="!marca.activo" (click)="marca.activo = true; actualizar()" class="btn-primary btn-sm btn">Activar</button>
+        <button (click)="abrirModal(agregarCentro)" class="btn-primary btn-sm btn">Editar</button>
+        <button (click)="abrirModal(usuarioModal)" class="btn-primary btn-sm btn">Usuarios</button>
+        
+      </div>
+      
+    </div>
+  </div>
+
+  <br>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <div class="collapse navbar-collapse my-2" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item cursor-pointer">
+          <a [ngClass]="{'nav-link': true, 'active-personalizado':menu.activo=='centros'}" (click)="menu.activo='centros'" >
+            <i class="fas fa-warehouse"></i>
+            Centros Servicio
+          </a>
+        </li>
+        <li class="nav-item cursor-pointer">
+          <a [ngClass]="{'nav-link': true, 'active-personalizado':menu.activo=='usuarios'}" (click)="menu.activo='usuarios'" >
+            <i class="fas fa-users"></i>
+            Usuarios
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div *ngIf="marca && menu.activo=='centros'" class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-sm text-small table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Zona</th>
+            <th>Ciudad</th>
+            <th>Dirección</th>
+            <th>Creado</th>
+            <th>Configuraciones</th>
+            <th>Estado</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of centros">
+            <td> {{i.code}} </td>
+            <td> {{i.name}} </td>
+            <td> {{i.zone}} </td>
+            <td> {{i.city}} </td>
+            <td> {{i.address }} </td>
+            <td> {{i.created | date:'dd-MM-yyyy'}} </td>
+            <td>
+              <div class="btn-group">
+                <button 
+                  ngbPopover="Zona de Clientes"
+                  triggers="mouseenter:mouseleave"
+                  [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':i.configuraciones.verOrdenesPorCliente}">
+                  <i class="far fa-user"></i>
+                </button>
+                <button 
+                  ngbPopover="Encuesta al final de aprobacion"
+                  triggers="mouseenter:mouseleave"
+                  [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':i.configuraciones.encuestaAlFinalizarAprobacion}">
+                  <i class="fas fa-poll-h"></i>
+                </button>
+                <button 
+                  ngbPopover="Envio de SMS"
+                  triggers="mouseenter:mouseleave"
+                  [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':i.configuraciones.enviarSMS}">
+                  <i class="fas fa-comment"></i>
+                </button>
+                <button 
+                  ngbPopover="Mensajeria Whatsapp"
+                  triggers="mouseenter:mouseleave"
+                  [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':i.configuraciones.enviarWhatsApp}">
+                  <i class="fab fa-whatsapp"></i>
+                </button>
+                <button 
+                  ngbPopover="Servicio de recogida"
+                  triggers="mouseenter:mouseleave"
+                  [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':i.configuraciones.servicioRecogida}">
+                  <i class="fas fa-car"></i>
+                </button>
+              </div>
+            </td>
+            <td>
+              <span *ngIf="i.active" class="badge badge-success"> Activo</span>
+              <span *ngIf="!i.active" class="badge badge-secondary"> Cerrado</span>
+            </td>
+            <td>
+              <button [routerLink]="'/dashboard/centersConfi/centerDetails/' + i._id" class="btn btn-outline-primary btn-sm">
+                Detalles
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>      
+    </div>
+  </div>
+</div>
+
+<div *ngIf="marca && menu.activo=='usuarios'" class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <app-item-lista-usuarios 
+        (usuarioSeleccionado)="manejaEventoSeleccionarUsuario($event)"
+        [usuarios]="usuarios"></app-item-lista-usuarios>
+    </div>
+  </div>
+</div>
+
+<ng-template #agregarCentro let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 class="modal-title text-primary">
+      <i class="fas fa-plus"></i> Editar
+    </h5>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <img class="img-fluid logo-marca" [src]="marca.logo.url" alt="">
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="">
+            <strong>
+              Marca
+            </strong>
+          </label>
+          <input 
+            [(ngModel)]="marca.marca" 
+            placeholder="Requerido"
+            type="text"  
+            class="form-control">
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="">
+            <strong>Logo url 
+              <span class="badge badge-secondary badge-pill" ngbTooltip="Copie y pegue la url del logo de la marca o la imagen en formato: Base64">
+                <i class="fas fa-info"></i>
+              </span>
+            </strong>
+          </label>
+          <input 
+          [(ngModel)]="marca.logo.url" 
+          placeholder="Requerido"
+          type="text"  
+          class="form-control">
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="">
+            <strong> Pais
+            </strong>
+          </label>
+          <select [(ngModel)]="marca.pais.codigo" name="" id="" class="custom-select">
+            <option value="">Seleccione un pais</option>
+            <option *ngFor="let i of listadoPaises" [value]="i.phone_code">{{i.nombre || i.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="">Centros de servicio</label>
+          <select [(ngModel)]="centroSeleccionado" name="" id="" class="custom-select">
+            <option value="">Seleccionar centro</option>
+            <optgroup *ngFor="let i of listaCentros" [label]="i.cuenta">
+              <option *ngFor="let j of i.centros" [value]="j.id">{{j.nombre}}</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <button 
+          [disabled]="!centroSeleccionado" 
+          (click)="agregar()" 
+          class="btn btn-block btn-primary">Agregar</button>
+      </div>
+    </div>
+    <div class="d-flex flex-column w-100">
+      <div *ngFor="let i of listaCentros">
+        <div *ngFor="let k of marca.centros">
+          <div *ngFor="let j of i.centros">
+            <div *ngIf="j.id == k " class="border rounded mb-2 p-2 d-flex justify-content-between" >
+              <p>
+                {{j.nombre}} <br>
+                <small class="badge badge-secondary">{{i.cuenta}}</small>
+              </p>
+              <div class="d-flex align-items-center">
+                <button (click)="eliminar(j.id)" class="btn-outline-danger btn rounded-circle">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button (click)="c('Close click')" class="btn btn-light btn-sm">
+      Cancelar
+    </button>
+    <button (click)="actualizar()" class="btn btn-primary btn-sm">
+      Guardar
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #usuarioModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 class="modal-title text-primary">
+      <i class="fas fa-user"></i> Usuario
+    </h5>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-formulario-usuarios 
+      (actualizarEvento)="manejoEventoActualizar()"
+      (cerrarModal)="c('Close click')" 
+      [marca]="idMarca" 
+      [usuario]="usuario"></app-formulario-usuarios>
+  </div>
+</ng-template>

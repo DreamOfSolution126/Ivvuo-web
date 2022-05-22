@@ -1,0 +1,82 @@
+
+<div class="row">
+  <div class="col-md-12 text-center">
+    <img class="img-logo" [src]="marca.logo.url" alt="">
+  </div>
+  <div class="col-md-12">
+    <div class="form-group">
+      <label for="">
+        <strong>
+          Marca
+        </strong>
+      </label>
+      <input 
+        [(ngModel)]="marca.marca" 
+        placeholder="Requerido"
+        type="text"  
+        class="form-control">
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="form-group">
+      <label for="">
+        <strong>Logo url 
+          <span class="badge badge-secondary badge-pill" ngbTooltip="Copie y pegue la url del logo de la marca o la imagen en formato: Base64">
+            <i class="fas fa-info"></i>
+          </span>
+        </strong>
+      </label>
+      <input 
+      [(ngModel)]="marca.logo.url" 
+      placeholder="Requerido"
+      type="text"  
+      class="form-control">
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="form-group">
+      <label for="">
+        <strong> Pais
+        </strong>
+      </label>
+      <select [(ngModel)]="marca.pais.codigo" name="" id="" class="custom-select">
+        <option value="">Seleccione un pais</option>
+        <option *ngFor="let i of listadoPaises" [value]="i.phone_code">{{i.nombre || i.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="custom-control custom-switch">
+      <input [(ngModel)]="marca.activo" type="checkbox" class="custom-control-input" id="customSwitch1">
+      <label class="custom-control-label" for="customSwitch1">
+        <strong>
+          Marca activa
+        </strong>
+      </label>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <p class="text-muted">
+      Para agregar cuentas o centros de servicio, por favor click sobre detalles de la marca.
+    </p>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button (click)="cerrarModal()" class="btn btn-light btn-sm">
+    Cancelar
+  </button>
+  <button (click)="crear()" class="btn btn-primary btn-sm">
+    Guardar
+  </button>
+</div>
+
+<!-- activo: true,
+  marca: '',
+  cuentas: [],
+  centros: [],
+  logo: {
+      url: ''
+  } -->
+
+

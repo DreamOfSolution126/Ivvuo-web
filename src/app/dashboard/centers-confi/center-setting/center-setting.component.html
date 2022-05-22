@@ -1,0 +1,111 @@
+<br>
+<dl class="row" *ngIf="center">
+  <dd class="col-sm-9">
+    <p>
+      <strong>Generar número de ordenes automáticamente</strong> <br>
+      <em>Si activa esta opción las ordenes se generarán de forma automática, bloqueando la edición del numero de OR</em>
+    </p>
+  </dd>
+  <dd class="col-sm-3" *ngIf="center">
+    <span class="float-right">
+      <div class="btn-group">
+        <button 
+          [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':center.generateOrAuto}" 
+          (click)="center.generateOrAuto = true; setCenter()">Automático</button>
+        <button 
+          [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':!center.generateOrAuto}" 
+          (click)="center.generateOrAuto = false; setCenter()">Manual</button>
+      </div>
+    </span>
+  </dd>
+</dl>
+
+<dl class="row">
+  <dd class="col-sm-9">
+    <p>
+      <strong>Servicio Recogida</strong> <br>
+      <em>
+        Permite utilizar el servicio de recogida, y el registro de conductores.
+      </em>
+    </p>
+  </dd>
+  <dd class="col-sm-3" *ngIf="center && center.configuraciones">
+    <span class="float-right">
+      <div class="btn-group">
+        <button 
+          [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':center.configuraciones.servicioRecogida}" 
+          (click)="center.configuraciones.servicioRecogida = true; setCenter()">Activo</button>
+        <button 
+          [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':!center.configuraciones.servicioRecogida}" 
+          (click)="center.configuraciones.servicioRecogida = false; setCenter()">Inactivo</button>
+      </div>
+    </span>
+  </dd>
+</dl>
+<dl class="row">
+  <dd class="col-sm-9">
+    <p>
+      <strong>Servicio Whatsapp</strong> <br>
+      <em>
+        Permite usar el servicio de Whatsapp
+      </em>
+    </p>
+  </dd>
+  <dd class="col-sm-3" *ngIf="center && center.configuraciones">
+    <span class="float-right">
+      <div class="btn-group">
+        <button 
+          [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':center.configuraciones.enviarWhatsApp}" 
+          (click)="center.configuraciones.enviarWhatsApp = true; setCenter()">Activo</button>
+        <button 
+          [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':!center.configuraciones.enviarWhatsApp}" 
+          (click)="center.configuraciones.enviarWhatsApp = false; setCenter()">Inactivo</button>
+      </div>
+    </span>
+  </dd>
+</dl>
+<dl class="row">
+  <dd class="col-sm-9">
+    <p>
+      <strong>Encuesta al final de la aprobacion</strong> <br>
+      <em>
+        Al final de la aprobacion / rechazo se desplegara una encuesta con 
+        las razones de rechazo
+      </em>
+    </p>
+  </dd>
+  <dd class="col-sm-3" *ngIf="center && center.configuraciones">
+    <span class="float-right">
+      <div class="btn-group">
+        <button 
+          [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':center.configuraciones.encuestaAlFinalizarAprobacion}" 
+          (click)="center.configuraciones.encuestaAlFinalizarAprobacion = true; setCenter()">Hacer encuesta</button>
+        <button 
+          [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':!center.configuraciones.encuestaAlFinalizarAprobacion}" 
+          (click)="center.configuraciones.encuestaAlFinalizarAprobacion = false; setCenter()">No hacer</button>
+      </div>
+    </span>
+  </dd>
+</dl>
+<dl class="row">
+  <dd class="col-sm-9">
+    <p>
+      <strong>Presentar ordenes asociadas a cliente</strong> <br>
+      <em>
+        Se habilita una vista en la que se ven las OR, agrupadas a un numero de identificacion de cliente.
+      </em>
+    </p>
+  </dd>
+  <dd class="col-sm-3" *ngIf="center && center.configuraciones">
+    <span class="float-right">
+      <div class="btn-group">
+        <button 
+          [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':center.configuraciones.verOrdenesPorCliente }" 
+          (click)="center.configuraciones.verOrdenesPorCliente = true; setCenter()">Activar</button>
+        <button 
+          [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':!center.configuraciones.verOrdenesPorCliente }" 
+          (click)="center.configuraciones.verOrdenesPorCliente = false; setCenter()">Desactivado</button>
+      </div>
+    </span>
+  </dd>
+</dl>

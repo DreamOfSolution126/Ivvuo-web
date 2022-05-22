@@ -1,0 +1,27 @@
+<div class="jumbotron">
+  <div class="container my-5">
+    <span>
+      <div class="btn-group">
+        <button [ngClass]="{'btn btn-outline-primary':true, 'active':lenguajeSelect == 'es'}" (click)="lenguajeSelect = 'es'; selectLenguaje()">
+          ES
+        </button>
+        <button [ngClass]="{'btn btn-outline-primary':true, 'active':lenguajeSelect == 'en'}"  (click)="lenguajeSelect = 'en'; selectLenguaje()">
+          EN
+        </button>
+      </div>
+    </span>
+    <h1 class="display-4 text-shadow">{{policySelect.title}}</h1>
+    <p class="lead text-shadow">
+      {{policySelect.resume}}
+    </p>
+    <hr class="my-4">
+  </div>
+</div>
+<div class="my-5" *ngFor="let i of policySelect.content">
+  <div class="container">
+    <h3>{{i.subtitle}}</h3>
+    <p class="lead text-justify" *ngFor="let j of i.paragraph; let n=index">
+      <strong>[{{n+1}}] </strong>  {{j.p}}
+    </p>
+  </div>
+</div>

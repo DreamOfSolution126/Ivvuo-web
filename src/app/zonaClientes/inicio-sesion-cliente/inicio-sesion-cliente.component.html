@@ -1,0 +1,140 @@
+<div class="row heigth" *ngIf="!cargando">
+  <div class="col-lg-12 bg-light d-flex align-items-center justify-content-center">
+    <div class="card border-rounded" style="min-width: 400px; max-width: 400;">
+      <div class="card-body">
+        <div class="d-flex justify-content-center">
+          <img [src]="cuenta.logo.url" class="img-logo text-center" alt="logo">
+        </div>
+        <!-- <h5 class="card-title">
+          {{cuenta.zonaCliente?.nombreComercial}}
+        </h5> -->
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="nombre">Tipo</label>
+              <div ngbDropdown class="d-inline-block btn-block">
+                <button class="btn btn-outline-primary btn-block " id="dropdownBasic1" ngbDropdownToggle>{{cliente.identificacion.tipo || 'Tipo'}}</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <button (click)="cliente.identificacion.tipo = i.valor; validacion.error=false" *ngFor="let i of tiposIdentificacion" class="dropdown-item">{{i.nombre}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="form-group">
+              <label for="nombre">Numero</label>
+              <input [(ngModel)]="cliente.identificacion.numero" (change)="validacion.error=false" name="numeroIdentificacion" type="text" class="form-control" placeholder="Numero identificacion">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label for="">Contrasena</label>
+              <input [(ngModel)]="cliente.contrasena" (change)="validacion.error=false" type="password" class="form-control" placeholder="Contrasena">
+            </div>
+          </div>
+        </div>
+        
+        <div class="custom-control custom-switch">
+          <input [(ngModel)]="cliente.aceptarTerminosyCondiciones" (change)="validacion.error=false" type="checkbox" class="custom-control-input" id="customSwitch1">
+          <label class="custom-control-label" for="customSwitch1">
+            <small>Acepto los terminos y condiciones y politicas de privacidad</small>
+          </label>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button 
+            routerLink="../registro" 
+            type="button" 
+            class="btn btn-light my-2">Registrarse</button>
+          <button (click)="iniciarSesion()" class="btn-primary btn my-2">
+            Iniciar sesion</button>
+        </div>
+        
+        <ngb-alert 
+          *ngIf="validacion.error" 
+          (close)="validacion.error = false">
+          <small>{{validacion.mensaje}}</small>
+        </ngb-alert>
+        <div class="d-flex justify-content-between my-2">
+          <button 
+            [disabled]="!cliente.identificacion.tipo || !cliente.identificacion.numero"
+            (click)="abrirModal(recuperarContrasenaModal)"
+            type="button" class="btn btn-link">Olvido su contrasena?</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row heigth" *ngIf="cargando">
+  <div class="col-lg-12 d-flex align-items-center justify-content-center">
+    <app-precarga></app-precarga>
+  </div>
+</div>
+
+<ng-template #recuperarContrasenaModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-primary">
+      <i class="fas fa-key"></i> Recuperar contrasena
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row" *ngIf="!cargaEnvioCorreo">
+      <div class="col-lg-4">
+        <div class="form-group">
+          <label for="nombre">Tipo</label>
+          <div ngbDropdown class="d-inline-block btn-block">
+            <button 
+              class="btn btn-outline-primary btn-block " 
+              id="dropdownBasic1" 
+              ngbDropdownToggle>{{recuperarContrasenaPayload.identificacion.tipo || 'Tipo'}}</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button 
+                (click)="recuperarContrasenaPayload.identificacion.tipo = i.valor" 
+                *ngFor="let i of tiposIdentificacion" 
+                class="dropdown-item">{{i.nombre}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="form-group">
+          <label for="nombre">Numero</label>
+          <input 
+            [(ngModel)]="recuperarContrasenaPayload.identificacion.numero" 
+            name="numeroIdentificacion" 
+            type="text" 
+            class="form-control" 
+            placeholder="Numero identificacion">
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="form-group">
+          <label for="">Correo electronico</label>
+          <input 
+            [(ngModel)]="recuperarContrasenaPayload.email" 
+            type="email" 
+            placeholder="E-mail direccion electronica"
+            class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="cargaEnvioCorreo">
+      <div class="col-lg-12">
+        <app-precarga></app-precarga>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button (click)="c('Close click')" class="btn btn-outline-secondary btn-sm">
+      Cancelar
+    </button>
+    <button (click)="recuperarContrasena()" class="btn btn-primary btn-sm">
+      Recuperar contrasena
+    </button>
+  </div>
+</ng-template>

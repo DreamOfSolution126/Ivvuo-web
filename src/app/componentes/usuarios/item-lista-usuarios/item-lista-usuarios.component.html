@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-lg-12 table-responsive">
+    <table class="table table-sm text-small table-striped table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th></th>
+          <th>Email</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Identificacion</th>
+          <th></th>
+          <th>Perfil conductor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let i of usuarios">
+          <td>
+            <img *ngIf="i.imagenPerfil.url" class="rounded-circle img-table" [src]="i.imagenPerfil.url" [alt]="i.imagenPerfil.png">
+          </td>
+          <td>
+            {{i.email}}
+          </td>
+          <td class="text-capitalize">
+            {{i.name}}
+          </td>
+          <td class="text-capitalize">
+            {{i.last_name}}
+          </td>
+          <td>
+            <span>
+              {{i.identificacion.tipo}}
+            </span>
+            {{i.identificacion.numero}}
+          </td>
+          <td>
+            <button (click)="seleccionarUsuario(i)" class="btn btn-primary btn-sm">Detalles</button>
+          </td>
+          <td *ngIf="i.perfilConductor.estatus">
+            <i [ngClass]="{'fas fa-id-card text-secondary': true, 'text-primary': i.perfilConductor.estatus}"></i>
+            {{i.perfilConductor.licencia.numero}}
+          </td>
+          <td *ngIf="!i.perfilConductor.estatus">
+            <span class="badge badge-secondary">No activo</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

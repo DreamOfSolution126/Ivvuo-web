@@ -1,0 +1,131 @@
+<div class="row">
+  <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <p>
+              <strong>INFORMACIÓN DEL CENTRO DE SERVICIO</strong>
+              <span class="float-right"><strong>Creado desde:</strong> {{center.created|date:'dd MMMM yyyy'}} </span>
+          </p>
+          <h5 class="card-title"> {{center.name}} </h5>
+          <div class="row">
+            <dt class="col-sm-3">
+              Nombre
+            </dt>
+            <dd class="col-sm-9">
+              {{center.name}}
+            </dd>
+            <dt class="col-sm-3">
+              Código
+            </dt>
+            <dd class="col-sm-9">
+              {{center.code}}
+            </dd>
+            <dt class="col-sm-3">
+              Zona
+            </dt>
+            <dd class="col-sm-9">
+              {{center.zone}}
+            </dd>
+            <dt class="col-sm-3">
+                Dirección
+              </dt>
+              <dd class="col-sm-9">
+                {{center.direccion.direccion? center.direccion.direccion: ''}}
+              </dd>
+              <dt class="col-sm-3">
+                Ciudad
+              </dt>
+              <dd class="col-sm-9">
+                {{center.direccion.ciudad? center.direccion.ciudad: ''}}
+              </dd>
+              <dt class="col-sm-3">
+                  Activo
+                </dt>
+                <dd class="col-sm-9">
+                  <span [ngClass]="{'badge':true, 'badge-success':center.active, 'badge-secondary':!center.active }">
+                    <span *ngIf="center.active">Activo</span>
+                    <span *ngIf="!center.active">Cerrado</span>
+                  </span>
+                </dd>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Configuraciones
+          <span class="float-right">
+            
+            <button class="btn btn-sm btn-outline-primary" (click)="viewCenterSetting=!viewCenterSetting">
+              Más Información
+            </button>
+          </span>
+        </h5>
+
+        <app-center-setting *ngIf="viewCenterSetting"></app-center-setting>
+
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Datos Integración</h5>
+
+        <p>
+          <strong>INFORMACIÓN DEL CENTRO DE SERVICIO</strong>
+          <span class="float-right"><strong>Creado desde:</strong> {{center.created|date:'dd MMMM yyyy'}} </span>
+        </p>
+
+        <div class="row" *ngIf="center">
+          <dt class="col-sm-3">
+            ID CUENTA
+          </dt>
+          <dd class="col-sm-9">
+            {{center.account}}
+          </dd>
+
+          <dt class="col-sm-3">
+            ID CENTRO SERVICIO
+          </dt>
+          <dd class="col-sm-9">
+            {{center._id}}
+          </dd>
+
+          <dt class="col-sm-3">
+            CODIGO CUENTA
+          </dt>
+          <dd class="col-sm-9">
+            <span *ngIf="account && account.code">{{account.code}}</span>
+            <span class="badge badge-secondary" *ngIf="!(account && account.code)">Informacion no disponible</span>
+          </dd>
+
+          <dt class="col-sm-3">
+            CODIGO CENTRO
+          </dt>
+          <dd class="col-sm-9">
+            {{center.code}}
+          </dd>
+
+          <dt class="col-sm-3">
+            API KEY
+          </dt>
+          <dd class="col-sm-9">
+            <button class="btn btn-sm btn-outline-secondary" (click)="verApiKey=!verApiKey"> {{!verApiKey?'VER API KEY':'OCULTAR API KEY'}} </button>
+            <span *ngIf="verApiKey">
+              {{center.apiKey? center.apiKey: 'NO DISPONIBLE'}}
+            </span>
+          </dd>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>

@@ -1,0 +1,872 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card no-border bg-transparent">
+        <div class="card-body">
+          <h5 class="card-title">
+            <strong>{{account.name}}</strong>
+          </h5>
+          <p class="card-text">
+            <span>{{account.email}}</span> <br>
+            <span>NIT. {{account.nit}}</span> <br>
+            <span>{{account.address}}</span> <br>
+            <span>{{account.city}} - {{account.country}}</span> <br>
+            <span class="badge badge-info">{{account.code}}</span> <span class="badge badge-info">{{account.av}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+
+  <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+  <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button> -->
+  <div class="collapse navbar-collapse my-2" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item cursor-pointer">
+        <a [ngClass]="{'nav-link': true, 'active-personalizado':menu.activo==='centros'}" (click)="menu.activo='centros'" >
+          <i class="fas fa-warehouse"></i>
+          Centros Servicio
+        </a>
+      </li>
+      <li class="nav-item cursor-pointer">
+        <a [ngClass]="{'nav-link': true, 'active-personalizado':menu.activo==='usuarios'}" (click)="menu.activo='usuarios'">
+          <i class="fas fa-users"></i>
+          Usuarios
+        </a>
+      </li>
+      <li class="nav-item cursor-pointer">
+        <a [ngClass]="{'nav-link': true, 'active-personalizado':menu.activo==='cuenta'}" (click)="menu.activo='cuenta'">
+          <i class="fas fa-building"></i> Datos Cuenta
+        </a>
+      </li>
+      <li class="nav-item cursor-pointer">
+        <a [ngClass]="{'nav-link': true, 'active-personalizado':menu.activo==='logo'}" (click)="menu.activo='logo'">
+          <i class="far fa-images"></i> Logos
+        </a>
+      </li>
+      <li class="nav-item cursor-pointer">
+        <a [ngClass]="{'nav-link': true, 'active-personalizado':menu.activo==='facturacion'}" (click)="menu.activo='facturacion'">
+          <i class="fas fa-file-invoice"></i> Facturacion
+        </a>
+      </li>
+      <li class="nav-item cursor-pointer">
+        <a [ngClass]="{'nav-link': true, 'active-personalizado':menu.activo==='contactos'}" (click)="menu.activo='contactos'">
+          <i class="fas fa-users"></i>
+          Contactos
+        </a>
+      </li>
+      <li class="nav-item cursor-pointer">
+        <a [ngClass]="{'nav-link': true, 'active-personalizado':menu.activo==='whatsapp'}" (click)="menu.activo='whatsapp'">
+          <i class="fab fa-whatsapp"></i>
+          Whatsapp
+        </a>
+      </li>
+      <li class="nav-item cursor-pointer">
+        <a [ngClass]="{'nav-link': true, 'active-personalizado':menu.activo==='recogida'}" (click)="menu.activo='recogida'">
+          <i class="fas fa-car"></i>
+          Recogida
+        </a>
+      </li>
+      <li class="nav-item cursor-pointer">
+        <a [ngClass]="{'nav-link': true, 'active-personalizado':menu.activo==='generales'}" (click)="menu.activo='generales'">
+          <i class="fas fa-cogs"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  </div>
+</nav>
+
+<div class="container">
+  <!-- Información básica -->
+  <div *ngIf="menu.activo==='cuenta'" class="card bg-light">
+    <div class="card-body">
+      <h5 class="card-title">
+        Datos de la cuenta
+        <span class="float-right">
+          <button class="btn btn-sm btn-outline-secondary" (click)="seeEditAccount = !seeEditAccount" *ngIf="!seeEditAccount" > <i class="fas fa-edit"></i> </button>
+          
+        </span>
+      </h5>
+      
+      <div class="row" >
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">Nombre de la cuenta</label>
+            <input type="text" class="form-control form-control-sm" [disabled]="!seeEditAccount" [(ngModel)]="account.name">
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">Código</label>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="account.code" disabled>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">Abreviatura</label>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="account.av" [disabled]="!seeEditAccount">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">Email</label>
+            <input type="email" class="form-control form-control-sm" [disabled]="!seeEditAccount" [(ngModel)]="account.email" >
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">NIT - Cédula</label>
+            <input type="text" class="form-control form-control-sm" [disabled]="!seeEditAccount" [(ngModel)]="account.nit" >
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">Teléfono</label>
+            <input type="text" class="form-control form-control-sm" [disabled]="!seeEditAccount" [(ngModel)]="account.telephone" >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">Dirección</label>
+            <input type="text" class="form-control form-control-sm" [disabled]="!seeEditAccount" [(ngModel)]="account.address">
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">Ciudad</label>
+            <input type="text" class="form-control form-control-sm" [disabled]="!seeEditAccount" [(ngModel)]="account.city">
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">País</label>
+            <select (change)="changeCountry()" [disabled]="!seeEditAccount" [(ngModel)]="account.country" class="form-control-sm form-control">
+              <option [value]="i.nombre" *ngFor="let i of countrys">{{i.nombre}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-sm btn-outline-secondary" (click)="seeEditAccount = !seeEditAccount" *ngIf="seeEditAccount" >Cancelar</button>
+          <button class="btn btn-sm btn-primary" (click)="editAccount(account)" *ngIf="seeEditAccount" >Guardar Datos</button>
+        </div>
+      </div>
+      <p class="card-text text-help text-justify text-small">
+        Por favor actualice estos datos, siempre que entre en contacto con personal de la empresa cliente.
+      </p>
+    </div>
+  </div>
+  <!-- Fin información básica -->
+
+  <!-- Logo de centro de servicio -->
+  <div *ngIf="menu.activo==='logo'" class="card bg-light">
+    <div class="card-body">
+      <h5 class="card-title">
+        Logos de la cuenta
+      </h5>
+
+      <p class="card-title">
+        Puede personalizar el logo que aparecerá en los que envíe al cliente, procure utilizar imagenes entre los 200x200 pixeles.
+      </p>
+      <div class="row">
+        <div class="col-lg-6 text-center">
+          <img class="main_logo" [src]="imgPreview" alt="">
+        </div>
+        <div class="col-lg-6">
+          <p>
+            <small>Nombre de la imagen:</small><br> <strong>{{dataImg.name}}</strong> <br>
+            <small>Tipo:</small><br> <strong>{{dataImg.type}}</strong> <br>
+            <small>Tamaño:</small><br> <strong>{{dataImg.size / 1000}} KB</strong> <br>
+          </p>
+          <span class="btn btn-sm btn-outline-primary btn-file">
+            <i class="fas fa-camera"></i> <input ng2FileSelect [uploader]="uploader" (change)="onFileSelect($event)"  type="file">
+            Elegir Imagen
+          </span>
+          <button class="btn btn-primary btn-sm" (click)="uploadFiles()"> 
+            <i class="fas fa-upload"></i>
+            Cargar Imagen
+          </button>
+        </div>
+      </div>
+      <hr class="my-4">
+      <p class="card-title">
+        Esta imagen será visible en: <br>
+        - Barra de navegación del centro de servicio <br>
+        - Reporte de inspección digital <br>
+        - Encabezado del email
+      </p>
+      <div class="row mb-3">
+        <div class="col-lg-6 text-center">
+          <img class="main_logo" [src]="account.logoNavBar? account.logoNavBar : '../../../../assets/img/default/default.png'" alt="logo navbar">
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label for="">URL de la imagen</label>
+            <input [(ngModel)]="account.logoNavBar" type="text" class="form-control" placeholder="Pegue la url de la imagen">
+          </div>
+          <button class="btn btn-primary" (click)="editAccount(account)">
+            Guardar cambios
+          </button>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+  <!-- Fin Logo de centro de servicio -->
+
+  <!-- Facturación -->
+  <div *ngIf="menu.activo==='facturacion'" class="card bg-light">
+    <div class="card-body">
+      <h5 class="card-title" >
+        Facturación
+        <span class="float-right">
+          
+          <button class="btn btn-sm btn-outline-secondary" (click)="seeEditPlan=!seeEditPlan" > <i class="fas fa-edit"></i> </button>
+
+        </span>
+      </h5>
+      <p *ngIf="!seeEditPlan" >Para cambiar el plan por favor seleccione uno de la lista desplegable y luego guarde los cambios</p>
+      <div class="row" *ngIf="!seeEditPlan">
+        <div class="col-lg-8 col-sm-12">
+          <div class="form-group">
+            <select name="" id="" class="form-control-sm form-control" [(ngModel)]="planSelect" >
+              <option value="">Seleccione un Plan</option>
+              <option value="{{i._id}}" *ngFor="let i of plans">{{i.plan}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+          <button class="btn-primary btn btn-sm" (click)="editPlan()">
+            <i class="fas fa-save"></i> Actualizar Plan
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-sm-12">
+          <h5 class="">
+              <strong>{{plan.plan}}</strong> <span></span>
+          </h5>
+          <p class="text-muted">{{plan.description}}</p>
+        </div>
+        <div class="col-lg-12 col-sm-12 table-responsive">
+          <table class="table table-sm table-striped table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th>Valor Mes</th>
+                <th>Frecuencia de Pago</th>
+                <th>Descuento</th>
+                <th>Valor a Pagar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td> {{plan.value|currency:'$ ':'symbol' : '1.0'}} </td>
+                <td> {{plan.frequency/30}} Mes(es) </td>
+                <td> {{plan.off/100|percent}} </td>
+                <td> {{plan.total|currency:'$ '}} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fin de Facturación -->
+
+  <!-- Conctactos -->
+  <div *ngIf="menu.activo==='contactos'" class="card bg-light" >
+    <div class="card-body">
+      <h5 class="card-title" >
+        Contactos
+      </h5>
+      
+      <div class="row">
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">Nombres</label>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="contact.name">
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">Cargo</label>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="contact.position">
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">Email</label>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="contact.email">
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">Teléfono</label>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="contact.telephone">
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label for="">Agregar contacto</label> <br>
+            <button class="btn btn-primary btn-sm" (click)="addContact()" >Agregar contacto</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped table-sm table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th>Nombre</th>
+              <th>cargo</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of account?.contacts; let j = index">
+              <td>{{i.name}}</td>
+              <td>{{i.position}}</td>
+              <td>{{i.email}}</td>
+              <td>{{i.telephone}}</td>
+              <td>
+                <!-- <button class="btn btn-danger btn-sm" (click)="deletContact(i)" placement="top" ngbTooltip="Borrar Contacto">
+                    <i class="fas fa-trash-alt"></i>
+                </button> -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Fin Contactos -->
+
+  <!-- Centros de servicio -->
+  <div *ngIf="menu.activo==='centros'" class="card bg-light mb-5">
+    <div class="card-body">
+      <h5 class="card-title">
+        Centros de Servicio
+        <span class="float-right">
+          <button 
+            type="button" 
+            class="btn btn-sm btn-outline-dark " 
+            (click)="limpiarCentro(); eventoCentro='GUARDAR'; openModal(modalCentrosServicio)"> 
+            Nuevo centro de servicio
+          </button>
+        </span>
+      </h5>
+
+      <br>
+
+      <div class="table-responsive">
+        <table class="table table-sm text-small">
+          <thead class="thead-dark">
+            <tr>
+              <th>Nombre</th>
+              <th>Codigo</th>
+              <th>Zona</th>
+              
+              <th>Dirección</th>
+              <th>Ciudad</th>
+              <th>Telefono</th>
+              <th>Creado</th>
+              <th>Estatus</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of centers">
+              <td class="text-uppercase">
+                {{i.name}}
+              </td>
+              <td> {{i.code}} </td>
+              <td> {{i.zone}}</td>
+              
+              <td> {{ i.direccion.direccion }} </td>
+              <td class="text-wrap"> {{ i.direccion.ciudad }} - {{ i.direccion.pais}}</td>
+              <td>{{ i.telefono.indicativo }} {{i.telefono.numero}}</td>
+              <td> {{i.created | date:'dd-MM-yyyy'}} </td>
+              <td>
+                <span *ngIf="i.active" class="badge badge-success">ACTIVO</span>
+                <span *ngIf="!i.active" class="badge badge-danger">INACTIVO</span>
+              </td>
+              <td>
+                <button (click)="eventoCentro='ACTUALIZAR'; seleccionarCentro(i); openModal(modalCentrosServicio)" class="btn btn-sm btn-primary">
+                  Detalles
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ngb-pagination [maxSize]="6" [collectionSize]="count?.total" [(page)]="page" [pageSize]="limitSelect" [maxSize]="10" (pageChange)="getDataPage()" aria-label="Default pagination"></ngb-pagination>
+    </div>
+  </div>
+  <!-- Fin Centro de servicio -->
+
+  <!-- Usuarios -->
+  <div *ngIf="menu.activo==='usuarios'" class="bg-light">
+
+      <h5 class="card-title">
+        Usuarios
+        
+        <span class="float-right">
+          <button type="button" class="btn btn-sm btn-outline-dark " (click)="openModal(newUserModal)"> 
+            <i class="fas fa-plus"></i> <i class="fas fa-user"></i> 
+          </button>
+        </span>
+      </h5>
+
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Email</th>
+              <th>Rol</th>
+              <th>Estatus</th>
+              <th>
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of users">
+              <td>
+                  {{i.name}}
+              </td>
+              <td>
+                {{i.last_name}}
+              </td>
+              <td>
+                  {{i.email}}
+              </td>
+              <td>
+                  <span *ngIf="i.role=='account_customer'">Administrador Cuenta</span>
+                  <span *ngIf="i.role=='workshop_customer'">Taller de Servicio</span>
+              </td>
+    
+              <td> 
+                  <i [ngClass]="{'fas':true, 'fa-power-off':true, 'text-success':i.active, 'text-danger':!i.active}"></i>
+                  <span *ngIf="i.active"> Activo</span>
+                  <span *ngIf="!i.active"> Inactivo</span>
+                </td>
+              <td>
+                <button class="btn-primary btn btn-sm" (click)="openEditModal(editUserModal, i)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-info btn btn-sm" ngbTooltip="Centros de Servicio" (click)="open(contentModal, i)" >
+                  <i class="fas fa-home"></i>
+                </button>
+                <button class="btn btn-sm btn-success" (click)="updateUser(i)">
+                  <i class="fas fa-save"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+  </div>
+
+
+  <!-- Whatsapp configuraciones -->
+  <div *ngIf="menu.activo==='whatsapp'" class="card bg-light">
+    <div class="card-body">
+      <h5 class="card-title">
+        Whatsapp
+        
+        <span class="float-right">
+
+        </span>
+      </h5>
+      <app-whatsapp-config [id]="account._id" [whatsapp]="account.whatsapp"></app-whatsapp-config>
+    </div>
+  </div>
+
+  <div *ngIf="menu.activo==='generales'" class="card bg-light">
+    <div class="card-body">
+      <h5 class="card-title">
+        Generales
+      </h5>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                Video
+              </h5>
+
+              <div class="custom-control custom-switch mt-2">
+                <input [(ngModel)]="account.generales.video.activo" type="checkbox" class="custom-control-input" id="customSwitch1">
+                <label class="custom-control-label" for="customSwitch1">
+                  Si esta activo podrá tomar vídeo desde la aplicación, 
+                  lo contrario solo la opción de fotografía esta disponible
+                </label>
+              </div>
+
+              <div class="form-group row pt-3">
+                <label for="staticEmail" class="col-sm-6 col-form-label">
+                  <strong>Duracion (Segundos)</strong>
+                </label>
+                <div class="col-sm-6">
+                  <input 
+                    [(ngModel)]="account.generales.video.duracion" 
+                    type="number" 
+                    class="form-control"
+                    (change)="validarDuracionVideo()"
+                    max="60" 
+                    min="20">
+                </div>
+              </div>
+
+              
+    
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 mt-3">
+          <button (click)="editAccount(account)" class="btn btn-primary"> Guardar cambios </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- Modal presenta Centros de Servicio asignado a un usuario -->
+<ng-template #contentModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-capitalize" id="modal-basic-title">Editar usuario</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>
+      <strong>Centros de Servicio</strong>
+    </p>
+    <hr>
+    <div class="row">
+      <div class="col-sm-3" *ngFor="let i of centers">
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" [(ngModel)]="i.select">
+          <label class="form-check-label" for="exampleCheck1"> <span>[{{i.code}}]</span> <small>{{i.name}}</small></label>
+        </div>
+      </div>
+    </div>
+    <p>Los centros marcados son a los que este usuario tiene permiso de acceder y generar registros, siempre y cuando el Rol del usuario sea el de Centro de Servicio</p>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-outline-secondary" (click)="c('Save click')">Cancelar</button>
+    <button type="button" class="btn btn-sm btn-primary" (click)="c('Save click'); saveCenters(userSelect)">Guardar Cambios</button>
+  </div>
+</ng-template>
+
+
+<!-- Modal para crear nuevos usuarios -->
+<ng-template #newUserModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title text-capitalize" id="modal-basic-title">
+        <i class="fas fa-user"></i> Crear Usuario
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6 col-sm-12 text-capitalize">
+            <div class="form-group">
+              <label for="">Nombre</label>
+              <input placeholder="Nombre" type="text" class="form-control-sm form-control" [(ngModel)]="user.name">
+            </div>
+          </div>
+          <div class="col-lg-6 col-sm-12 text-capitalize">
+            <div class="form-group">
+              <label for="">Apellido</label>
+              <input placeholder="Apellido" type="text" class="form-control-sm form-control" [(ngModel)]="user.last_name" >
+            </div>
+          </div>
+          
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label for="">Email</label>
+              <input placeholder="Email" type="email" class="form-control form-control-sm" [(ngModel)]="user.email">
+            </div>
+          </div>
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label for="">Tipo Usuario</label>
+              <select  name="" id="" class="form-control form-control-sm" [(ngModel)]="typeUser">
+                <option value="account_customer">Administrador Cuenta</option>
+                <option value="workshop_customer">Taller de Servicio</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label for="">Password</label>
+              <input placeholder="Contraseña" type="password" class="form-control form-control-sm" [(ngModel)]="user.password" >
+            </div>
+          </div>
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label for="">Repeat Password</label>
+              <input placeholder="Repita contraseña" type="password" class="form-control form-control-sm" [(ngModel)]="user.repeat_password" >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="user?.accesos.tableroControl" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Acceso al tablero de control
+              </label>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="user?.accesos.reporteActividades" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Descargar Reporte de actividades
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row" >
+          <div class="col-sm-12">
+            <p><strong>Este usuario podrá acceder a:</strong></p>
+          </div>
+          <div class="col-sm-3" *ngFor="let i of centers">
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" [(ngModel)]="i.select">
+              <label class="form-check-label" for="exampleCheck1">{{i.name}}</label>
+            </div>
+          </div>
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-outline-secondary" (click)="c('Save click')">Cancelar</button>
+      <button type="button" class="btn btn-sm btn-primary" (click)="saveUser(); c('Save click') ">Guardar Usuario</button>
+    </div>
+</ng-template>
+
+
+<!-- Modal para editar usuarios -->
+<ng-template #editUserModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title text-capitalize" id="modal-basic-title">
+        <i class="fas fa-user"></i> Editar Usuario
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6 col-sm-12 text-capitalize">
+            <div class="form-group">
+              <label for="">Nombre</label>
+              <input placeholder="Nombre" type="text" class="form-control-sm form-control" [(ngModel)]="userSelect.name">
+            </div>
+          </div>
+          <div class="col-lg-6 col-sm-12 text-capitalize">
+            <div class="form-group">
+              <label for="">Apellido</label>
+              <input placeholder="Apellido" type="text" class="form-control-sm form-control" [(ngModel)]="userSelect.last_name" >
+            </div>
+          </div>
+          
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label for="">Email</label>
+              <input placeholder="Email" type="email" class="form-control form-control-sm" [(ngModel)]="userSelect.email">
+            </div>
+          </div>
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label for="">Tipo Usuario</label>
+              <select  name="" id="" class="form-control form-control-sm" [(ngModel)]="userSelect.role">
+                <option value="account_customer">Administrador Cuenta</option>
+                <option value="workshop_customer">Taller de Servicio</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label for="">Password</label>
+              <input placeholder="Contraseña" type="password" class="form-control form-control-sm" [(ngModel)]="userSelect.newPassword" >
+            </div>
+          </div>
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label for="">Repeat Password</label>
+              <input placeholder="Repita contraseña" type="password" class="form-control form-control-sm" [(ngModel)]="userSelect.confirmPassword" >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-check" *ngIf="userSelect.accesos">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="userSelect?.accesos.tableroControl" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Acceso al tablero de control.
+              </label>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="userSelect?.accesos.reporteActividades" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Descargar Reporte de actividades.
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <label for="">Estatus del usuario</label> <br>
+            <div class="btn-group">
+              <button [ngClass]="{'btn-outline-primary btn btn-sm':true, 'active':userSelect.active}" (click)="userSelect.active=true; updateUser(userSelect)">Activo</button>
+              <button [ngClass]="{'btn-outline-primary btn btn-sm':true, 'active':!userSelect.active}" (click)="userSelect.active=false; updateUser(userSelect)">Inactivo</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-outline-secondary" (click)="c('Save click')">Cancelar</button>
+      <button type="button" class="btn btn-sm btn-primary" (click)="updateUser(userSelect)">Guardar Cambios</button>
+    </div>
+</ng-template>
+
+<ng-template #modalCentrosServicio let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      <i class="fa fa-building" aria-hidden="true"></i> Centro de servicio
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-4 col-sm-12">
+        <div class="form-group">
+          <label for="">Nombre</label>
+          <input 
+            placeholder="Nombre del centro" 
+            type="text" 
+            class="form-control-sm form-control" 
+            [(ngModel)]="centroSeleccionado.name" >
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-12">
+        <div class="form-group">
+          <label for="">Codigo</label>
+          <input 
+            type="text" 
+            class="form-control-sm form-control" 
+            [(ngModel)]="centroSeleccionado.code" disabled>
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-12">
+        <div class="form-group">
+          <label for="">Zona</label>
+          <select class="form-control-sm form-control" [(ngModel)]="centroSeleccionado.zone">
+            <option value="">Elija Zona</option>
+            <option value="Z1">Zona 1</option>
+            <option value="Z2">Zona 2</option>
+            <option value="Z3">Zona 3</option>
+            <option value="Z4">Zona 4</option>
+            <option value="Z5">Zona 5</option>
+            <option value="Z6">Zona 6</option>
+            <option value="Z7">Zona 7</option>
+            <option value="Z8">Zona 8</option>
+            <option value="Z9">Zona 9</option>
+            <option value="Z0">Zona 10</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="centroSeleccionado && centroSeleccionado.direccion">
+      <div class="col-md-12">
+        <p class="text-muted font-weight-bold">Dirección</p>
+      </div>
+      <div class="col-md-3">
+        <label for="">Dirección</label>
+        <input placeholder="Requerido" [(ngModel)]="centroSeleccionado.direccion.direccion" type="text" class="form-control form-control-sm">
+      </div>
+      <div class="col-md-3">
+        <label for="">Ciudad</label>
+        <input placeholder="Requerido" [(ngModel)]="centroSeleccionado.direccion.ciudad" type="text" class="form-control form-control-sm">
+      </div>
+      <div class="col-md-3">
+        <label for="">Departamento</label>
+        <input placeholder="Requerido" [(ngModel)]="centroSeleccionado.direccion.departamento" type="text" class="form-control form-control-sm">
+      </div>
+      <div class="col-md-3">
+        <label for="">Pais</label>
+        <input placeholder="Requerido" [(ngModel)]="centroSeleccionado.direccion.pais" type="text" class="form-control form-control-sm">
+      </div>
+    </div>
+    <div class="row" *ngIf="centroSeleccionado">
+      <div class="col-md-12 mt-3">
+        <p class="text-muted font-weight-bold">Telefono</p>
+      </div>
+      <div class="col-md-3">
+        <label for="">Indicativo</label>
+        <input placeholder="Requerido" [(ngModel)]="centroSeleccionado.telefono.indicativo" type="text" class="form-control form-control-sm">
+      </div>
+      <div class="col-md-3">
+        <label for="">Numero</label>
+        <input placeholder="Requerido" [(ngModel)]="centroSeleccionado.telefono.numero" type="text" class="form-control form-control-sm">
+      </div>
+    </div>
+    <div class="row" *ngIf="centroSeleccionado">
+      <div class="col-md-12">
+        <p class="text-muted font-weight-bold">Notas</p>
+      </div>
+      <div class="col-md-12">
+        <label for="">Utilice este campo para colocar informacion al final de la orden de trabajo</label>
+        <textarea [(ngModel)]="centroSeleccionado.notas" placeholder="Escriba aqui..." class="form-control" name="" id="" cols="30" rows="3"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="c('Save click')">Cancelar</button>
+    <button *ngIf="eventoCentro==='GUARDAR'" class="btn btn-primary btn-sm" (click)="createCenter(); c('Save click')">Guardar</button>
+    <button *ngIf="eventoCentro==='ACTUALIZAR'" class="btn btn-primary btn-sm" (click)="editCenter(centroSeleccionado); c('Save click')">Actualizar</button>
+  </div>
+</ng-template>

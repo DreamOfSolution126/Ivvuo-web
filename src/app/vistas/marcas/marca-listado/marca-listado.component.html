@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="card bg-light no-border">
+      <div class="card-body">
+        <h5 class="card-title">
+          Marcas
+        </h5>
+        <button (click)="abrirModalCrearMarca(crearMarcaModal)" class="btn btn-primary btn-sm">Crear</button>
+      </div>
+    </div>
+    <br>
+</div>
+
+<div class="container">
+    <app-listado-marca [marcas]="marcas"></app-listado-marca>
+</div>
+
+<ng-template #crearMarcaModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title text-primary">
+        <i class="far fa-copyright"></i> Crear Marca
+      </h4>
+      <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-formulario-marca
+        (actualizarListado)="manejoEventoActualizar()"
+        (cerrar)="c('Close click')"
+      ></app-formulario-marca>
+    </div>
+</ng-template>

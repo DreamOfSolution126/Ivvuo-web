@@ -1,0 +1,78 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">
+      Centros de Servicio
+    </h5>
+  </div>
+</div>
+<br>
+<table class="table table-sm text-small table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>Código</th>
+      <th>Nombre</th>
+      <th>Zona</th>
+      <th>Ciudad</th>
+      <th>Dirección</th>
+      <th>Creado</th>
+      <th>Configuraciones</th>
+      <th>Estado</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let i of centers">
+      <td> {{i.code}} </td>
+      <td> {{i.name}} </td>
+      <td> {{i.zone}} </td>
+      <td> {{i.city}} </td>
+      <td> {{i.address }} </td>
+      <td> {{i.created | date:'dd-MM-yyyy'}} </td>
+      <td>
+        <div class="btn-group" *ngIf="i.configuraciones">
+          <button 
+            *ngIf="i.configuraciones"
+            ngbPopover="Zona de Clientes"
+            triggers="mouseenter:mouseleave"
+            [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':i.configuraciones.verOrdenesPorCliente}">
+            <i class="far fa-user"></i>
+          </button>
+          <button 
+            ngbPopover="Encuesta al final de aprobacion"
+            triggers="mouseenter:mouseleave"
+            [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':i.configuraciones.encuestaAlFinalizarAprobacion}">
+            <i class="fas fa-poll-h"></i>
+          </button>
+          <button 
+            ngbPopover="Envio de SMS"
+            triggers="mouseenter:mouseleave"
+            [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':i.configuraciones.enviarSMS}">
+            <i class="fas fa-comment"></i>
+          </button>
+          <button 
+            ngbPopover="Mensajeria Whatsapp"
+            triggers="mouseenter:mouseleave"
+            [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':i.configuraciones.enviarWhatsApp}">
+            <i class="fab fa-whatsapp"></i>
+          </button>
+          <button 
+            ngbPopover="Servicio de recogida"
+            triggers="mouseenter:mouseleave"
+            [ngClass]="{'btn btn-outline-primary btn-sm':true, 'active':i.configuraciones.servicioRecogida}">
+            <i class="fas fa-car"></i>
+          </button>
+        </div>
+      </td>
+      <td>
+        <span *ngIf="i.active" class="badge badge-success"> Activo</span>
+        <span *ngIf="!i.active" class="badge badge-secondary"> Cerrado</span>
+      </td>
+      <td>
+        <button (click)="info(i)" class="btn btn-outline-primary btn-sm">
+          Detalles
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+

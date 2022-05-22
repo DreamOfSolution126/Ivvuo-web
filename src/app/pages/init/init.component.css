@@ -1,0 +1,5 @@
+.background-img {
+    background-image: url('../../../assets/img/bg/bg-principal.jpg');
+    background-size: cover;
+    background-position: top;
+}

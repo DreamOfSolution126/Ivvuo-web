@@ -1,0 +1,120 @@
+
+<div class="container">
+
+  <div class="row">
+    <div class="col">
+      <h5>
+        <span class="text-capitalize">{{user.name+' '+user.last_name}}</span> <br>
+        <small class="text-uppercase">{{user.role}}</small>
+      </h5>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="container">
+
+  <div class="row bg-light">
+
+    <div class="col-lg-12">
+      <br>
+    </div>
+  
+    <div class="col-lg-12">
+      <div class="card-deck">
+  
+        <div class="card">
+          <div class="card-body text-center">
+            <h5 class="card-title text-info">
+              <i class="far fa-copyright fa-5x"></i>
+            </h5>
+            <p class="card-text">
+              Marcas
+            </p>
+            <a href="" routerLink="../marca-administrador" class="btn btn-block btn-outline-primary btn-sm">
+              Ir a marcas
+            </a>
+          </div>
+        </div>
+  
+        <div class="card">
+          <div class="card-body text-center">
+            <h5 class="card-title text-info">
+              <i class="fas fa-building fa-5x"></i>
+            </h5>
+            <p class="card-text">
+              Cuentas
+            </p>
+            <a href="" routerLink="../accountConfi" class="btn btn-block btn-outline-primary btn-sm">
+              ir a cuentas
+            </a>
+          </div>
+        </div>
+  
+        <div class="card">
+          <div class="card-body text-center">
+            <h5 class="card-title text-info">
+              <i class="fas fa-home fa-5x"></i>
+            </h5>
+            <p class="card-text">
+              Centros de Servicio
+            </p>
+            <a href="" routerLink="../centersConfi" class="btn btn-block btn-outline-primary btn-sm">
+              ir a Centros de servicio
+            </a>
+          </div>
+        </div>
+  
+        <div class="card">
+          <div class="card-body text-center">
+            <h5 class="card-title text-info">
+                <i class="fas fa-money-bill fa-5x"></i>
+            </h5>
+            <p class="card-text">
+              Planes
+            </p>
+            <a href="" routerLink="../plansConfi" class="btn btn-block btn-outline-primary btn-sm">
+              ir a Planes
+            </a>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+    <div class="col-md-3 mt-3">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title">
+            {{cuentas}}
+          </h1>
+          <p class="card-text">Cuentas</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mt-3">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title">
+            {{centros}}
+          </h1>
+          <p class="card-text">Centros</p>
+        </div>
+      </div>
+    </div> 
+  
+    <div class="col-md-3 mt-3">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title">
+            {{usuarios}}
+          </h1>
+          <p class="card-text">Usuarios</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <br>
+    </div>
+  </div>
+</div>

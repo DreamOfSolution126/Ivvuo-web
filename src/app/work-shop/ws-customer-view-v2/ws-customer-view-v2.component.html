@@ -1,0 +1,551 @@
+
+<!-- Vista Cliente -->
+<div *ngIf="order" class="container bg-light">
+  <div class="row">
+    <div class="mt-3 col-lg-12 ">
+      <div class="cardd bg-white no-border border-rounded">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-3 text-center centrar">
+              <br class="hidden-sm-down">
+              <h1>
+              <!-- <i class="fas fa-toolbox"></i> WorkShop -->
+              <img *ngIf="order.logo && order.logo.url" class="main_logo" [src]="order.logo.url" alt="Logo">
+              </h1>
+            </div>
+            <div class="col-lg-3 text-left hidden-sm-down">
+              <br> <br>
+              <p>
+                <strong class="text-uppercase">{{order.center}}</strong> <br>
+                NIT. {{order.nit_account}} <br>
+                <i class="fas fa-mobile-alt"></i> {{order.informacionCentro?.telefono || order.telephone_account}} <br>
+                <i class="fas fa-map-marker-alt"></i> {{order.informacionCentro?.direccion || order.address_account}} <br>
+                {{order.informacionCentro?.ciudad}}
+              </p>
+            </div>
+
+            <div class="col-lg-6">
+              <br class="hidden-sm-down"> <br class="hidden-sm-down"> 
+              <span class="badge"> {{order.date_send|date:'dd-MM-yyyy'}} </span>
+              <h4 class="text-left">
+                <span class="text-muted">Estimado</span> <br> 
+                <span class="text-capitalize" *ngIf="order.name || order.last_name">{{order.name+' '+order.last_name}},</span>
+                <span class="text-capitalize" *ngIf="!(order.name || order.last_name)">Cliente,</span>
+                <br> 
+                <span class="text-muted">este es tu reporte de inspección 
+                  <br> <span *ngIf="order.plate">del vehículo de placa {{order.plate}}</span>
+                </span>
+              </h4>
+              <br>
+            </div>
+
+          </div>
+          <br *ngIf="seeInformation">
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12  text-center">
+      <div class="card no-border border-rounded">
+        <div class="card-body pl-3 pr-3 d-flex justify-content-between">
+          <div class="p-3" *ngFor="let i of priority">
+            <h3 class="text-secondary">{{i.items}}</h3>
+            <i *ngIf="i.priority =='URGENTE'" class="text-danger fas fa-times-circle fa-2x"></i>
+            <i *ngIf="i.priority =='PRONTO'" class="text-warning fas fa-exclamation-circle fa-2x"></i>
+            <i *ngIf="i.priority =='OK'" class="text-success fas fa-check-circle fa-2x"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 hidden-sm-down">
+      <div class="card no-border border-rounded">
+        <div class="card-body text-right">
+          <h5 class="card-title d-flex justify-content-between">
+            Cotización
+            <span>
+              {{order.total|currency:'$':'symbol':'1.0'}}
+            </span>
+          </h5>
+          <div class="d-flex justify-content-between">
+            <a class="btn btn-info" target="_blank" *ngIf="order.factura?.url" href="{{order.factura.url}}">
+              <i class="fas fa-file-pdf"></i> Factura
+            </a>
+            
+            <button class="btn btn-primary" (click)="openQuotationModal(quotationModal)">
+              <i class="fas fa-dollar-sign"></i> Ver cotización
+            </button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row" *ngIf="order.notes && order.notes.length>0">
+    <div class="col">
+      <div class="card no-border border-rounded">
+        <div class="card-body">
+          <h5 class="card-title">
+            Solicitudes
+            <span class="float-right">
+              <a class="cursor-pointer" (click)="seeRequires=!seeRequires">
+                <span *ngIf="!seeRequires">
+                  <i class="fas fa-plus-square"></i>
+                </span>
+                <span *ngIf="seeRequires">
+                  <i class="fas fa-minus-square"></i>
+                </span>
+              </a>
+            </span>
+          </h5>
+          <div class="row" *ngIf="seeRequires">
+            <div class="col">
+              <p *ngFor="let i of order.notes">
+                {{i.text}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <div *ngIf="order && order.modoPresentacion && order.modoPresentacion?.prioridad" class="list-group border-rounded">
+    <li *ngFor="let i of priority" class="list-group-item ">
+      <h5 [ngClass]="{
+        'py-2 rounded-pill text-light card-title cursor-pointer d-flex justify-content-between align-items-center':true,
+        'bg-danger':i.priority == 'URGENTE',
+        'bg-warning':i.priority == 'PRONTO',
+        'bg-success':i.priority == 'OK'
+      }" (click)="i.seeProcessCustomer=!i.seeProcessCustomer">
+        <span class="ml-3">
+          <i *ngIf="i.priority =='URGENTE'" class="text-light fas fa-times-circle"></i>
+          <i *ngIf="i.priority =='PRONTO'" class="text-light fas fa-exclamation-circle"></i>
+          <i *ngIf="i.priority =='OK'" class="text-light fas fa-check-circle"></i>
+          {{i.priority}}
+        </span>
+          <span class="float-right mr-3">
+            <a class="cursor-pointer text-light">
+              <span *ngIf="!i.seeProcessCustomer">
+                <small>ver</small> <i class="fas fa-angle-right"></i>
+              </span>
+              <span *ngIf="i.seeProcessCustomer">
+                <small>ocultar</small> <i class="fas fa-angle-down"></i>
+              </span>
+            </a>
+          </span>
+      </h5>
+
+      <div class="row" *ngIf="i.seeProcessCustomer">
+        <div class="col-lg-4 card-body item-hover" *ngFor="let j of i.answers">
+          <p *ngIf="j.item && j.seeCustomer">
+            <strong> {{j.item}}: </strong> 
+            <span [ngClass]="{
+              'badge border': true, 
+              'border-danger':i.priority =='URGENTE',
+              'border-warning':i.priority =='PRONTO',
+              'border-success':i.priority =='OK'
+            }"> 
+              {{j.answer}} 
+            </span> 
+            <br>
+            <span>{{j.details}}</span> <br>
+            <span *ngIf="j.comments && j.comments.length>0">
+              <strong class="text-info">Comentarios</strong>  
+              <span 
+                class="lead" 
+                *ngFor="let k of j.comments; let h=index"> 
+                  {{k.text}} 
+                <span *ngIf="(h < j.comments.length-1)">,</span> </span> 
+            </span>
+          </p>
+          
+          
+          
+          <div class="card-columns  hidden-sm-down" *ngIf="j.seeCustomer">
+            <div class="card text-center" *ngFor="let k of j.attach; let index=index" (click)="openModal(imgReview, k)">
+              <img *ngIf="k.type === 'jpg'" class="card-img" [src]="k.url" alt="Card image">
+              <i *ngIf="k.type === 'mp4'" class="far fa-play-circle fa-2x my-3 text-secondary text-center"></i>
+              <div class="card-img-overlay">
+                
+              </div>
+             
+            </div>
+          </div>
+          
+          <ngb-carousel *ngIf="j.attach && j.attach.length>0" class="hidden-md-up max-height">
+            <ng-template ngbSlide *ngFor="let k of j.attach; let index=index" [id]="index">
+              <img aria-orientation="horizontal" *ngIf="k.type === 'jpg'" [src]="k.url" alt="slide" class="text-center">
+              <div *ngIf="k.type === 'mp4'" class="card text-center">
+                <div class="card-body flex-column">
+                  <i  class="far fa-play-circle fa-4x my-3 text-info"></i> <br>
+                  <button class="btn btn-outline-primary btn-sm my-2" (click)="openModal(imgReview, k)" >
+                    Ver evidencia {{index + 1}}
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-carousel>
+          <br><br>
+        </div>
+      </div>
+    </li>
+  </div>
+  <div *ngIf="order && order.modoPresentacion && order.modoPresentacion.procesos" class="mb-3 list-group border-rounded">
+    <li  *ngFor="let i of order.process" class="list-group-item mt-2">
+      <h5 class="card-title cursor-pointer d-flex justify-content-between align-items-center" (click)="i.seeProcessCustomer=!i.seeProcessCustomer">
+        <span>
+          {{i.name}}
+        </span>
+          <span class="float-right">
+            <a class="cursor-pointer text-secondary">
+              <span *ngIf="!i.seeProcessCustomer">
+                <i class="fas fa-angle-right"></i>
+              </span>
+              <span *ngIf="i.seeProcessCustomer">
+                <i class="fas fa-angle-down"></i>
+              </span>
+            </a>
+          </span>
+      </h5>
+      <p class="card-text text-justify text-secondary" *ngIf="i.seeProcessCustomer">
+        {{i.description}}
+      </p>
+      <div class="row" *ngIf="i.seeProcessCustomer">
+        <div class="col-lg-4 item-hover" *ngFor="let j of i.checkList">
+          <p *ngIf="(j.answer && j.answer.answer) && j.seeCustomer">
+            <span [ngClass]="{
+              'text-success':j.answer.answer=='Ok' || j.answer.answer=='Cumple' || j.answer.style=='text-success',
+              'text-warning':j.answer.answer=='Regular' || j.answer.style=='text-warning',
+              'text-danger':j.answer.answer=='Urgente' || j.answer.answer=='No cumple' || j.answer.style=='text-danger',
+              'text-secondary':j.answer.answer=='N/A'
+            }">
+              <i class="fas fa-check-circle" *ngIf="j.answer.answer=='Ok' || j.answer.style=='text-success'"></i>
+              <i class="fas fa-exclamation-circle" *ngIf="j.answer.answer=='Regular' || j.answer.style=='text-warning'"></i>
+              <i class="fas fa-times-circle" *ngIf="j.answer.answer=='Urgente' || j.answer.style=='text-danger'"></i>
+              <i class="fas fa-ban" *ngIf="j.answer.answer=='N/A'"></i>
+              <i class="fas fa-check" *ngIf="j.answer.answer=='Cumple'"></i>
+              <i class="fas fa-times" *ngIf="j.answer.answer=='No cumple'"></i>
+            </span>
+            <span [ngClass]="{
+              'text-danger':j.answer.value<7,
+              'text-warning':j.answer.value>6 && j.answer.value<9,
+              'text-success':j.answer.value>8
+          }" *ngIf="j.type=='survey'">
+              <i class="far fa-angry" *ngIf="j.answer.value<7"></i>
+              <i class="far fa-meh-blank" *ngIf="j.answer.value>6 && j.answer.value<9"></i>
+              <i class="far fa-smile-beam" *ngIf="j.answer.value>8"></i>
+            </span>
+            <span [ngClass]="{
+              'badge':true,
+              'text-danger':j.answer.value==0,
+              'text-warning':j.answer.value==1,
+              'text-success':j.answer.value==2
+          }" *ngIf="j.type=='revision'">
+              <i class="fas fa-times-circle" *ngIf="j.answer.value==0"></i>
+              <i class="fas fa-exclamation-circle" *ngIf="j.answer.value==1"></i>
+              <i class="fas fa-check-circle" *ngIf="j.answer.value==2"></i>
+            </span>
+            <strong class="text-secondary">{{j.item}}</strong> 
+            <!-- <span *ngIf="j.type=='custom'" class="badge {{j.answer.style}}">:{{j.answer.value}}</span>  -->
+            <span [ngClass]="{
+              'badge border': true, 
+              'border-danger':j.answer.value==0,
+              'border-warning':j.answer.value==1,
+              'border-success':j.answer.value==2
+            }"> 
+              {{j.answer.answer}} 
+            </span> 
+            <br>
+            <small *ngIf="j.details" class="text-muted text-justify ">
+              <strong class="text-info">Detalles: </strong>
+              <em>{{j.details}}</em>
+            </small> <br *ngIf="j.comments && j.comments.length>0">
+            <small *ngIf="j.comments && j.comments.length>0">
+              <strong class="text-info">Comentarios</strong>  
+              <span class="lead" *ngFor="let k of j.comments; let h=index">{{k.text}} <span *ngIf="(h < j.comments.length-1)">,</span> </span> 
+            </small>
+          </p>
+          
+          <div class="card-columns hidden-sm-down" *ngIf="j.seeCustomer">
+            <div class="card text-center" *ngFor="let k of j.attach" (click)="openModal(imgReview, k)">
+              
+              <img *ngIf="k.type === 'jpg'" class="card-img" [src]="k.url" alt="Card image">
+              <i *ngIf="k.type === 'mp4'" class="far fa-play-circle fa-2x my-3 text-secondary"></i>
+              <div class="card-img-overlay">
+                
+              </div>
+            </div>
+          </div>
+          
+          <ngb-carousel *ngIf="j.attach && j.attach.length>0" class="hidden-md-up max-height">
+            <ng-template ngbSlide *ngFor="let k of j.attach; let index=index" [id]="index">
+              <img aria-orientation="horizontal" *ngIf="k.type === 'jpg'" [src]="k.url" alt="slide" class="text-center">
+              <div *ngIf="k.type === 'mp4'" class="card text-center">
+                <div class="card-body flex-column">
+                  <i  class="far fa-play-circle fa-4x my-3 text-info"></i> <br>
+                  <button class="btn btn-outline-primary btn-sm my-2" (click)="openModal(imgReview, k)" >
+                    Ver evidencia {{index + 1}}
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-carousel>
+          <br><br>
+        </div>
+      </div>
+    </li>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col">
+      <p *ngIf="order.notas" class="text-justify text-secondary text-small">
+        {{order.notas}}
+      </p>
+      <p *ngIf="!order?.notas" class="text-justify text-secondary text-small text-muted">
+        Este reporte y cualquier archivo anexo pertenecen y están a sujetos a las políticas de tratamiento de datos de 
+        <span class="text-uppercase">
+          <strong>{{order.account}} {{order.center}}</strong>
+        </span>
+      </p>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+<br>
+<nav *ngIf="order" class="hidden-md-up navbar navbar-expand-lg fixed-bottom navbar-dark bg-info">
+  <div class="btn-group btn-block btn-lg">
+    <button class="btn-outline-light btn" (click)="openQuotationModal(quotationModal)">Ver cotización</button>
+   
+    <a *ngIf="order.factura?.url" target="_blank" href="{{order.factura.url}}" class="btn-outline-light btn">Factura</a>
+  </div>
+</nav>
+
+<ng-template #imgReview let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-camera"></i> Soportes
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <div class="contenedor-multimedia">
+      <img *ngIf="itemSelect.type==='jpg'" class="img-preview" [src]="itemSelect.url" alt="Evidencia">
+      <video controls *ngIf="itemSelect.type==='mp4'" class="img-preview">
+        <source [src]="itemSelect.url" type="video/mp4" class="img-preview">
+      </video>
+    </div>
+    <p class="text-center">
+      <small *ngIf="itemSelect.date">
+        <strong class="text-info">
+          <i class="fas fa-info-circle"></i>
+          <em>Hora de carga certificada:</em>
+        </strong> {{itemSelect.date|date:'dd-MM-yyyy h:mm a'}}
+      </small>
+    </p>
+    <p>{{itemSelect.name}}</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+    <a target="_blank" class="btn btn-primary" href="{{itemSelect.url}}" >Descargar</a>
+  </div>
+</ng-template>
+
+<ngx-snackbar [position]="'bottom-right'" [max]="3"></ngx-snackbar>
+
+<ng-template #quotationModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-info">
+      <i class="fas fa-file-invoice"></i> Cotización
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div *ngIf="order" class="modal-body">
+    <div *ngFor="let i of order.process">
+      <div *ngFor="let j of i.checkList">
+        <div *ngIf="j.total != 0">
+          <p class="d-flex justify-content-between" *ngIf="!j.resQuotation.block">
+            <span class="mr-auto p-2 bd-highlight text-capitalize">
+
+              <span [ngClass]="{
+                'text-success':j.answer.answer=='Ok' || j.answer.answer=='Cumple' || j.answer.style=='text-success',
+                'text-warning':j.answer.answer=='Regular' || j.answer.style=='text-warning',
+                'text-danger':j.answer.answer=='Urgente' || j.answer.answer=='No cumple' || j.answer.style=='text-danger',
+                'text-secondary':j.answer.answer=='N/A'
+              }">
+                <i class="fas fa-check-circle" *ngIf="j.answer.answer=='Ok' || j.answer.style=='text-success'"></i>
+                <i class="fas fa-exclamation-circle" *ngIf="j.answer.answer=='Regular' || j.answer.style=='text-warning'"></i>
+                <i class="fas fa-times-circle" *ngIf="j.answer.answer=='Urgente' || j.answer.style=='text-danger'"></i>
+                <i class="fas fa-ban" *ngIf="j.answer.answer=='N/A'"></i>
+                <i class="fas fa-check" *ngIf="j.answer.answer=='Cumple'"></i>
+                <i class="fas fa-times" *ngIf="j.answer.answer=='No cumple'"></i>
+              </span>
+              <span [ngClass]="{
+                'text-danger':j.answer.value<7,
+                'text-warning':j.answer.value>6 && j.answer.value<9,
+                'text-success':j.answer.value>8
+            }" *ngIf="j.type=='survey'">
+                <i class="far fa-angry" *ngIf="j.answer.value<7"></i>
+                <i class="far fa-meh-blank" *ngIf="j.answer.value>6 && j.answer.value<9"></i>
+                <i class="far fa-smile-beam" *ngIf="j.answer.value>8"></i>
+              </span>
+              <span [ngClass]="{
+                'badge':true,
+                'text-danger':j.answer.value==0,
+                'text-warning':j.answer.value==1,
+                'text-success':j.answer.value==2
+            }" *ngIf="j.type=='revision'">
+                <i class="fas fa-times-circle" *ngIf="j.answer.value==0"></i>
+                <i class="fas fa-exclamation-circle" *ngIf="j.answer.value==1"></i>
+                <i class="fas fa-check-circle" *ngIf="j.answer.value==2"></i>
+              </span>
+              {{j.item}} <span *ngIf="j.type=='custom'" class="badge {{j.answer.style}}">:{{j.answer.value}}</span>
+            </span>
+
+            <span class="align-self-center p-2 bd-highlight">{{j.total|currency:'$':'symbol':'1.0'}}</span>
+
+            <span class="align-self-center p-2 bd-highlight" (click)="j.seeOther= false; aprovePoint(j, j.seeOther)">
+              <span *ngIf="!j.seeOther" >
+                <i  class="text-danger far fa-times-circle fa-2x"></i>
+              </span>
+              <span *ngIf="j.seeOther">
+                <i  class="text-danger far fa-circle fa-2x"></i>
+              </span>
+            </span>
+            <span class="align-self-center text-danger p-2 bd-highlight" (click)="j.seeOther= true; aprovePoint(j, j.seeOther)">
+              <span *ngIf="j.seeOther" >
+                <i  class="text-success far fa-check-circle fa-2x"></i>
+              </span>
+              <span *ngIf="!j.seeOther">
+                <i  class="text-success far fa-circle fa-2x"></i>
+              </span>
+            </span>
+          </p>
+
+          <!-- Visualizacion cotizacion bloqueada -->
+          <p class="d-flex justify-content-between"  *ngIf="j.resQuotation.block">
+            <span class="mr-auto p-2 bd-highlight text-capitalize">
+              <span [ngClass]="{
+                'text-success':j.answer.answer=='Ok' || j.answer.answer=='Cumple' || j.answer.style=='text-success',
+                'text-warning':j.answer.answer=='Regular' || j.answer.style=='text-warning',
+                'text-danger':j.answer.answer=='Urgente' || j.answer.answer=='No cumple' || j.answer.style=='text-danger',
+                'text-secondary':j.answer.answer=='N/A'
+              }">
+                <i class="fas fa-check-circle" *ngIf="j.answer.answer=='Ok' || j.answer.style=='text-success'"></i>
+                <i class="fas fa-exclamation-circle" *ngIf="j.answer.answer=='Regular' || j.answer.style=='text-warning'"></i>
+                <i class="fas fa-times-circle" *ngIf="j.answer.answer=='Urgente' || j.answer.style=='text-danger'"></i>
+                <i class="fas fa-ban" *ngIf="j.answer.answer=='N/A'"></i>
+                <i class="fas fa-check" *ngIf="j.answer.answer=='Cumple'"></i>
+                <i class="fas fa-times" *ngIf="j.answer.answer=='No cumple'"></i>
+              </span>
+              <span [ngClass]="{
+                'text-danger':j.answer.value<7,
+                'text-warning':j.answer.value>6 && j.answer.value<9,
+                'text-success':j.answer.value>8
+            }" *ngIf="j.type=='survey'">
+                <i class="far fa-angry" *ngIf="j.answer.value<7"></i>
+                <i class="far fa-meh-blank" *ngIf="j.answer.value>6 && j.answer.value<9"></i>
+                <i class="far fa-smile-beam" *ngIf="j.answer.value>8"></i>
+              </span>
+              <span [ngClass]="{
+                'badge':true,
+                'text-danger':j.answer.value==0,
+                'text-warning':j.answer.value==1,
+                'text-success':j.answer.value==2
+            }" *ngIf="j.type=='revision'">
+                <i class="fas fa-times-circle" *ngIf="j.answer.value==0"></i>
+                <i class="fas fa-exclamation-circle" *ngIf="j.answer.value==1"></i>
+                <i class="fas fa-check-circle" *ngIf="j.answer.value==2"></i>
+              </span>
+              {{j.item}} <span *ngIf="j.type=='custom'" class="badge {{j.answer.style}}">:{{j.answer.value}}</span>
+              <small class="text-success">Ya aprobado</small>
+            </span>
+            <span class="align-self-center p-2 bd-highlight">{{j.total|currency:'$':'symbol':'1.0'}}</span>
+            <span class="align-self-center p-2 bd-highlight">
+              <span >
+                <i  class="text-light far fa-times-circle fa-2x"></i>
+              </span>
+            </span>
+            <span class="align-self-center p-2 bd-highlight">
+              <span>
+                <i  class="text-success far fa-check-circle fa-2x"></i>
+              </span>
+            </span>
+          </p>
+
+          <div class="d-flex flex-column w-100 p-2 bg-light border rounded text-small">
+            <span class="d-flex w-100 justify-content-between" *ngFor="let k of j.cotizacion">
+              <span class="d-flex justify-content-start">
+                <span class="text-capitalize mr-2">{{k.cantidad}}</span>
+                <span class="text-capitalize">{{k.descripcion ? k.descripcion : k.tipo }}</span>
+              </span>
+              <span class="text-uppercase">{{k.valorTotal |currency:'$':'symbol':'1.0' }}</span>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn-block btn-lg btn-info btn" (click)="sendApproved()">
+      <span class="d-flex justify-content-between">
+        Enviar respuesta:
+        <span>Total aprobado {{totalApproved|currency:'$':'symbol':'1.0'}}</span>
+      </span>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #moreInfoModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">
+       <i class="fas fa-info-circle"></i>
+        Más Información
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ngb-tabset [justify]="'start'">
+      <ngb-tab title="Solicitar Información">
+        <ng-template ngbTabContent>
+            <div class="form-group">
+              <label for="t-moreInfo">Solicitar Información</label>
+              <textarea [(ngModel)]="moreInfo" placeholder="Escribe tus comentarios, dudas o solicita más información sobre tu reporte de inspección" name="" id="t-moreInfo" cols="30" rows="10" class="form-control" autofocus></textarea>
+            </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Mis solicitudes">
+        <ng-template ngbTabContent class="container">
+          <br>
+          <p class="border rounded p-3" *ngFor="let i of order.moreInfo">
+            <strong class="lead">{{i.message}}</strong> <br>
+            <small class="text-secondary">{{i.date|date:'dd-MM-yyyy hh-mm a'}}</small> <br>
+            <span class="lead text-secondary" *ngIf="i.answer">
+              <strong class="text-info"> <i class="fas fa-user-tie"></i> </strong> {{i.answer}}
+            </span>
+          </p>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+    
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="c('Close click')">
+      Cancelar
+    </button>
+    <button class="btn-primary btn" (click)="setMoreInfo()" >
+      Enviar <i class="fas fa-envelope"></i>
+    </button>
+  </div>
+</ng-template>

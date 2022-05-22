@@ -1,0 +1,107 @@
+<div class="row heigth" *ngIf="!cargando">
+  <div class="col-lg-12 bg-light d-flex align-items-center justify-content-center">
+    <div class="card border-rounded" style="min-width: 400px; max-width: 400px;">
+      <div class="card-body">
+        <div class="d-flex justify-content-center">
+          <img [src]="cuenta.logo.url" class="img-logo text-center" alt="logo">
+        </div>
+        <h5 class="card-title">
+          Registrarme
+        </h5>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="nombre">Tipo</label>
+              <div ngbDropdown class="d-inline-block btn-block">
+                <button class="btn btn-outline-primary btn-block " id="dropdownBasic1" ngbDropdownToggle>{{cliente.identificacion.tipo || 'Tipo'}}</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <button (click)="cliente.identificacion.tipo = i.valor" *ngFor="let i of tiposIdentificacion" class="dropdown-item">{{i.nombre}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="form-group">
+              <label for="nombre">Numero</label>
+              <input [(ngModel)]="cliente.identificacion.numero" type="text" class="form-control" placeholder="Numero identificacion">
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="tipoNit !== cliente.identificacion.tipo">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input [(ngModel)]="cliente.nombre.nombres" type="text" class="form-control" placeholder="Nombres">
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label for="nombre">Apellido</label>
+              <input [(ngModel)]="cliente.nombre.apellidos" type="text" class="form-control" placeholder="Apellidos">
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="tipoNit === cliente.identificacion.tipo">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label for="nombre">Razon social</label>
+              <input [(ngModel)]="cliente.nombre.razonSocial" type="text" class="form-control" placeholder="Razon social">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="">
+            <a ngbTooltip="Este email sera usado para enviar informacion y reportes de inspeccion">
+              <i class="fas fa-info-circle"></i>
+            </a>
+            Email
+          </label>
+          <input [(ngModel)]="cliente.email" type="email" class="form-control" placeholder="Correo electronico">
+        </div>
+        <div class="form-group">
+          <label for="">Contrasena</label>
+          <input 
+          [(ngModel)]="cliente.contrasena" 
+          (change)="validacion.error=false; validarContrasena()" 
+          type="password" 
+          [ngClass]="{'form-control': true, 'is-invalid':validacion.error}"  
+          placeholder="Contrasena">
+          <div *ngIf="validacion.error" class="invalid-feedback">
+            {{ validacion.mensaje}}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="">Confirmar contrasena</label>
+          <input 
+            [(ngModel)]="confirmarContrasena" 
+            (change)="validacion.error=false; validarContrasena()" 
+            type="password" 
+            [ngClass]="{'form-control': true, 'is-invalid':validacion.error}" 
+            placeholder="Contrasena">
+          <div *ngIf="validacion.error" class="invalid-feedback">
+            {{ validacion.mensaje}}
+          </div>
+        </div>
+        <div class="custom-control custom-switch">
+          <input [(ngModel)]="aceptarTerminosyCondiciones" type="checkbox" class="custom-control-input" id="customSwitch1">
+          <label class="custom-control-label" for="customSwitch1">
+            <small>Acepto los terminos y condiciones</small>
+          </label>
+        </div>
+
+        <button (click)="registroCliente()" [disabled]="!aceptarTerminosyCondiciones || this.validacion.error" class="btn-primary btn btn-block my-2">
+          Registrarme
+        </button>
+        <div class="d-flex justify-content-end my-2">
+          <button routerLink="../inicioSesion" type="button" class="btn btn-light">Iniciar sesion</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row heigth" *ngIf="cargando">
+  <div class="col-lg-12 d-flex align-items-center justify-content-center">
+    <app-precarga></app-precarga>
+  </div>
+</div>

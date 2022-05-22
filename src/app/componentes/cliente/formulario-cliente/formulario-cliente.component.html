@@ -1,0 +1,90 @@
+<div class="card border-rounded">
+  <div class="card-body">
+    <h5 class="card-title">
+      Cliente
+      <span class="float-right">
+        <button *ngIf="!activarEdicion" class="btn-outline-primary btn btn-sm" (click)="activarEdicion=true">
+          <i class="fas fa-edit"></i> Editar
+        </button>
+        <button *ngIf="activarEdicion" class="btn-outline-secondary btn btn-sm" (click)="activarEdicion=false; obtenerCliente()">Cancelar</button>
+        <button (click)="editarCliente()" *ngIf="activarEdicion" class="btn-primary btn btn-sm">
+          <i class="fas fa-save"></i> Guardar
+        </button>
+      </span>
+    </h5>
+
+    <div class="row">
+
+      <div class="col-sm-6" *ngIf="cliente.identificacion.tipo !== 'NIT'">
+        <div class="form-group">
+          <small class="text-muted">Nombres</small> <br>
+          <span *ngIf="!activarEdicion" class="text-uppercase">{{cliente.nombre.nombres}}</span>
+          <input *ngIf="activarEdicion" [(ngModel)]="cliente.nombre.nombres" name="nombres" type="text" class="form-control form-control-sm" placeholder="Nombre">
+        </div>
+      </div>
+    
+      <div class="col-sm-6" *ngIf="cliente.identificacion.tipo !== 'NIT'">
+       <div class="form-group">
+         <small class="text-muted">Apellidos</small> <br>
+         <span *ngIf="!activarEdicion" class="text-uppercase">{{cliente.nombre.apellidos}}</span>
+         <input *ngIf="activarEdicion" [(ngModel)]="cliente.nombre.apellidos" name="apellidos" type="text" class="form-control form-control-sm" placeholder="Apellidos">
+       </div>
+     </div>
+    
+     <div class="col-sm-12" *ngIf="cliente.identificacion.tipo === 'NIT'">
+       <div class="form-group">
+         <small class="text-muted">Razon social</small> <br>
+         <span *ngIf="!activarEdicion" class="text-uppercase">{{cliente.nombre.razonSocial}}</span>
+         <input *ngIf="activarEdicion" [(ngModel)]="cliente.nombre.razonSocial" name="razonSocial" type="text" class="form-control form-control-sm" placeholder="Razon social">
+       </div>
+     </div>
+    
+     <div class="col-sm-6">
+       <div class="form-group">
+        <small class="text-muted">Tipo</small> <br>
+         <span *ngIf="!activarEdicion" class="text-uppercase">{{cliente.identificacion.tipo}}</span>
+         <select *ngIf="activarEdicion" [(ngModel)]="cliente.identificacion.tipo" class="form-control form-control-sm">
+           <option value="">Elige tipo</option>
+           <option *ngFor="let i of listaTipoIdentificacion" [value]="i.valor">{{i.nombre}}</option>
+         </select>
+       </div>
+     </div>
+    
+     <div class="col-sm-6">
+       <div class="form-group">
+         <small class="text-muted">Identificacion</small> <br>
+         <span class="text-uppercase">{{cliente.identificacion.numero}}</span>
+       </div>
+     </div>
+    
+    </div>
+    
+    <div class="row">
+    
+     <div class="col-sm-6">
+       <div class="form-group">
+         <small class="text-muted">Email</small> <br>
+         <span *ngIf="!activarEdicion">{{cliente.email}}</span>
+         <input *ngIf="activarEdicion" [(ngModel)]="cliente.email" name="email" type="email" placeholder="Correo electrónico" class="form-control form-control-sm">
+       </div>
+     </div>
+    
+      <div class="col-sm-3">
+       <div class="form-group">
+          <small class="text-muted">Telefono</small><br>
+          <span *ngIf="!activarEdicion" class="text-uppercase">{{cliente.telefono.numero}}</span>
+          <input *ngIf="activarEdicion" [(ngModel)]="cliente.telefono.numero" name="numero" type="text" class="form-control form-control-sm">
+       </div>
+     </div>
+    
+     <div class="col-sm-3">
+       <div class="form-group">
+          <small class="text-muted">Celular</small> <br>
+          <span *ngIf="!activarEdicion" class="text-uppercase">{{cliente.telefono.celular}}</span>
+          <input *ngIf="activarEdicion" [(ngModel)]="cliente.telefono.celular" type="text" class="form-control form-control-sm">
+       </div>
+     </div>
+    
+    </div>
+  </div>
+</div>

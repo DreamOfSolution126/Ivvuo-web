@@ -1,0 +1,32 @@
+.profile-img{
+    max-width: 35px;
+    min-width: 35px;
+    min-height: 35px;
+    max-height: 35px;
+}
+
+.img-preview{
+    margin-bottom: 15px;
+    max-width: 100%;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top:0;
+    right:0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100%;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: 0;
+    background: white;
+    cursor: inherit;
+    display: block;
+}

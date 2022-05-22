@@ -1,0 +1,21 @@
+<!-- <pre>
+  {{ centro | json }}
+</pre> -->
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">
+      {{centro.name}} <br>
+      <small>
+        {{centro?.direccion?.ciudad}} - 
+        {{centro?.direccion?.pais}}
+      </small>
+    </h5>
+    <p class="card-text">
+      <span class="badge badge-secondary badge-sm">{{centro.code}}</span>
+      <span class="badge badge-secondary">{{centro.zone}}</span>
+    </p>
+
+    <button class="btn btn-light btn-sm">Detalles</button>
+  </div>
+</div>

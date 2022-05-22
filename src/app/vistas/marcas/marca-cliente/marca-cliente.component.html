@@ -1,0 +1,127 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container">
+     <a class="navbar-brand">
+       <img [src]="logo_url" width="auto" height="30" alt="Logo" style="margin: 2px;">
+       {{datosMarca?.marca}}
+     </a>
+     <button class="navbar-toggler" type="button" (click)="isCollapsed=!isCollapsed" >
+       <span class="navbar-toggler-icon"></span>
+     </button>
+     
+     <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed" >
+       <ul class="navbar-nav mr-auto">
+         <li class="nav-item">
+           <a class="nav-link" routerLinkActive="active" routerLink="../marcas" (click)="isCollapsed=true">
+             <i class="fas fa-home"></i>
+           </a>
+         </li>
+         <li class="nav-item">
+           <a href="" routerLinkActive="active" routerLink="orders" class="nav-link" (click)="isCollapsed=true">
+             <i class="fas fa-file"></i> Reportes
+           </a>
+         </li>
+       </ul>
+   
+       <ul class="navbar-nav mr-right">
+         <li class="nav-item" >
+           <div ngbDropdown class="d-inline-block" display="dynamic" placement="bottom-right">
+             <button class="btn btn-light btn-sm" id="dropdownBasic1" ngbDropdownToggle>
+               <i class="fas fa-cog"></i>
+               {{account.name? account.name:' '}}
+             </button>
+             <div class="dropdown-menu dropdown-menu-left" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+               <div class="card dropdown-item text-center no-border">
+                 <div class="card-body">
+                   
+                   <h5 class="card-title">
+                     <i class="far fa-user fa-2x"></i> <br>
+                     <span class="text-capitalize">{{ user.name + ' ' + user.last_name}}</span> <br>
+                     <small>{{user.email}}</small>
+                   </h5>
+                 </div>
+               </div>
+               <button class="dropdown-item" ngbDropdownItem (click)="changePassworOn()">
+                 <i class="fas fa-key"></i> 
+                 Cambiar contraseña
+               </button>
+               <button class="dropdown-item" ngbDropdownItem (click)="signOut()">
+                 <i class="fas fa-power-off"></i>
+                 Cerrar sesión
+               </button>
+             </div>
+           </div>
+         </li>
+       </ul>
+     </div>
+  </div>
+ 
+</nav> 
+
+<br>
+<br>
+<br>
+
+<div *ngIf="datosMarca" class="container">
+  <div class="row">
+    <div class="col-lg-6 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+            <label for="">Desde</label>
+            <input [(ngModel)]="fechas.desde" type="date" class="form-control mr-2 form-control-sm">
+          </div>
+          
+          <div class="form-group">
+            <label for="">Hasta</label>
+            <input [(ngModel)]="fechas.hasta" type="date" class="form-control mr-2 form-control-sm">
+          </div>
+          <div class="form-group">
+            <a href="{{server}}v2/marca/reporte/{{datosMarca._id}}?desde={{fechas.desde}}&hasta={{fechas.hasta}}" download class="btn btn-primary btn-sm" >
+              <i class="fa fa-download" aria-hidden="true"></i>
+              Reporte de Ordenes
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+
+    </div>
+    <div class="col-lg-4 mb-3" *ngFor="let i of datosCentros">
+      <app-card-centro [centro]="i" ></app-card-centro>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #chagePassTemplate let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      Cambiar Contraseña
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="">Contraseña nueva</label>
+      <input type="password" class="form-control" [(ngModel)]="pass.newPassword" >
+    </div>
+    <div class="form-group">
+      <label for="">confirmar contraseña</label>
+      <input type="password" class="form-control" [(ngModel)]="pass.confirmPassword" >
+    </div>
+    <div *ngIf="alert.msg">
+        <ngb-alert [type]="alert.type" (close)="closeAlert()" >
+          {{alert.msg}}
+        </ngb-alert>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+    <button class="btn btn-primary" (click)="change()">Guardar cambios</button>
+  </div>
+</ng-template>

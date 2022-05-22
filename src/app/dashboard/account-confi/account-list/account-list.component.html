@@ -1,0 +1,55 @@
+
+<div class="container">
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">
+        Cuentas
+      </h5>
+    </div>
+  </div>
+  <br>
+
+  <div class="row">
+    <div class="col table-responsive">
+      <table class="table table-sm text-small table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Cod</th>
+            <th>Nombre</th>
+            <th>Abreviado</th>
+            <th>NIT</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Ciudad</th>
+            <th>Estado</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of accounts">
+            <td>{{i.code}}</td>
+            <td>{{i.name}}</td>
+            <td> {{i.av}} </td>
+            <td> {{i.nit}} </td>
+            <td> {{i.email}} </td>
+            <td> {{i.telephone}} </td>
+            <td> {{i.address}} </td>
+            <td> {{i.city + ' '+ i.country}} </td>
+            <td>
+              <!-- <i [ngClass]="{'fa':true, 'fa-toggle-on':i.active, 'fa-toggle-off':!i.active}"></i> -->
+              <span *ngIf="i.active" class="badge badge-success">Activo</span>
+              <span *ngIf="!i.active" class="badge badge-success">Inactivo</span>
+            </td>
+            <td>
+              <button class="btn btn-outline-primary btn-sm " (click)="info(i)" >Detalles</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+

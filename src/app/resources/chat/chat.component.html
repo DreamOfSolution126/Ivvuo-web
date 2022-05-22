@@ -1,0 +1,53 @@
+<div class="d-flex ">
+
+  <div class="d-flex align-items-start flex-column bd-highlight mb-3" style="max-height: 70vh; min-height: 300px; min-width: 100%;">
+    
+    <div 
+      #contenedorMensajes 
+      class="p-2 bd-highlight flex-row flex-column-reverse" 
+      style="overflow: auto; min-width: 100%; height: 100%;">
+
+      <div 
+        *ngFor="let i of whatsappMensajes" 
+        [ngClass]="{
+          'd-flex':true,
+          'rounded':true,
+          'justify-content-end':i.direccion!=='Incoming',
+          'justify-content-start':i.direccion==='Incoming'
+        }">
+        
+        <div class="text-right">
+          <div [ngClass]="{
+            'rounded border': true,
+            'ml-5 mt-3 mr-3 p-3 bg-secondary text-light':i.direccion!=='Incoming',
+            'ml-3 mt-3 mr-5 pl-3 pt-3 pr-3 pb-3 bg-light':i.direccion==='Incoming'
+          }">
+            {{i.mensaje}}
+          </div>
+          <small *ngIf="i.direccion!=='Incoming'" class="mr-3 pr-3">{{i.fecha_creacion|date:'hh:mm a'}}
+            <i *ngIf="i.estatusMensaje==='queued'" class="far fa-clock text-secondary"></i>
+            <i *ngIf="i.estatusMensaje==='failed'" class="fas fa-ban text-secondary"></i>
+            <i *ngIf="i.estatusMensaje==='sent'" class="fas fa-check text-secondary"></i>
+            <i *ngIf="i.estatusMensaje==='delivered'" class="fas fa-check-double text-secondary"></i>
+            <i *ngIf="i.estatusMensaje==='read'" class="fas fa-check-double text-info"></i>
+          </small>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="d-flex w-100 flex-row">
+      
+      <div class="p-2 flex-grow-1 bd-highlight">
+        <input [(ngModel)]="newMensaje" type="text" class="form-control" placeholder="Escribe aquí...">
+      </div>
+      <div class="p-2 flex-shrink-1 bd-highlight">
+        <button (click)="send()" class="btn btn-primary">
+          <i class="fas fa-paper-plane"></i> Enviar
+        </button>
+      </div>
+    
+    </div>
+  </div>
+</div>

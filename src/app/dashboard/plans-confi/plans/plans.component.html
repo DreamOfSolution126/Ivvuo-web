@@ -1,0 +1,102 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">
+          Planes
+        </h5>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="">Plan</label>
+              <input type="text" class="form-control-sm form-control" [(ngModel)]="plan.plan" (change)="totalSet()" placeholder="Nombre del Plan">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="">Valor Mensual</label>
+            <input type="text" class="form-control-sm form-control" [(ngModel)]="plan.value" (change)="totalSet()">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="">Descuento</label>
+              <input type="number" class="form-control-sm form-control" [(ngModel)]="plan.off" min="0" max="100" (change)="totalSet()">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="">Valor Total</label>
+              <input type="text" class="form-control-sm form-control" [(ngModel)]="plan.total" disabled>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="">Frecuencia</label>
+              <select name="" id="" class="form-control-sm form-control" [(ngModel)]="plan.frequency" (change)="totalSet()">
+                <option value=30>Mensual</option>
+                <option value=90>Trimestral</option>
+                <option value=180>Semestral</option>
+                <option value=360>Anual</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="">Descripción</label>
+              <textarea name="" id=""  rows="5" class="form-control" [(ngModel)]="plan.description" ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+              <button class="btn btn-primary btn-sm" (click)="newPlan()" >Guardar</button>
+          </div>
+          <div class="col"></div>
+          <div class="col"></div>
+          <div class="col"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br><br>
+<div class="row">
+  <div class="col-md-12">
+    <h5 class="card-title">
+      Listado de Planes
+    </h5>
+
+    <table class="table table-sm table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Plan</th>
+          <th>Valor Mes</th>
+          <th>Descuento</th>
+          <th>Frecuencia</th>
+          <th>Valor total</th>
+          <th>Creado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="plans[0]">
+        <tr *ngFor="let i of plans">
+          <td>{{i.plan}}</td>
+          <td>{{i.value | currency:'$ '}}</td>
+          <td>{{i.off/100 | percent}}</td>
+          <td>{{i.frequency / 30 }}</td>
+          <td>{{i.total | currency:'$ '}}</td>
+          <td>{{i.created | date:' dd-MMMM-yyyy'}}</td>
+          <td>
+            <button class="btn-danger btn btn-sm" (click)="deletPlan(i._id)">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

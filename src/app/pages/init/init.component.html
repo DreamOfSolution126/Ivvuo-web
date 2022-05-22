@@ -1,0 +1,100 @@
+<div class="jumbotron background-img">
+  <div class="container my-4 py-5" style="height:60vh">
+  </div>
+</div>
+
+<section class="my-3 py-5">
+  <div class="jumbotron bg-transparent">
+    <div class="container text-center">
+      <h1 class="display-4">
+        La confianza que tú y tu vehículo necesitan
+      </h1>
+      <p class="lead">
+        Ivvuo te facilita la comunicación con tus clientes generando canal digital de 
+        comunicación y seguimiento de la reparación, 100% diseñado para talleres de servicio 
+        automotor, que genera una mejor relación de servicio y aumenta la confianza de sus clientes
+      </p>
+      <hr class="my-4">
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="text-center my-2">
+          Múltiples Ventajas
+        </h3>
+      </div>
+      <div class="col-md-4 my-3">
+        <div class="card text-center no-border">
+          <img class="img-fluid" src="../../../assets/img/card/card-1.jpg" alt="">
+          <div class="card-body">
+            <h5 class="card-title lead">Aumente la confianza con evidencia visual</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 my-3">
+
+          <div class="card text-center no-border">
+            <img class="img-fluid" src="../../../assets/img/card/card-2.jpg" alt="">
+            <div class="card-body">
+              <h5 class="card-title lead">Personalice sus listas de Chequeo de acuerdo con sus procesos</h5>
+            </div>
+          </div>
+
+      </div>
+      <div class="col-md-4 my-3">
+
+          <div class="card text-center no-border">
+            <img class="img-fluid" src="../../../assets/img/card/card-3.jpg" alt="">
+            <div class="card-body">
+              <h5 class="card-title lead">Controle el avance de sus trabajos en tiempo real</h5>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="my-3">
+  <div class="container">
+    <div class="row my-5 py-5">
+      <div class="col-md-12">
+        <h3 class="text-center">
+          Generar Confianza para vender más <br> datos y seguimiento para vender mejor
+        </h3>
+      </div>
+    </div>
+    <div class="row my-3 py-3" *ngFor="let i of data">
+      <div class="col-md-6">
+        <img class="img-fluid" [src]="i.img" alt="">
+      </div>
+      <div class="col-lg-6">
+        <h3 class="mb-2">{{i.title}}</h3>
+        <p class="lead">
+          {{i.content}}
+        </p>
+        <button class="btn btn-outline-primary mx-1" *ngFor="let j of i.themes">
+          {{j}}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="jumbotron">
+  <div class="container">
+    <p>
+      <img style="width: 30px; height: auto;" src="../../assets/img/logo/logo_mapp.png" alt="">
+      IVVUO | Standar Systems
+    </p>
+    <p> <a routerLink="login" >Acceder</a> </p>
+    <p> <a routerLink="privacy-policy" >Política de Privacidad</a> </p>
+  </div>
+</div>
+<div class="container text-center">
+  <img class="img-fluid" src="../../assets/pata_web.png" alt="">
+</div>

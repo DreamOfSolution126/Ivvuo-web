@@ -1,0 +1,147 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-12 bg-light overflow-auto" style="max-height: 400px; min-height: 400px;">
+        <div class="d-flex bg-white flex-column w-100 border rounded my-2 p-2" *ngFor="let i of cotizacion">
+          <div class="d-flex w-100 justify-content-between">
+            <span> 
+              <strong class="text-uppercase">{{i.tipo}}</strong> 
+            </span>
+            <span>{{i.valorTotal | currency:'$':'symbol':'0.0'}}</span>
+          </div>
+          <div class="d-flex w-100 text-small">
+            <span>Cant: {{i.cantidad}} </span>
+            <span class="ml-1">V. Und: {{i.valorUnitario | currency:'$':'symbol':'1.0'}} </span>
+            <span class="ml-1">Ref: {{i.referencia}} </span>
+          </div>
+          <!-- TODO: SI ESTA APROBADO QUITAR FUNCION DE ELIMINAR -->
+          <div class="d-flex w-100 justify-content-between">
+            <small>{{i.descripcion}}</small>
+            <button (click)="eliminarItem( i )" class="btn btn-danger btn-sm">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 border rounded mt-5">
+        
+        <div class="d-flex flex-column p-2">
+          Items totales: {{cotizacion.length}}
+          <div class="text-small d-flex justify-content-between">
+            <span>Mano de obra</span>
+            <span>{{valorManoDeObra | currency:'$ ':'symbol':'0.0'}}</span>
+          </div>
+          <div class="text-small d-flex justify-content-between">
+            <span>Repuestos</span>
+            <span>{{valorRepuestos | currency:'$ ':'symbol':'0.0'}}</span>
+          </div>
+          <div class="text-small d-flex justify-content-between">
+            <span>Terceros - otros</span>
+            <span>{{valorTercero | currency:'$ ':'symbol':'0.0'}}</span>
+          </div>
+          <div class="d-flex justify-content-between bg-light ">
+            <span>Valor Total</span>
+            <strong>{{valorTotal | currency:'$ ':'symbol':'0.0'}}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-12">
+        <label for=""><small>Tipo de item</small></label> <br>
+        <div class="btn-group btn-block">
+          <button 
+            (click)="nuevoItem.tipo = i.valor"
+            *ngFor="let i of tiposCotizacion" 
+            [ngClass]="{
+              'btn-outline-primary btn btn-sm': true, 
+              'active':nuevoItem.tipo===i.valor}">{{i.nombre}}</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for=""><small>Referencia</small></label>
+          <input 
+            (change)="errorReferencia = false"
+            [(ngModel)]="nuevoItem.referencia" 
+            type="text" 
+            name="referencia"
+            [ngClass]="{'form-control':true, 'is-invalid':errorReferencia}">
+          <div *ngIf="errorReferencia" class="invalid-feedback">
+            {{errorMensaje}}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for=""><small>Descripcion</small></label>
+          <input [(ngModel)]="nuevoItem.descripcion" type="text" name="descripcion" class="form-control" placeholder="Opcional">
+        </div>
+      </div>
+    </div>
+    
+    <!-- <div class="row" *ngIf="nuevoItem.tipo === 'Repuesto' ">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="">
+            <small>Codigo de parte [PNC]</small>
+          </label>
+          <input  [(ngModel)]="nuevoItem.codigoDeParte" type="text" class="form-control" placeholder="Opcional">
+        </div>
+      </div>
+    </div> -->
+    
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="">
+            <small *ngIf="nuevoItem.tipo !== 'Mano de obra' ">Cantidad</small>
+            <small *ngIf="nuevoItem.tipo === 'Mano de obra' ">Horas</small>
+          </label>
+          <input [(ngModel)]="nuevoItem.cantidad" (change)="calcularTotalItem()" type="number" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="form-group">
+          <label for="">
+            <small *ngIf="nuevoItem.tipo !== 'Mano de obra' ">Valor unitario</small>
+            <small *ngIf="nuevoItem.tipo === 'Mano de obra' ">Valor hora</small>
+          </label>
+          <input 
+            [(ngModel)]="nuevoItem.valorUnitario" 
+            (change)="errorValorUnitario=false; calcularTotalItem()" 
+            type="number" [ngClass]="{'form-control': true, 'is-invalid':errorValorUnitario}">
+            <div *ngIf="errorValorUnitario" class="invalid-feedback">
+              {{errorMensaje}}
+            </div>
+        </div>
+      </div>
+    </div>
+    <!-- TODO: DISCRIMINACION DE IVA -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for=""><small>Valor total</small></label>
+          <input disabled [(ngModel)]="nuevoItem.valorTotal" type="number" class="form-control form-control-lg">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+          <button (click)="agregrarItemACotizacion();" class="btn btn-outline-primary btn-sm btn-block"> Agregar Item</button>
+      </div>
+    </div>
+  </div>
+</div>

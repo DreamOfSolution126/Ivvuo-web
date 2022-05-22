@@ -1,0 +1,13 @@
+/* .background-img {
+    background-image: url('../../assets/background.jpg');
+    background-size: cover;
+    background-position: top;
+} */
+
+.no-border {
+    border: none !important;
+}
+
+.text-shadow {
+    text-shadow: 2px 2px 8px #A5A5A5;
+}

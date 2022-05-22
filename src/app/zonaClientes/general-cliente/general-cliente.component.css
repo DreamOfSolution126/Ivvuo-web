@@ -1,0 +1,12 @@
+.heigth {
+    height: 100vh;
+}
+
+.logo-principal {
+    width: 200px;
+    height: auto;
+}
+
+.border-rounded{
+    border-radius: 1.75em
+  }

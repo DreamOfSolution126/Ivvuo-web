@@ -1,0 +1,104 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card no-border">
+      <div class="card-body">
+        <h5 class="card-title">
+          <i class="fas fa-project-diagram"></i> Listas de Procesos
+          <span class="float-right">
+            <button class="btn btn-outline-primary" (click)="openModal(newListModal)">
+              <i class="fas fa-plus"></i> Crear Lista
+            </button>
+          </span>
+        </h5>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="table-responsive" *ngIf="lists && lists.length>0">
+
+  <table class="table table-striped">
+    <caption *ngIf="lists"> {{lists.length}} Lista{{lists.length>1 ? 's':' '}}</caption>
+    <thead>
+      <tr>
+        <th width="100">Lista</th>
+        <th width="100">Descripción</th>
+        <th width="100">Ver avance</th>
+        <th width="100">Creada</th>
+        <th width="200">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let i of lists">
+        <td>{{i.list}}</td>
+        <td>{{i.description}}</td>
+        <td>{{i.advanceVisible}}</td>
+        <td>{{i.createdUp|date:'dd-MM-yyyy'}}</td>
+        <td>
+          <a class="btn btn-sm btn-primary" [routerLink]="'../details/'+i._id">Editar</a>
+          <button class="btn btn-sm btn-danger" (click)="deletList(i)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="jumbotron text-center" *ngIf="lists && lists.length==0">
+  <h1>
+    <i class="fas fa-project-diagram fa-3x"></i> <br>
+    No se encontraron listas
+  </h1>
+  <p class="lead">
+    No se encontraron listas de procesos, puede crearlas en el siguiente botón
+  </p>
+  <button class="btn btn-primary btn" (click)="openModal(newListModal)">
+    <i class="fas fa-plus"></i> Crear Lista
+  </button>
+</div>
+
+
+<ng-template #newListModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> {{newList.list || 'Nueva Lista'}}
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-12 col-sm-12">
+        <div class="form-group">
+          <label for="p-name">Lista</label>
+          <input [(ngModel)]="newList.list" placeholder="Nombre de la lista" id="p-name" type="text" class="form-control" autofocus>
+        </div>
+      </div>
+      <div class="col-lg-12 col-sm-12">
+        <div class="form-group">
+          <label for="p-description">Descripción del proceso</label>
+          <textarea [(ngModel)]="newList.description" placeholder="Escriba aquí una breve descripción acerca del proceso" name="" id="p-description" cols="30" rows="5" class="form-control"></textarea>
+          <small class="form-text text-muted"> {{newList.description.length}} caracteres</small>
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-12">
+        <label for="">Mostrar avance</label> <br>
+        <div class="btn-group">
+          <button [ngClass]="{'btn btn-outline-primary':true, 'active':newList.advanceVisible}" (click)="newList.advanceVisible = true">Visible</button>
+          <button [ngClass]="{'btn btn-outline-primary':true, 'active':!newList.advanceVisible}" (click)="newList.advanceVisible = false">Oculto</button>
+        </div>
+      </div>
+      <div class="col-lg-8 col-sm-12">
+        <label for="">Descripción:</label>
+        <p>Recuerde que una lista puede contener varios procesos.</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="c('Close click')">Cerrar</button>
+    <button class="btn btn-primary" (click)="createList(); c('Close click')">Guardar Lista</button>
+  </div>
+</ng-template>
+
+

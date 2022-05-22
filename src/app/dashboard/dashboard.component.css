@@ -1,0 +1,14 @@
+.navbar-dark .navbar-brand {
+    color: #fff;
+}
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.logo-navbar {
+    height: 30px;
+}
+
+.min-height {
+    min-height: 75vh;
+}

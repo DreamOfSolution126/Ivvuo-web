@@ -1,0 +1,53 @@
+<div class="initial-margin">
+  <div class="row mt-2 d-flex align-items-stretch">
+    <div class="col-lg-8">
+      <app-formulario-cliente></app-formulario-cliente>
+    </div>
+    <div class="col-lg-4">
+      <app-resumen-cotizacion
+        [valoresOrdenes]="valoresOrdenes"
+      ></app-resumen-cotizacion>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card border-rounded">
+        <div class="card-body">
+          <h5 class="card-title">Comunicacion</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-12 mb-3">
+      <div class="card no-border bg-light">
+        <div class="card-body ">
+          <h4 class="card-title">
+            Listado de ordenes
+          </h4>
+          <p class="card-text">
+            <small class="text-justify">
+              Se mostrara todas las ordenes vinculadas a este cliente, con el estatus abierto.
+            </small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-12 hidden-sm-down">
+      <app-listado-ordenes
+      [ordenes]="ordenes"
+      ></app-listado-ordenes>
+    </div>
+    <div class="col-lg-12  hidden-md-up">
+      <app-listado-sm-ordenes
+      [ordenes]="ordenes"
+      ></app-listado-sm-ordenes>
+    </div>
+  </div>
+</div>
+

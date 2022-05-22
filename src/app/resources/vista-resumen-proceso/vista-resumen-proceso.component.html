@@ -1,0 +1,114 @@
+<!-- <div class="container mt-5">
+  <table  class="table table-sm">
+    <thead *ngFor="let i of procesos">
+      <tr>
+        <th colspan="2">{{i.name}}</th>
+        <td width="20px">Partes</td>
+        <td width="20px">M.O.</td>
+        <td width="20px">Total</td>
+        <td colspan="2">Aprobado</td>
+      </tr>
+    </thead>
+      <tbody>
+        <tr *ngFor="let j of i.checkList">
+          <td width="20px">
+            <span [ngClass]="{
+              'badge':true,
+              'text-success':j.answer.answer=='Ok' || j.answer.answer=='Cumple' || j.answer.style=='text-success',
+              'text-warning':j.answer.answer=='Regular' || j.answer.style=='text-warning',
+              'text-danger':j.answer.answer=='Urgente' || j.answer.answer=='No cumple' || j.answer.style=='text-danger',
+              'text-secondary':j.answer.answer=='N/A'
+            }">
+              <i class="fa-2x fas fa-check-circle" *ngIf="j.answer.answer=='Ok' || j.answer.style=='text-success'"></i>
+              <i class="fa-2x fas fa-exclamation-circle" *ngIf="j.answer.answer=='Regular' || j.answer.style=='text-warning'"></i>
+              <i class="fa-2x fas fa-times-circle" *ngIf="j.answer.answer=='Urgente' || j.answer.style=='text-danger'"></i>
+              <i class="fa-2x fas fa-ban" *ngIf="j.answer.answer=='N/A'"></i>
+              <i class="fa-2x fas fa-check" *ngIf="j.answer.answer=='Cumple'"></i>
+              <i class="fa-2x fas fa-times" *ngIf="j.answer.answer=='No cumple'"></i>
+            </span>
+            <span [ngClass]="{
+              'text-danger':j.answer.value==0,
+              'text-warning':j.answer.value==1,
+              'text-success':j.answer.value==2
+          }" *ngIf="j.type=='survey'">
+              <i class="fa-2x far fa-angry" *ngIf="j.answer.value==0"></i>
+              <i class="fa-2x far fa-meh-blank" *ngIf="j.answer.value==1"></i>
+              <i class="fa-2x far fa-smile-beam" *ngIf="j.answer.value==2"></i>
+            </span>
+            <span [ngClass]="{
+              'text-danger':j.answer.value==0,
+              'text-warning':j.answer.value==1,
+              'text-success':j.answer.value==2
+          }" *ngIf="j.type=='revision'">
+              <i class="fa-2x fas fa-times-circle" *ngIf="j.answer.value==0"></i>
+              <i class="fa-2x fas fa-exclamation-circle" *ngIf="j.answer.value==1"></i>
+              <i class="fa-2x fas fa-check-circle" *ngIf="j.answer.value==2"></i>
+            </span>
+          </td>
+          <td width="100px">{{j.item}}</td>
+  
+          <td width="20px">{{j.parts}}</td>
+          <td width="20px">{{j.mo}}</td>
+          <td width="20px">{{j.total}}</td>
+          <td width="20px">{{j.approved}}</td>
+          <td width="20px">{{j.resQuotation.status}}</td>
+        </tr>
+      </tbody>
+      
+  </table>
+</div> -->
+
+<div class="container mt-5">
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let i of procesos">
+      <span>
+        {{i.name}}
+      </span>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let j of i.checkList">
+          <span>
+            <span [ngClass]="{
+              'badge':true,
+              'text-success':j.answer.answer=='Ok' || j.answer.answer=='Cumple' || j.answer.style=='text-success',
+              'text-warning':j.answer.answer=='Regular' || j.answer.style=='text-warning',
+              'text-danger':j.answer.answer=='Urgente' || j.answer.answer=='No cumple' || j.answer.style=='text-danger',
+              'text-secondary':j.answer.answer=='N/A'
+            }">
+              <i class="fa-2x fas fa-check-circle" *ngIf="j.answer.answer=='Ok' || j.answer.style=='text-success'"></i>
+              <i class="fa-2x fas fa-exclamation-circle" *ngIf="j.answer.answer=='Regular' || j.answer.style=='text-warning'"></i>
+              <i class="fa-2x fas fa-times-circle" *ngIf="j.answer.answer=='Urgente' || j.answer.style=='text-danger'"></i>
+              <i class="fa-2x fas fa-ban" *ngIf="j.answer.answer=='N/A'"></i>
+              <i class="fa-2x fas fa-check" *ngIf="j.answer.answer=='Cumple'"></i>
+              <i class="fa-2x fas fa-times" *ngIf="j.answer.answer=='No cumple'"></i>
+            </span>
+            <span [ngClass]="{
+              'text-danger':j.answer.value==0,
+              'text-warning':j.answer.value==1,
+              'text-success':j.answer.value==2
+          }" *ngIf="j.type=='survey'">
+              <i class="fa-2x far fa-angry" *ngIf="j.answer.value==0"></i>
+              <i class="fa-2x far fa-meh-blank" *ngIf="j.answer.value==1"></i>
+              <i class="fa-2x far fa-smile-beam" *ngIf="j.answer.value==2"></i>
+            </span>
+            <span [ngClass]="{
+              'text-danger':j.answer.value==0,
+              'text-warning':j.answer.value==1,
+              'text-success':j.answer.value==2
+          }" *ngIf="j.type=='revision'">
+              <i class="fa-2x fas fa-times-circle" *ngIf="j.answer.value==0"></i>
+              <i class="fa-2x fas fa-exclamation-circle" *ngIf="j.answer.value==1"></i>
+              <i class="fa-2x fas fa-check-circle" *ngIf="j.answer.value==2"></i>
+            </span>
+            {{j.item}}
+          </span>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+
+
+<pre>
+  {{ procesos | json }}
+</pre>

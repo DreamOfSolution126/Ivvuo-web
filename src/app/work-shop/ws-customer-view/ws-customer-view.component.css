@@ -1,0 +1,144 @@
+.modal-preview {
+  max-height: 70vh;
+  width: 100%;
+  max-width: inherit;
+}
+
+.centrar {
+  margin: auto;
+}
+
+.img-preview{
+  max-width: inherit;
+  max-height: inherit;
+  width: auto;
+  height: auto;
+  margin: auto;
+  text-align: center;
+}
+
+.contenedor-multimedia {
+  max-width: 100%;
+  max-height: 70vh;
+}
+
+.max-height img{
+  width: auto;
+  height: 200px;
+  max-height: 200px;
+  margin: auto;
+  text-align: center;
+}
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+}
+.invisible {
+    visibility: hidden !important;
+  }
+  
+  .hidden-xs-up {
+    display: none !important;
+  }
+  
+  @media (max-width: 575px) {
+    .hidden-xs-down {
+      display: none !important;
+    }
+  }
+  
+  @media (min-width: 576px) {
+    .hidden-sm-up {
+      display: none !important;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .hidden-sm-down {
+      display: none !important;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .hidden-md-up {
+      display: none !important;
+    }
+  }
+  
+  @media (max-width: 991px) {
+    .hidden-md-down {
+      display: none !important;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .hidden-lg-up {
+      display: none !important;
+    }
+  }
+  
+  @media (max-width: 1199px) {
+    .hidden-lg-down {
+      display: none !important;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .hidden-xl-up {
+      display: none !important;
+    }
+  }
+  
+  .hidden-xl-down {
+    display: none !important;
+  }
+
+  .cursor-pointer{
+      cursor: pointer;
+  }
+
+  .main_logo{
+    width: 200px;
+    margin: auto;
+    text-align: center;
+  }
+  .img-preview{
+    /* margin: 5px; */
+    border-style: solid;
+    border-width: 1px;
+  }
+  .img-preview-item{
+    min-width: auto;
+    max-width: 80px;
+    min-height: auto;
+    max-height: 80px;
+  }
+
+  .border-rounded{
+    border-radius: 1.75em
+  }
+  .list-group-item:first-child {
+    border-top-right-radius: 1.75em;
+    border-top-left-radius: 1.75em;
+    margin-top: 4px;
+  }
+  
+  .list-group-item:last-child {
+    margin-bottom: 0;
+    border-bottom-right-radius: 1.75em;
+    border-bottom-left-radius: 1.75em;
+  }
+
+  .list-group-item {
+    border:none !important;
+  }
+
+  .item-hover:hover {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(233, 233, 233);
+    background-color:rgb(248, 247, 253);
+    border-radius: 25px;
+  }

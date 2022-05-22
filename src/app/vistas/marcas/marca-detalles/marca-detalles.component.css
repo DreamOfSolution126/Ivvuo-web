@@ -1,0 +1,9 @@
+.logo-marca {
+    max-width: 100px;
+}
+
+.active-personalizado {
+    border-bottom-width: 5px;
+    border-bottom-color: #1D96C4;
+    border-bottom-style: solid;
+}

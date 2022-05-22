@@ -1,0 +1,141 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+  
+  <div class="container-fluid">
+    <a class="navbar-brand text-uppercase">
+      <img [src]="logo_url" width="auto" height="30" alt="Logo" style="margin: 2px;">
+    </a>
+    <button class="navbar-toggler" type="button" (click)="isCollapsed=!isCollapsed" >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div *ngIf="centroSeleccionado" class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed" >
+      <ul class="navbar-nav mr-auto text-muted">
+        <li class="nav-item">
+          <a 
+            class="nav-link text-muted" 
+            routerLinkActive="active" 
+            routerLink="dashboard" 
+            (click)="goTo('workshop_center/dashboard/'+centroSeleccionado._id);isCollapsed=true">
+            <i class="fas fa-home"></i> Tablero de Control
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="centroSeleccionado.configuraciones?.verOrdenesPorCliente">
+          <a class="nav-link text-muted" routerLinkActive="active" routerLink="reportes" (click)="goTo('workshop_center/vistaPorClientes/'+centroSeleccionado._id); isCollapsed=true">
+            <i class="fas fa-user"></i> Clientes
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-muted" routerLinkActive="active" routerLink="reportes" (click)="isCollapsed=true">
+            <i class="fas fa-chart-pie"></i> Indicadores
+          </a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav mr-right">
+        <li class="nav-item" >
+          <div ngbDropdown class="d-inline-block" display="dynamic" placement="bottom-right">
+            <button class="btn btn-outline-secondary btn-sm text-capitalize" id="dropdownBasic1" ngbDropdownToggle>
+              <i class="fas fa-cog"></i>
+              {{centroSeleccionado.name? centroSeleccionado.name:' '}}
+            </button>
+            <div class="dropdown-menu dropdown-menu-left" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <div class="card dropdown-item text-center no-border">
+                <div class="card-body">
+                  
+                  <h5 class="card-title">
+                    <i class="far fa-user fa-2x"></i> <br>
+                    <span class="text-capitalize">{{ user.name + ' ' + user.last_name}}</span> <br>
+                    <small>{{user.email}}</small>
+                  </h5>
+                </div>
+              </div>
+              <button class="dropdown-item" ngbDropdownItem (click)="openModal(seleccionarCentroModal)">
+                <i class="fas fa-building"></i>
+                Cambiar de Centro
+              </button>
+              <button class="dropdown-item" ngbDropdownItem (click)="changePassworOn()">
+                <i class="fas fa-key"></i> 
+                Cambiar contraseña
+              </button>
+              <button class="dropdown-item" ngbDropdownItem (click)="signOut()">
+                <i class="fas fa-power-off"></i>
+                Cerrar sesión
+              </button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="bg-light">
+  <div class="container-fluid">
+    <router-outlet></router-outlet>
+  </div>
+  
+</div>
+<app-footer></app-footer>
+
+
+<!-- Template para Modal de cambio de Contraseña -->
+<ng-template #chagePassTemplate let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      Cambiar Contraseña
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="">Contraseña nueva</label>
+      <input type="password" class="form-control" [(ngModel)]="pass.newPassword" >
+    </div>
+    <div class="form-group">
+      <label for="">confirmar contraseña</label>
+      <input type="password" class="form-control" [(ngModel)]="pass.confirmPassword" >
+    </div>
+    <div *ngIf="alert.msg">
+        <ngb-alert [type]="alert.type" (close)="closeAlert()" >
+          {{alert.msg}}
+        </ngb-alert>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+    <button class="btn btn-primary" (click)="change()">Guardar cambios</button>
+  </div>
+</ng-template>
+
+<ng-template #seleccionarCentroModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Seleccionar Centro de servicio
+    </h5>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div [ngClass]="{
+      'd-flex justify-content-between border rounded align-items-center m-1 p-2 cursor-pointer text-muted':true,
+      'text-dark':i._id === centroSeleccionado._id
+    }" *ngFor="let i of centroDisponible" (click)="seleccionarCentro(i)">
+      <div class="d-flex flex-row justify-content-between align-items-center">
+        
+        <span class="ml-3">
+          <strong>{{i.name}} </strong>
+          <br>
+          <small>{{i.city}}</small> 
+          <small *ngIf="i._id === centroSeleccionado._id" class="badge badge-info">
+            Seleccionado
+          </small>
+        </span>
+      </div>
+      <span class="mr-3 align-items-center d-flex">
+        <i class="fas fa-chevron-right"></i>
+      </span>
+    </div>
+  </div>
+</ng-template>

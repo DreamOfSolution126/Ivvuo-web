@@ -1,0 +1,992 @@
+<div class="bg-light initial-margin">
+  <div class="row">
+    <div *ngFor="let i of campanas" class="col-lg-12">
+      <div class="card border-rounded mb-2 mt-2 border-danger">
+        <div class="card-body">
+          <span class="badge badge-danger">Campanas Pendientes</span> <span>{{i.codigo}}</span>
+          <h5 class="card-title flex-row justify-content-around">
+            {{i.nombre}}
+          </h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card border-rounded no-border mt-2">
+        <div class="card-body">
+          <h5 class="card-title">
+            <strong class="text-info">OT #</strong>{{order.id}} <br>
+            <small> <strong class="text-info">Fecha: </strong> {{order.create | date:'dd-MM-yyyy hh:mm:ss a'}}</small>
+          </h5>
+          <div class="row">
+            <div class="col-lg-6 col-xs-12">
+              <div class="row hidden-sm-down">
+                <div class="col">
+                  <p>
+                      <strong>Datos del Cliente</strong>
+                      <span class="float-right">
+                        <button class="btn btn-sm btn-outline-primary" (click)="openModal(editOrderInfo)">
+                          <i class="fas fa-edit"></i> Editar
+                        </button>
+                      </span>
+                  </p>
+                </div>
+              </div>
+              <div class="row hidden-sm-down text-small">
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <small class="text-muted">Nombre</small> <br>
+                    <span class="text-uppercase">{{order.name}}</span>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <small class="text-muted">Apellido</small> <br>
+                    <span class="text-uppercase">{{order.last_name}}</span>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row hidden-sm-down text-small">
+                <div class="col-lg-3 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <small class="text-muted">NIT / CC</small> <br>
+                    <span class="text-uppercase">{{order.nit}}</span>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <small class="text-muted">Teléfono</small> <br>
+                    <span class="text-uppercase">{{order.telephone}}</span>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <small class="text-muted">Email</small> <br>
+                    <span class="">{{order.email}}</span>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row hidden-sm-down">
+                <div class="col">
+                  <p><strong>Datos del vehículo</strong></p>
+                </div>
+              </div>
+  
+              <div class="row hidden-sm-down text-small">
+                  <div class="col-lg-3 col-sm-6 col-xs-6">
+                    <div class="form-group">
+                      <small class="text-muted">Placa</small> <br>
+                      <span class="text-uppercase">{{order.plate}}</span>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                      <small class="text-muted">Kilometraje</small> <br>
+                      <span class="text-uppercase">{{order.kiolometers}}</span>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-sm-6 col-xs-6">
+                    <div class="form-group">
+                      <small class="text-muted">VIN <span *ngIf="order.vin && order.vin.length>0">{{order.vin.length}}</span></small> <br>
+                      <span class="text-uppercase">{{order.vin}}</span>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                      <small class="text-muted">Marca</small> <br>
+                      <span class="text-uppercase">{{order.brand}}</span>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                      <small class="text-muted">Modelo</small> <br>
+                      <span class="text-uppercase">{{order.model}}</span>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                      <small class="text-muted">Año</small> <br>
+                      <span class="text-uppercase">{{order.year}}</span>
+                    </div>
+                  </div>
+              </div>
+              <div class="row hidden-sm-up bg-light text-primary rounded">
+                <div class="col-sm-12 col-xs-12">
+                  <small class="text-secondary">
+                    <i class="far fa-address-card"></i>
+                    Placa</small> <br>
+                  <h3>
+                    {{order.plate}}
+                  </h3>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                  <small class="text-secondary">
+                    <i class="fas fa-car"></i>
+                    Marca y Modelo</small> <br>
+                  <h3>
+                    {{order.brand+' '+' '+order.year}}
+                  </h3>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                  <small class="text-secondary">
+                    <i class="fas fa-barcode"></i>
+                    VIN</small> <br>
+                  <h3>
+                    {{order.vin}}
+                  </h3>
+                </div>
+              </div>
+
+              <div class="row hidden-sm-down">
+                <div class="col-lg-6">
+                  <p><strong>Modos Presentacion</strong></p>
+                </div>
+              </div>
+              <div *ngIf="order && order.modoPresentacion" class="row">
+                <div class="col-sm-6 col-xs-6">
+                  <div class="custom-control custom-switch">
+                    <input 
+                      [(ngModel)]="order.modoPresentacion.prioridad" 
+                      (change)="order.modoPresentacion.procesos=false;updateOrder()" 
+                      type="checkbox" class="custom-control-input cursor-pointer" id="customSwitch1">
+                    <label class="custom-control-label" for="customSwitch1">Prioridad</label>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xs-6">
+                  <div class="custom-control custom-switch">
+                    <input 
+                      [(ngModel)]="order.modoPresentacion.procesos" 
+                      (change)="order.modoPresentacion.prioridad=false;updateOrder()" 
+                      type="checkbox" class="custom-control-input cursor-pointer" id="customSwitch2">
+                    <label class="custom-control-label" for="customSwitch2">Proceso</label>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+  
+            <div class="col-lg-6 col-xs-12">
+              <div class="row">
+                <div class="col-lg-12">
+                  <p><strong>Solicitudes del Cliente</strong>
+                  <span class="float-right">
+                    <button
+                    [disabled]="order.process && order.process.length<1"
+                    class="btn btn-outline-primary btn-sm" 
+                    (click)="openModal(newCustomerRequireModal)">
+                      Nueva solicitud
+                    </button>
+                  </span>
+                  </p>
+                </div>
+                
+              </div>
+              <div class="row">
+                <br>
+                <div class="col-lg-12">
+                  <br>
+                  <div class="card">
+                    <div class="card-body overflow-scroll">
+                      <div class="row" *ngFor="let i of order.notes">
+                        <div class="col container bg-light">
+                          <p class="card-text text-small">
+                            <br>
+                            {{i.text}} <br>
+                            <small class="text-info"> <strong>{{i.user}}</strong> el {{i.date|date:'dd-MM-yyyy h:mm a'}} <br></small>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12" *ngIf="order.creadoBy">
+                  <br>
+                  <p><strong>Asignaciones</strong></p>
+                  <div class="d-flex justify-content-center">
+                    <div class="p-2 flex-fill text-small">
+                      <span class="text-capitalize text-wrap"> 
+                        <i class="far fa-user"></i> Creada: {{order.creadoBy.nombres}}
+                      </span>
+                    </div>
+                    <button class="btn-sm btn btn-outline-primary" (click)="openModal(seleccionarUsuario)">
+                      <i class="fas fa-thumbtack"></i> Asignar
+                    </button>
+                  </div>
+                  
+                </div>
+                <div class="col-lg-12">
+                  <br>
+                  <p><strong>Estatus de la Orden</strong></p>
+                  <!-- <span class="float-right"> -->
+                    <div class="btn-group" *ngIf="order.status && order.status.abierto">
+                      <button 
+                        (click)="order.status.cerrado.estatus=false; order.status.abierto.estatus=true; updateOrder()"
+                        [ngClass]="{'btn-outline-primary btn btn-sm':true, 'active':order.status.abierto.estatus}">
+                        <i class="fas fa-lock-open"></i>
+                        Abierta
+                      </button>
+                      <button 
+                        (click)="order.status.cerrado.estatus=true; updateOrder()"
+                        [ngClass]="{'btn-outline-primary btn btn-sm':true, 'active':order.status.cerrado.estatus}">
+                        <i class="fas fa-lock"></i>
+                        Cerrada
+                      </button>
+                    </div>
+                    
+                    <div class="btn-group float-right">
+                      <span class="badge text-primary" ngbTooltip="{{order.vistasCliente.unica.fecha | date:'dd-MM-yyyy hh:mm a'}}" *ngIf="order.vistasCliente?.unica?.estatus">
+                        <i class="fas fa-eye fa-2x"></i>
+                        <span *ngIf="order.vistasCliente?.unica?.estatus" class="badge badge-danger text-notify">
+                          {{order.vistasCliente.vistasTotales}}
+                        </span>
+                      </span>
+                      <span class="badge text-secondary" ngbTooltip="No se ha visto por el cliente" *ngIf="!order.vistasCliente?.unica?.estatus">
+                        <i class="fas fa-eye fa-2x"></i>
+                      </span>
+                      <span class="badge text-primary" ngbTooltip="Enviado en: {{order.date_send|date:'dd-MM-yyyy h:mm a'}}" *ngIf="order.send_to_customer">
+                        <i class="fas fa-envelope fa-2x"></i>
+                      </span>
+                      <span class="badge text-secondary" ngbTooltip="No se ha enviado aún" *ngIf="!order.send_to_customer">
+                        <i class="fas fa-envelope fa-2x"></i>
+                      </span>
+
+                      <span class="badge text-primary" ngbTooltip="Cotizado {{order.total|currency:'':2}}" *ngIf="order.total>0">
+                        <i class="fas fa-file-invoice-dollar fa-2x"></i>
+                      </span>
+                      <span class="badge text-secondary" ngbTooltip="Cotizado {{order.total|currency:'':2}}" *ngIf="!(order.total>0)">
+                        <i class="fas fa-file-invoice-dollar fa-2x"></i>
+                      </span>
+          
+                      <span class="badge text-danger" ngbTooltip="Rechazado {{order.total_ban|currency:'':2}}" *ngIf="order.total_ban>0">
+                        <i class="fas fa-times-circle fa-2x"></i>
+                      </span>
+                      <span class="badge text-secondary" ngbTooltip="Rechazado {{order.total_ban|currency:'':2}}" *ngIf="!(order.total_ban>0)">
+                        <i class="fas fa-times-circle fa-2x"></i>
+                      </span>
+                      <span class="badge text-success" ngbTooltip="Aprobado {{order.total_approve|currency:'':2}}" *ngIf="order.total_approve>0">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                      </span>
+                      <span class="badge text-secondary" ngbTooltip="Aprobado {{order.total_approve|currency:'':2}}" *ngIf="!(order.total_approve>0)">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                      </span>
+                    </div>
+                    
+                  <!-- </span> -->
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card border-rounded no-border">
+        <div class="card-body">
+          <h5 class="card-title">
+            Comunicación
+          </h5>
+          <div class="d-flex hidden-sm-down justify-content-between">
+            <button class="btn btn-success mr-3 btn-sm" (click)="openModal(viewNotifyModal); itemSelect = order">
+              <i class="fab fa-whatsapp"></i> 
+              <span *ngIf="whatsappNuevasNotificaciones!==0" class="badge badge-danger">{{whatsappNuevasNotificaciones}}</span>
+              Whatsapp
+            </button>
+
+            <div class="btn-group btn-sm">
+              <a *ngIf="order.factura?.url" target="_blank" href="{{order.factura?.url? order.factura?.url: '#'}}" class="btn btn-outline-info btn-sm">
+                <i class="fas fa-paperclip"></i>
+              </a>
+              <span  class="btn btn-info btn-file btn-sm">
+                <i class="fas fa-file-pdf"></i> 
+                <input ng2FileSelect [uploader]="uploader" (change)="onFileSelectFactura($event)"  type="file">
+                {{order.factura?.name? order.factura.name:'Adjuntar factura'}}
+              </span>
+            </div>
+            
+
+            <div>
+              <div class="btn-group mr-3">
+                <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+                  <button class="btn btn-sm btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
+                  <div class="dropdown-menu" ngbDropdownMenu>
+                    <button *ngIf="cuenta?.whatsapp?.estatus" class="dropdown-item text-primary" (click)="envioNotificacionOrden()"> <i class="fab fa-whatsapp"></i> Whatsapp </button>
+                    <button class="dropdown-item text-primary" (click)="sendEmail()"> <i class="fas fa-envelope"></i> Email </button>
+                    <button class="dropdown-item text-primary" (click)="sendSMS()"> <i class="fas fa-sms"></i> SMS </button>
+                    <button class="dropdown-item text-primary" (click)="openModal(smsCustomModal)"> <i class="fas fa-sms"></i> SMS Personalizado</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-sm btn btn-outline-primary" (click)="sendEmail(); sendSMS()"> <i class="fas fa-envelope"></i> Enviar Email y SMS</button>
+              </div>
+    
+              <a class="btn btn-outline-primary btn-sm" [routerLink]="'../../../customer/'+order._id">
+                <i class="far fa-eye"></i> Vista Previa
+              </a>
+              <!-- <a href="../../../customer/'+{{order._id}}" target="_blank" rel="bookmark"  class="btn btn-outline-primary btn-sm">
+                <i class="far fa-eye"></i> Vista Previa
+              </a> -->
+            </div>
+          </div>
+          <div class="hidden-md-up">
+            <button *ngIf="order.notify || order.notify?.pending === 0" class="btn btn-block btn-success btn-sm" (click)="openModal(viewNotifyModal); itemSelect = order">
+              <span *ngIf="order.notify.pending !== 0" class="badge badge-danger">{{order.notify.pending}}</span>
+              <i class="fab fa-whatsapp"></i>
+            </button>
+
+            <div class="btn-group btn-sm btn-block">
+              <a target="_blank" href="{{order.factura?.url? order.factura?.url: '#'}}" class="btn btn-outline-danger btn-sm">
+                <i class="fas fa-paperclip"></i>
+              </a>
+              <span class="btn btn-danger btn-file btn-sm text-truncate">
+                <i class="fas fa-file-pdf"></i> <input ng2FileSelect [uploader]="uploader" (change)="onFileSelectFactura($event)"  type="file">
+                {{order.factura?.name? order.factura.name:'Adjuntar factura'}}
+              </span>
+            </div>
+
+            <div class="btn-group btn-block">
+              <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+                <button class="btn btn-sm btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
+                <div class="dropdown-menu" ngbDropdownMenu>
+                  <button class="dropdown-item text-primary" (click)="sendEmail()"> <i class="fas fa-envelope"></i> Email </button>
+                  <button class="dropdown-item text-primary" (click)="sendSMS()"> <i class="fas fa-sms"></i> SMS </button>
+                  <button class="dropdown-item text-primary" (click)="openModal(smsCustomModal)"> <i class="fas fa-sms"></i> SMS Personalizado</button>
+                </div>
+              </div>
+              <button type="button" class="btn-sm btn btn-outline-primary" (click)="sendEmail(); sendSMS()"> <i class="fas fa-envelope"></i> Enviar Email y SMS</button>
+            </div>
+
+            <a class="btn-block btn btn-outline-primary btn-sm" [routerLink]="'../../../customer/'+order._id">
+              <i class="far fa-eye"></i> Vista Previa
+            </a>
+
+          </div>
+          <div class="row mt-3" *ngIf="order.total>0">
+            <div class="col-lg-4">
+              <p class="card-text text-center">
+                <small class="text-primary">Total Cotizado</small><br>
+                <span class=""><strong>{{order.total|currency:'$ ':'symbol' : '1.0'}}</strong></span>
+              </p>
+            </div>
+            <div class="col-lg-4">
+              <p class="card-text text-center">
+                <small class="text-danger">
+                  <i class="fas fa-times-circle"></i>  Total Rechazado
+                </small><br>
+                <span class=""><strong>{{order.total_ban|currency:'$ ':'symbol' : '1.0'}}</strong></span>
+              </p>
+            </div>
+            <div class="col-lg-4">
+              <p class="card-text text-center">
+                <small class="text-success">
+                    <i class="fas fa-check-circle"></i> Total Aprobado
+                </small><br>
+                <span class=""><strong>{{order.total_approve|currency:'$ ':'symbol' : '1.0'}}</strong></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <!-- Asignar lista si no existe aùn -->
+  <div class="row" *ngIf="order.process && order.process.length<1">
+    <div class="col-lg-12">
+      <div class="card border-rounded no-border">
+        <div class="card-body">
+          <h5 class="card-title">Lista de proceso</h5>
+          <div class="float-right">
+            <button 
+              type="button" 
+              (click)="openModal(processList)"
+              class="btn btn-outline-primary"> 
+                <i class="fas fa-list"></i> Selecciona un Listado
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="order.process && order.process.length>0">
+    <div class="col-lg-12 mb-3">
+      <div class="card no-border bg-light">
+        <div class="card-body">
+          <h4 class="card-title d-flex flex-row justify-content-between">
+            {{order?.list?.list}}
+
+            <span>
+              <div class="btn-group">
+                <button 
+                  (click)="filtroLista.ok = !filtroLista.ok; filtroLista.todos = false; verProcesos('abrir')" 
+                  [ngClass]="{'btn btn-sm btn-outline-success': true, 'active': filtroLista.ok }">OK</button>
+                <button 
+                  (click)="filtroLista.regular = !filtroLista.regular; filtroLista.todos = false; verProcesos('abrir')" 
+                  [ngClass]="{'btn btn-sm btn-outline-warning': true, 'active': filtroLista.regular }">Regular</button>
+                <button 
+                  (click)="filtroLista.urgente = !filtroLista.urgente; filtroLista.todos = false; verProcesos('abrir')" 
+                  [ngClass]="{'btn btn-sm btn-outline-danger': true, 'active': filtroLista.urgente}">Urgente</button>
+                <button 
+                  (click)="filtroLista.todos = !filtroLista.todos; verProcesos('abrir')" 
+                  [ngClass]="{'btn btn-sm btn-outline-primary': true, 'active': filtroLista.todos }">Todos</button>
+              </div>
+              <button (click)="verProcesos('cerrar')" class="btn-outline-primary btn btn-sm">
+                Agrupar
+              </button>
+            </span>
+          </h4>
+          <p class="card-text">
+            <small class="text-justify">{{order?.list?.description}}</small>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 mb-3" *ngFor="let i of order.process; let processIndex=index">
+      <div class="card border-rounded no-border">
+        <div class="card-body">
+            <h5 class="d-flex justify-content-between cursor-pointer" (click)="i.seeProcess=!i.seeProcess">
+              <span>
+                {{i.name}}
+              </span>
+              <a class="cursor-pointer text-secondary">
+                {{i.checkList.length}}
+                <span *ngIf="!i.seeProcess">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                <span *ngIf="i.seeProcess">
+                  <i class="fas fa-angle-down"></i>
+                </span>
+              </a>
+            </h5>
+            <span class="badge badge-secondary mr-1 text-capitalize" *ngFor="let j of i.asignado">
+              <i class="fas fa-user"></i>
+              {{j.nombres}}
+            </span>
+            <hr class="text-primary" *ngIf="i.seeProcess">
+            <div *ngIf="i.seeProcess">
+  
+              <!-- Edicion filtros -->
+              <div class="row item-box" *ngFor="let j of i.checkList; let activityIndex=index">
+                <div 
+                  class="col-lg-8 col-md-8 col-sm-8" 
+                  *ngIf="
+                    filtroLista.ok && j.answer.value===2 && j.answer.value !== null || 
+                    filtroLista.regular && j.answer.value===1 ||
+                    filtroLista.urgente && j.answer.value ===0 || 
+                    filtroLista.todos
+                    ">
+                  <br>
+                  <h4>
+                    <app-inspeccion-icono [item]="j" ></app-inspeccion-icono>
+                    <strong class="text-capitalize text-justify lead">
+                      {{j.item}}
+                    </strong>
+                    <br *ngIf="j.details && j.details.length>0">
+                    <small class=" text-secondary text-justify" *ngIf="j.details"> {{j.details}} </small>
+                  </h4>
+                  
+  
+                  <div class="row">
+                    <div class="col">
+                      <div *ngIf="j.type!='survey'" class="btn-group btn-block">
+                        <button  
+                          [innerHTML]="k.answer" 
+                          [ngClass]="{'btn btn-sm btn-outline-primary':true, 'active':j.answer.value == k.value}" 
+                          (click)="j.answer = k; updateOrder()" 
+                          *ngFor="let k of j.asnwer_options">
+                        </button>
+                      </div>
+                      <div *ngIf="j.type=='survey'" class="btn-group btn-block">
+                        <button  [innerHTML]="k.answer" [ngClass]="{'btn btn-sm btn-outline-primary':true, 'active':j.answer.answer == k.answer}" (click)="j.answer = k; updateOrder()" *ngFor="let k of j.asnwer_options">
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div *ngIf="j" class="row">
+                    <div class="col">
+                      <span class="btn btn-sm btn-primary btn-file">
+                        <i class="fas fa-paperclip"></i> <input ng2FileSelect [uploader]="uploader" (change)="onFileSelect($event, j, i)"  type="file">
+                      </span>
+                      <button class="btn btn-sm btn-secondary" (click)="openAttachModal(seeAttachModal, j)">
+                        <i class="fas fa-camera"></i>
+                        <span class="badge badge-pill badge-danger" *ngIf="j.attach && j.attach.length>0">
+                          {{j.attach.length}}
+                        </span>
+                      </button>
+                      <button class="btn btn-sm btn-outline-primary" (click)="openCommentModal(newComments, j); prepareComment(j, i)">
+                        <i class="fas fa-comments"></i>
+                        <span class="badge badge-pill badge-danger" *ngIf="j.comments && j.comments.length>0">
+                          {{j.comments.length}}
+                        </span>
+                      </button>
+                      <button 
+                        [disabled]="!(j.answer.value === 1 || j.answer.value === 0)" 
+                        [ngClass]="{'btn btn-sm':true, 'btn-outline-secondary':!j.resQuotation.block, 'btn-outline-success':j.resQuotation.block}" 
+                        (click)="abrirModalCotizacion(modalCotizacion, j, i)" >
+                        <i class="fas fa-dollar-sign"></i>  <span *ngIf="j.total">{{j.total| currency:' ':'symbol':'0.0'}}</span>
+                        <span *ngIf="j.resQuotation.block">
+                            <i class="fas fa-check-double"></i>
+                        </span> 
+                      </button>
+                      <button (click)="j.seeCustomer = !j.seeCustomer; updateOrder()" class="btn btn-sm btn-outline-primary">
+                        <span *ngIf="j.seeCustomer">
+                          <i class="fas fa-eye"></i>
+                        </span>
+                        <span *ngIf="!j.seeCustomer">
+                          <i class="fas fa-eye-slash"></i>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                  <br>
+                </div>
+                <!-- <div class="col-lg-6 hidden-sm-down" *ngIf="j.attach && j.attach.length>0">
+                  <p> <strong>Evidencias</strong> </p>
+                  <div class="card-columns">
+                    <div class="card text-secondary text-center bg-dark" *ngFor="let k of j.attach; let l=index">
+                      <img *ngIf="k.type==='jpg'" [src]="k.url" alt="" class="card-img">
+                      <video *ngIf="k.type==='mp4'" class="card-img" controls>
+                        <source [src]="k.url" type="video/mp4">
+                      </video>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+  
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br><br>
+</div>
+
+<ngx-snackbar [position]="'bottom-right'" [max]="3"></ngx-snackbar>
+
+<ng-template #seeAttachModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-uppercase">
+      
+      <app-inspeccion-icono [item]="itemSelect" ></app-inspeccion-icono>
+        {{itemSelect.item}}
+    </h4>
+    
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <div class="contenedor-multimedia">
+      <img [src]="imgSelect.url" alt="" class="img-preview" *ngIf="itemSelect.attach.length>0 && imgSelect.type==='jpg'">
+      <video class="img-preview" *ngIf="imgSelect && itemSelect.attach.length>0 && imgSelect.type==='mp4'" controls>
+        <source *ngIf="imgSelect.url" [src]="imgSelect.url" class="img-preview">
+      </video>
+    </div>
+    
+    <div *ngIf="!imgSelect" class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <p class="text-center" *ngIf="itemSelect.attach.length>0">
+      <small *ngIf="imgSelect.date">
+        <strong class="text-info">Hora de carga certificada ok:</strong> {{imgSelect.date|date:'dd-MM-yyyy h:mm a'}}
+      </small>
+    </p>
+    <div class="btn-group btn-block" *ngIf="itemSelect.attach.length>0">
+      <button 
+        [ngClass]="{'btn btn-primary':true, 'active':imgSelect == i}" 
+        *ngFor="let i of itemSelect.attach;let h = index;" 
+        (click)="seleccionarImagenVistaPrevia( i )">
+        {{h+1}}
+      </button>
+    </div>
+    <br> <br>
+    <h5 class="text-primary">
+      {{itemSelect.item}}
+      <hr>
+    </h5>
+    <p class="text-secondary">
+      <em>{{itemSelect.details}}</em>
+    </p>
+    
+    <h5 class="text-primary">
+      Cotización
+      <hr>
+    </h5>
+    <p class="justify-content-between d-flex w-100">
+      <span class="text-secondary">Partes:</span>
+      <span> {{itemSelect.parts|currency:' ':'symbol':'1.0'}} </span>
+    </p>
+    <p class="justify-content-between d-flex w-100">
+      <span class="text-secondary">Mano Obra:</span>
+      <span> {{itemSelect.mo|currency:' ':'symbol':'1.0'}} </span>
+    </p>
+    <p class="justify-content-between d-flex w-100">
+      <span>
+        <strong>Total</strong>
+      </span>
+      <span> {{itemSelect.total|currency:' ':'symbol':'1.0'}} </span>
+    </p>
+
+    <h5 class="text-primary">
+      Comentarios
+      <hr>
+    </h5>
+    <p *ngFor="let i of itemSelect.comments">
+      <em class="text-secondary"> {{i.text}} </em> <br>
+      <small class="text-info">Fecha: {{i.date|date:'dd-MM-yyyy h:mm a'}}</small>
+      <small class="text-info">Fecha: {{i.user}}</small>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="c('Close click')">Cerrar</button>
+  </div>
+</ng-template>
+
+<ng-template #newCustomerRequireModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      Solicitudes del Cliente
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <textarea [(ngModel)]="newNote.text" class="form-control" placeholder="Solicitudes del cliente" name="" id="" cols="30" rows="10" autofocus></textarea>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+    <button class="btn btn-primary" (click)="addNote(); c('Close click')">Guardar Solicitud</button>
+  </div>
+</ng-template>
+
+<ng-template #newComments let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      Comentarios
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="comment-box bg-light">
+      <div class="card margin-5 " *ngFor="let i of itemSelect">
+        <div class="card-body">
+          <p class="card-text text-justify">
+            {{i.text}}
+            <br>
+            <span>
+              <strong class="text-primary">{{i.user}}</strong> <br>
+              <small class="text-secondary">{{i.date|date:'dd-MM-yyyy h:mm a'}}</small>
+              <span class="float-right">
+                <button class="btn btn-sm btn-outline-primary" (click)="deletComment(i); c('Close click')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </span>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="newComent">Nuevo Comentario</label>
+      <input id="newComent" type="text" class="form-control" [(ngModel)]="newComment.text" autofocus>
+    </div>    
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+    <button class="btn btn-primary" (click)="addComment();c('Close click')">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #modalCotizacion let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-dollar-sign"></i> Cotización
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <app-formulario-cotizacion
+      (actualizarOrden)="obtenerOrden()"
+      [idOrden]="order._id"
+      [itemSeleccionado]="itemSelect"
+      ></app-formulario-cotizacion>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-secondary" (click)="c('Close click')">Cerrar</button>
+  </div>
+</ng-template>
+
+<ng-template #smsCustomModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-info">
+      <i class="fas fa-sms"></i> SMS Personalizado
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+        <div class="form-group">
+          <label for="t-select"> Elija una Plantilla </label>
+          <select [(ngModel)]="templateSelect" (change)="setTemplateSMS()" id="t-select" name="" id="" class="custom-select">
+            <option [value]="i.name" *ngFor="let i of smsTemplate">{{i.name}}</option>
+            <option value="custom">Personalizado</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <div class="form-group">
+          <label for="">Link de la inspección</label>
+          <div class="btn-group btn-block">
+            <button class="btn btn-outline-primary" (click)="insertLink()">  Insertar Link</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 col-sm-12">
+        <div class="form-group">
+          <label for="t-text">Cuerpo del mensaje</label>
+          <textarea [(ngModel)]="sms.body" name="" id="" cols="30" rows="5" class="form-control" placeholder="Escriba el contenido de su mensaje"></textarea>
+          <small class="text-muted"> {{sms.body.length}} Caracteres </small>
+        </div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+    <button class="btn btn-primary" (click)="sendSMS()"> <i class="fas fa-sms"></i> Enviar SMS</button>
+  </div>
+</ng-template>
+
+<div class="loading-spinner text-center" *ngIf="hSpinner.visible">
+  <div class="box-spinner bg-primary text-light">
+    <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div> <br>
+    <strong>{{hSpinner.text}}</strong>
+  </div>
+</div>
+
+<ng-template #viewNotifyModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-primary">
+      <i class="fab fa-whatsapp"></i> Whatsapp
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click');">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-chat 
+      [idCuenta]="order.accountId"
+      [para]="order.telephone" ></app-chat>
+  </div>
+</ng-template>
+
+<ng-template #processList let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-primary">
+      <i class="fas fa-list"></i> Lista de Procesos
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <small>Elegir Actividad a realizar</small>
+          <select [(ngModel)]="listSelect" name="" id="" class="form-control">
+            <option [value]="i._id" *ngFor="let i of list">{{i.list}}</option>
+          </select>
+          <small class="form-text text-justify" *ngIf="listDetails">
+            <strong class="text-info">
+              Detalles: 
+            </strong>
+            {{listDetails.description}}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+    <button class="btn btn-primary" (click)="seleccionarListado(); c('Close click')">Guardar cambios</button>
+  </div>
+</ng-template>
+
+<ng-template #editOrderInfo let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-primary">
+      <i class="fas fa-edit"></i> Editar Orden
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-6 col-xs-12 col-sm-6">
+        <div class="form-group">
+          <small>Nombre</small>
+          <input type="text" placeholder="Nombre" [(ngModel)]="order.name"  class="text-uppercase form-control">
+        </div>
+      </div>
+      <div class="col-lg-6 col-xs-12 col-sm-6">
+        <div class="form-group">
+          <small>Apellido</small>
+          <input type="text" placeholder="Apellido" [(ngModel)]="order.last_name"  class="text-uppercase form-control">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-xs-12 ">
+        <div class="row">
+          <div class="col-lg-6 col-xs-12 col-sm-6">
+            <div class="form-group">
+              <small>CC / NIT</small>
+              <input type="text" placeholder="CC / NIT" [(ngModel)]="order.nit"  class="text-uppercase form-control">
+            </div>
+          </div>
+          <div class="col-lg-6 col-xs-12 col-sm-6">
+            <div class="form-group">
+              <small>Teléfono</small>
+              <input type="text" placeholder="Teléfono" [(ngModel)]="order.telephone"  class="text-uppercase form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-xs-12">
+        <div class="form-group">
+          <small>Email</small>
+          <input type="text" placeholder="Email" [(ngModel)]="order.email"  class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+          <hr class="text-primary">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-xs-6 col-sm-6">
+        <div class="form-group">
+          <small>Placa</small>
+          <input type="text" placeholder="Placa" [(ngModel)]="order.plate"  class="text-uppercase form-control">
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6 col-sm-6">
+        <div class="form-group">
+          <small>Kilometraje</small>
+          <input type="number" placeholder="Kilometraje" [(ngModel)]="order.kiolometers"  class="text-uppercase form-control">
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6 col-sm-6">
+        <div class="form-group">
+          <small>Marca</small>
+          <input type="text" placeholder="Marca" [(ngModel)]="order.brand"  class="text-uppercase form-control">
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6 col-sm-6">
+        <div class="form-group">
+          <small>Modelo Versión</small>
+          <input type="text" placeholder="Modelo versión" [(ngModel)]="order.model"  class="text-uppercase form-control">
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6 col-sm-6">
+        <div class="form-group">
+          <small>Año</small>
+          <input type="number" placeholder="Año" [(ngModel)]="order.year"  class="text-uppercase form-control">
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6 col-sm-6">
+        <div class="form-group">
+          <small>VIN {{order.vin ? order.vin.length : 0 }} caracteres </small>
+          <input type="text" placeholder="VIN" [(ngModel)]="order.vin" class="text-uppercase form-control">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+    <button class="btn btn-primary" (click)="updateOrder(); c('Close click')">Guardar cambios</button>
+  </div>
+</ng-template>
+
+<ng-template #seleccionarUsuario let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-primary">
+      <i class="fas fa-list"></i> Asignaciones
+    </h4>
+    <button type="button" class="close" aria-label="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between flex-column">
+      <div *ngFor="let i of order.process" class="border p-3 m-1 rounded d-flex justify-content-between flex-row">
+        <span class="pr-4">
+          <span [innerHTML]="i.icon" ></span>
+          <span>
+            {{i.name}} <br>
+            <small *ngIf="i.description">
+              <span class="text-muted">{{i.description}}</span>
+            </small>
+          </span> <br *ngIf="i.asignado && i.asignado.length > 0">
+          <span class="badge badge-primary mr-1 text-capitalize" *ngFor="let j of i.asignado">
+            <i class="fas fa-user"></i> {{j.nombres}}
+            <a (click)="eliminarAsignacion(j, i)" class="text-light cursor-pointer m-1">
+              <i class="fas fa-times"></i>
+            </a>
+          </span>
+        </span>
+        <div>
+          <div 
+            class="btn-group" 
+            ngbDropdown role="group" placement="left-top" aria-label="Button group with nested dropdown">
+            <button class="btn btn-outline-secondary btn-sm" ngbDropdownToggle>
+              <i class="fas fa-users"></i> ASIGNAR
+            </button>
+            <div class="dropdown-menu" ngbDropdownMenu>
+              <button (click)="agregarAsignadoAProceso(j, i); updateOrder()" *ngFor="let j of usuarios" class="dropdown-item text-capitalize" ngbDropdownItem>
+                <i class="far fa-user"></i> {{j.name +' '+j.last_name}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="btn-group" ngbDropdown role="group" placement="top-left" aria-label="Button group with nested dropdown">
+      <button class="btn btn-outline-secondary btn-sm" ngbDropdownToggle>
+        <i class="fas fa-users"></i> Asignar toda la orden
+      </button>
+      <div class="dropdown-menu" ngbDropdownMenu >
+        <button (click)="asignarTodaLaOrden(i); updateOrder()"  *ngFor="let i of usuarios" class="dropdown-item text-capitalize" ngbDropdownItem>
+          <i class="far fa-user"></i> {{i.name +' '+i.last_name}}
+        </button>
+      </div>
+    </div>
+    <button (click)="c('Close click')" class="btn btn-outline-secondary btn-sm">
+      Cancelar
+    </button>
+  </div>
+</ng-template>

@@ -1,0 +1,5 @@
+export enum EVENTOS {
+    ACTUALIZAR = 'ACTUALIZAR',
+    GUARDAR = 'GUARDAR',
+    ELIMINAR = 'ELIMINAR'
+}
